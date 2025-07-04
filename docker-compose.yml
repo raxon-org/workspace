@@ -1,5 +1,5 @@
 services:
-  vps2_core:
+  workspace_core:
     container_name: raxon-workspace-0-0-1
     image: workspace/0.0.1/core
     mem_limit: 50g    
