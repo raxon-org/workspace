@@ -1,0 +1,31 @@
+{
+  frankenphp {    
+    max_threads 256
+    php_ini {
+        memory_limit 2560M
+        max_execution_time 15
+    }
+  }
+}
+api.workspace.local {
+    rewrite * /worker.php?request={path}&{query}
+    php_server {
+	    root /Application/Public
+	    worker {
+	        file worker.php
+	        num 8
+	    }
+        try_files {path} index.php
+    }
+}
+admin.workspace.local {
+    rewrite * /worker.php?request={path}&{query}
+    php_server {
+        root /Application/Public
+        worker {
+            file worker.php
+            num 8
+        }
+        try_files {path} index.php
+    }
+}

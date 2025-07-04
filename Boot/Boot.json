@@ -1,0 +1,13 @@
+{
+    "Boot": {
+        "start": {
+            "once": [
+                "\/usr\/bin\/app cache clear",
+                "\/usr\/bin\/app raxon\/basic bash init"
+            ]
+        },
+        "service": {
+            "once": []
+        }
+    }
+}

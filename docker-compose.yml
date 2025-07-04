@@ -1,0 +1,23 @@
+services:
+  vps2_core:
+    container_name: raxon-workspace-0-0-1
+    image: workspace/0.0.1/
+    mem_limit: 50g    
+    restart: always
+    build:
+      dockerfile: ./Docker/Dockerfile
+      context: .
+    working_dir: /Application
+    volumes:
+      - .:/Application
+    tmpfs:
+      - /tmp/raxon/org
+    command: ['/usr/bin/init']
+    ports:
+      - "5007:80"
+      - "5008:443"
+    networks:
+      - raxon-org-network
+networks:
+  raxon-org-network:
+    driver: bridge

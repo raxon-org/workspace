@@ -1,0 +1,3 @@
+/usr/bin/app raxon/basic boot clear
+service cron start -f
+frankenphp start
