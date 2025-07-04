@@ -1,0 +1,10 @@
+.idea
+vendor
+Data
+Boot/Lock
+Log
+Bin
+Public
+composer.lock
+nohup.out
+Mount
