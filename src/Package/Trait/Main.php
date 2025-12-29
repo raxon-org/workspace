@@ -76,8 +76,37 @@ trait Main {
         $class = 'System.Host';
         $node = new Node($object);
         $response_frontend = $node->record($class, $node->role_system(), $frontend_options);
+        if($response_frontend === false){
+            ddd($options);
+            throw new Exception('Frontend host not found aborting...');
+        }
         $response_backend = $node->record($class, $node->role_system(), $backend_options);
-        $dir_read = $object->config('project.dir.vendor') .
+        if($response_backend === false){
+            throw new Exception('Frontend host not found aborting...');
+        }
+        $this->install_backend($response_backend, $response_frontend, $options);
+        $command = 'app install raxon/account -patch';
+        Core::execute($object, $command, $output, $notification);
+        if($output){
+            echo $output;
+        }
+        if($notification){
+            echo $notification;
+        }
+    }
+
+    private function install_backend($response_backend, $response_frontend, $options): void
+    {
+        $object = $this->object();
+        $dir_read_backend = $object->config('project.dir.vendor') .
+            $object->request('package') .
+            $object->config('ds') .
+            'src' .
+            $object->config('ds') .
+            'Api' .
+            $object->config('ds')
+        ;
+        $dir_read_frontend = $object->config('project.dir.vendor') .
             $object->request('package') .
             $object->config('ds') .
             'src' .
@@ -89,6 +118,10 @@ trait Main {
             $response_backend['node']->name .
             $object->config('ds')
         ;
+        $dir_admin = $object->config('project.dir.domain') .
+            $response_frontend['node']->name .
+            $object->config('ds')
+        ;
         if(!File::exist($dir_api)){
             Dir::create($dir_api, Dir::CHMOD);
             File::permission($object, [
@@ -96,13 +129,18 @@ trait Main {
             ]);
         }
         $dir = new Dir();
-        $read = $dir->read($dir_read, true);
+        $read = $dir->read($dir_read_backend, true);
         foreach($read as $nr => $file){
-            $explode = explode($dir_read, $file->url, 2);
+            $explode = explode($dir_read_backend, $file->url, 2);
             if(array_key_exists(1, $explode)){
                 $file->target = $dir_api . $explode[1];
             }
         }
+        $this->install_service($read, $response_backend, $response_frontend, $options);
+    }
+
+    private function install_service($read, $response_backend, $response_frontend, $options){
+        $object = $this->object();
         foreach($read as $nr => $file){
             if($file->type === Dir::TYPE){
                 if(!File::exist($file->target)){
@@ -136,14 +174,14 @@ trait Main {
                             }
                             $data = new Data($object->data());
                             $clone = clone $object;
-                            $clone->data(App::OPTIONS, $clone_options->data());                                                        
+                            $clone->data(App::OPTIONS, $clone_options->data());
                             switch($file->original_extension){
-                                case 'json':                                    
+                                case 'json':
                                     echo Cli::info('Processing file:') . $file->target . PHP_EOL;
-                                    $content = $clone->parse_read($file->url);                                    
+                                    $content = $clone->parse_read($file->url);
                                     if($patch !== null) {
                                         File::delete($file->target);
-                                    }                                    
+                                    }
                                     File::write($file->target, Core::object($content->data(), Core::JSON));
                                     File::permission($object, [
                                         'target' => $file->target,
@@ -159,45 +197,36 @@ trait Main {
                                             echo $notification;
                                         }
                                     }
-                                break;
+                                    break;
                                 default:
                                     echo Cli::info('Processing file:') . $file->target . PHP_EOL;
                                     $clone_options->set('source', $file->url);
                                     $flags = App::flags($clone);
                                     $parse = new Parse($clone, $data, $flags, $clone_options->data());
-                                    $read = File::read($file->url);                                                                                                            
-                                    $content = $parse->compile($read, $data);                                     
+                                    $read = File::read($file->url);
+                                    $content = $parse->compile($read, $data);
                                     if($patch !== null) {
                                         File::delete($file->target);
-                                    }                                    
+                                    }
                                     File::write($file->target, $content);
                                     File::permission($object, [
                                         'target' => $file->target,
                                     ]);
-                                break;
+                                    break;
                             }
-                        }                                    
+                        }
                     }
                 } else {
                     if($patch !== null) {
                         File::delete($file->target);
                     }
                     echo Cli::info('Processing file:') . $file->target . PHP_EOL;
-                    File::copy($file->url, $file->target);                    
+                    File::copy($file->url, $file->target);
                     File::permission($object, [
                         'target' => $file->target,
                     ]);
-                }                
+                }
             }
         }
-        $command = 'app install raxon/account -patch';
-        Core::execute($object, $command, $output, $notification);
-        if($output){
-            echo $output;
-        }
-        if($notification){
-            echo $notification;
-        }
     }
-
 }

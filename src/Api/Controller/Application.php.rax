@@ -1,0 +1,72 @@
+{{$options = options()}}
+<?php
+namespace Domain\{{php.namespace.host($options.backend.host)}}\Controller;
+
+use Doctrine\ORM\Exception\ORMException;
+use Package\Raxon\Account\Module\Permission;
+
+use Raxon\App;
+use Raxon\Config;
+
+use Raxon\Module\Core;
+use Raxon\Module\Controller;
+use Raxon\Module\Database;
+use Raxon\Module\Dir;
+use Raxon\Module\File;
+
+use Raxon\Module\Response;
+use Raxon\Node\Module\Node;
+
+use Exception;
+
+use Raxon\Exception\AuthorizationException;
+use Raxon\Exception\LocateException;
+use Raxon\Exception\UrlEmptyException;
+use Raxon\Exception\UrlNotExistException;
+use Raxon\Exception\FileWriteException;
+use Raxon\Exception\ObjectException;
+
+class Application extends Controller {
+    const DIR = __DIR__ . DIRECTORY_SEPARATOR;
+    const NAME = 'Application';
+
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     * @throws ORMException
+     */
+    public static function config(App $object){
+        try {
+            $role = Permission::controller(
+                $object,
+                Application::NAME,
+                __FUNCTION__,
+                $user
+            );
+            if($role){
+                $application = $object->request('application');
+                $class = 'Application.Config';
+                $node = new Node($object);
+                $record = $node->record($class, $role, [
+                    'filter' => [
+                        'user' => $user->getUuid(),
+                        'name' => $application
+                    ]
+                ]);
+                if(!$record){
+                    $data = [
+                        'user' => $user->getUuid(),
+                        'name' => $application,
+                    ];
+                    $record = $node->create($class, $role, $data);
+                }
+                $response = new Response($record['node'] ?? null, Response::TYPE_JSON);
+                $response->status(200);
+                echo Response::output($object, $response);
+                exit(0);
+            }
+
+        } catch (Exception | FileWriteException | ObjectException | LocateException | UrlEmptyException | UrlNotExistException $exception){
+            return $exception;
+        }
+    }
+}

@@ -1,0 +1,38 @@
+{
+    "System": {
+        "Route": [
+            {
+                "name": "*",
+                "host": "{{options('backend.host')}}",
+                "controller": "Domain:{{app.controller.host(options('backend.host'))}}:Controller:Index:overview",
+                "priority": 2001,
+                "method": [
+                    "GET",
+                    "POST"
+                ]
+            },
+            {
+                "name": "index",
+                "path": "/",
+                "host": "{{options('backend.host')}}",
+                "controller": "Domain:{{app.controller.host(options('backend.host'))}}:Controller:Index:overview",
+                "priority": 2002,
+                "method": [
+                    "GET",
+                    "POST"
+                ]
+            },
+            {
+                "name": "readme",
+                "path": "/Readme/",
+                "host": "{{options('backend.host')}}",
+                "controller": "Domain:{{app.controller.host(options('backend.host'))}}:Controller:Index:readme",
+                "priority": 2010,
+                "method": [
+                    "GET",
+                    "POST"
+                ]
+            }
+        ]
+    }
+}

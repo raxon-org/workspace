@@ -1,0 +1,46 @@
+{
+    "System": {
+        "Route": [
+            {
+                "name": "user-info",
+                "path": "/User/Info/",
+                "host": "{{options('backend.host')}}",
+                "controller": "Domain:{{app.controller.host(options('backend.host'))}}:Controller:User:info",
+                "priority": 2013,
+                "method": [
+                    "GET"
+                ]
+            },
+            {
+                "name": "user-login",
+                "path": "/User/Login/",
+                "host": "{{options('backend.host')}}",
+                "controller": "Domain:{{app.controller.host(options('backend.host'))}}:Controller:User:login",
+                "priority": 2013,
+                "method": [
+                    "POST"
+                ]
+            },
+            {
+                "name": "user-current",
+                "path": "/User/Current/",
+                "host": "{{options('backend.host')}}",
+                "controller": "Domain:{{app.controller.host(options('backend.host'))}}:Controller:User:current",
+                "priority": 2014,
+                "method": [
+                    "GET"
+                ]
+            },
+            {
+                "name": "user-refresh-token",
+                "path": "/User/Refresh/Token/",
+                "host": "{{options('backend.host')}}",
+                "controller": "Domain:{{app.controller.host(options('backend.host'))}}:Controller:User:refresh.token",
+                "priority": 2015,
+                "method": [
+                    "GET"
+                ]
+            }
+        ]
+    }
+}

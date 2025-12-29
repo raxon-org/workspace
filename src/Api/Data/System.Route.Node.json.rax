@@ -1,0 +1,77 @@
+{
+    "System": {
+        "Route": [
+          {
+            "name": "node-class-list",
+            "path": "/Node/Class/",
+            "host": "{{options('backend.host')}}",
+            "controller": "Package:Raxon:Node:Controller:Node:class.list",
+            "priority": 2016,
+            "method": [
+              "GET"
+            ]
+          },
+          {
+            "name": "node-read-page",
+            "path": "/Node/{{literal}}{{$class}}/{{$uuid:uuid}}{{/literal}}/Page/",
+            "host": "{{options('backend.host')}}",
+            "controller": "Package:Raxon:Node:Controller:Node:page",
+            "priority": 2017,
+            "method": [
+              "GET"
+            ]
+          },
+          {
+            "name": "node-read",
+            "path": "/Node/{{literal}}{{$class}}/{{$uuid:uuid}}{{/literal}}/",
+            "host": "{{options('backend.host')}}",
+            "controller": "Package:Raxon:Node:Controller:Node:read",
+            "priority": 2018,
+            "method": [
+              "GET"
+            ]
+          },
+          {
+            "name": "node-put",
+            "path": "/Node/{{literal}}{{$class}}/{{$uuid:uuid}}{{/literal}}/",
+            "host": "{{options('backend.host')}}",
+            "controller": "Package:Raxon:Node:Controller:Node:update",
+            "priority": 2019,
+            "method": [
+              "PATCH",
+              "PUT"
+            ]
+          },
+          {
+            "name": "node-delete",
+            "path": "/Node/{{literal}}{{$class}}/{{$uuid:uuid}}/{{/literal}}",
+            "host": "{{options('backend.host')}}",
+            "controller": "Package:Raxon:Node:Controller:Node:delete",
+            "priority": 2020,
+            "method": [
+              "DELETE"
+            ]
+          },
+          {
+            "name": "node-list",
+            "path": "/Node/{{literal}}{{$class}}{{/literal}}/",
+            "host": "{{options('backend.host')}}",
+            "controller": "Package:Raxon:Node:Controller:Node:list",
+            "priority": 2021,
+            "method": [
+              "GET"
+            ]
+          },
+          {
+            "name": "node-create",
+            "path": "/Node/{{literal}}{{$class}}{{/literal}}/",
+            "host": "{{options('backend.host')}}",
+            "controller": "Package:Raxon:Node:Controller:Node:create",
+            "priority": 2022,
+            "method": [
+              "POST"
+            ]
+          }
+        ]
+    }
+}

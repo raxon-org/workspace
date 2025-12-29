@@ -1,0 +1,128 @@
+{
+    "System": {
+        "Route": [
+          {
+            "name": "entity-read-uuid",
+            "path": "/Entity/{{literal}}{{$entity}}/{{$uuid:uuid}}{{/literal}}/",
+            "host": "{{options('backend.host')}}",
+            "controller": "Domain:{{app.controller.host(options('backend.host'))}}:Controller:Entity:read",
+            "priority": 2023,
+            "method": [
+              "GET"
+            ]
+          },
+          {
+            "name": "entity-read-id-page",
+            "path": "/Entity/{{literal}}{{$entity}}/{{$id:integer}}{{/literal}}/Page/",
+            "host": "{{options('backend.host')}}",
+            "controller": "Domain:{{app.controller.host(options('backend.host'))}}:Controller:Entity:page",
+            "priority": 2024,
+            "method": [
+              "GET"
+            ]
+          },
+          {
+            "name": "entity-read-id",
+            "path": "/Entity/{{literal}}{{$entity}}/{{$id:integer}}{{/literal}}/",
+            "host": "{{options('backend.host')}}",
+            "controller": "Domain:{{app.controller.host(options('backend.host'))}}:Controller:Entity:read",
+            "priority": 2025,
+            "method": [
+              "GET"
+            ]
+          },
+          {
+            "name": "entity-update-uuid",
+            "path": "/Entity/{{literal}}{{$entity}}/{{$uuid:uuid}}{{/literal}}/",
+            "host": "{{options('backend.host')}}",
+            "controller": "Domain:{{app.controller.host(options('backend.host'))}}:Controller:Entity:update",
+            "priority": 2026,
+            "method": [
+              "PATCH",
+              "PUT"
+            ]
+          },
+          {
+            "name": "entity-update-id",
+            "path": "/Entity/{{literal}}{{$entity}}/{{$id:integer}}{{/literal}}/",
+            "host": "{{options('backend.host')}}",
+            "controller": "Domain:{{app.controller.host(options('backend.host'))}}:Controller:Entity:update",
+            "priority": 2027,
+            "method": [
+              "PATCH",
+              "PUT"
+            ]
+          },
+          {
+            "name": "entity-delete-uuid",
+            "path": "/Entity/{{literal}}{{$entity}}/{{$uuid:uuid}}{{/literal}}/",
+            "host": "{{options('backend.host')}}",
+            "controller": "Domain:{{app.controller.host(options('backend.host'))}}:Controller:Entity:delete",
+            "priority": 2028,
+            "method": [
+              "DELETE"
+            ]
+          },
+          {
+            "name": "entity-delete-id",
+            "path": "/Entity/{{literal}}{{$entity}}/{{$id:id}}{{/literal}}/",
+            "host": "{{options('backend.host')}}",
+            "controller": "Domain:{{app.controller.host(options('backend.host'))}}:Controller:Entity:delete",
+            "priority": 2029,
+            "method": [
+              "DELETE"
+            ]
+          },
+          {
+            "name": "entity1-entity2-get",
+            "path": "/Entity/{{literal}}{{$entity1}}/{{$entity2}}{{/literal}}/",
+            "host": "{{options('backend.host')}}",
+            "controller": "Domain:{{app.controller.host(options('backend.host'))}}:Controller:Entity:get.relation",
+            "priority": 2030,
+            "method": [
+              "GET"
+            ]
+          },
+          {
+            "name": "entity1-entity2-add",
+            "path": "/Entity/{{literal}}{{$entity1}}/{{$entity2}}{{/literal}}/",
+            "host": "{{options('backend.host')}}",
+            "controller": "Domain:{{app.controller.host(options('backend.host'))}}:Controller:Entity:add.or.set",
+            "priority": 2031,
+            "method": [
+              "POST"
+            ]
+          },
+          {
+            "name": "entity1-entity2-delete",
+            "path": "/Entity/{{literal}}{{$entity1}}/{{$entity2}}{{/literal}}/",
+            "host": "{{options('backend.host')}}",
+            "controller": "Domain:{{app.controller.host(options('backend.host'))}}:Controller:Entity:delete",
+            "priority": 2032,
+            "method": [
+              "DELETE"
+            ]
+          },
+          {
+            "name": "entity-list",
+            "path": "/Entity/{{literal}}{{$entity}}{{/literal}}/",
+            "host": "{{options('backend.host')}}",
+            "controller": "Domain:{{app.controller.host(options('backend.host'))}}:Controller:Entity:list",
+            "priority": 2033,
+            "method": [
+              "GET"
+            ]
+          },
+          {
+            "name": "entity-create",
+            "path": "/Entity/{{literal}}{{$entity}}{{/literal}}/",
+            "host": "{{options('backend.host')}}",
+            "controller": "Domain:{{app.controller.host(options('backend.host'))}}:Controller:Entity:create",
+            "priority": 2034,
+            "method": [
+              "POST"
+            ]
+          }
+        ]
+    }
+}

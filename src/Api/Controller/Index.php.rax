@@ -1,0 +1,57 @@
+{{$options = options()}}
+<?php
+namespace Domain\{{php.namespace.host($options.backend.host)}}\Controller;
+
+use Domain\Api_Workandtravel_World\Service\Entity;
+use Domain\Api_Workandtravel_World\Service\Permission;
+
+use Raxon\App;
+use Raxon\Module\Core;
+use Raxon\Module\Controller;
+
+use Exception;
+
+use Raxon\Exception\AuthorizationException;
+use Raxon\Exception\LocateException;
+use Raxon\Exception\UrlEmptyException;
+use Raxon\Exception\UrlNotExistException;
+use Raxon\Exception\FileWriteException;
+use Raxon\Exception\ObjectException;
+
+class Index extends Controller {
+    const DIR = __DIR__ . DIRECTORY_SEPARATOR;
+    const NAME = 'Index';
+
+    /**
+     * @throws ObjectException
+     * @throws \Doctrine\ORM\Exception\ORMException
+     * @throws AuthorizationException
+     * @throws FileWriteException
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public static function overview(App $object){
+        try {
+            $role = Permission::controller($object,Index::NAME, __FUNCTION__, $user);
+            if(
+                property_exists($role, 'name') &&
+                $role->name !== 'ROLE_ANONYMOUS'
+            ){
+                $name = Index::name(__FUNCTION__, __CLASS__, '/');
+                $url = Index::locate($object, $name);
+                //Index::register($object, $role, 'Role');
+                //Index::register($object, $user, 'User');
+                return Index::response($object, $url);
+            } else {
+                Core::redirect("https://{{$options.backend.host}}/Readme");
+            }
+        } catch (Exception | FileWriteException | ObjectException | LocateException | UrlEmptyException | UrlNotExistException $exception){
+            return $exception;
+        }
+    }
+
+    public static function readme(App $object){
+        $name = Index::name(__FUNCTION__, __CLASS__, '/');
+        $url = Index::locate($object, $name);                
+        return Index::response($object, $url);
+    }
+}
