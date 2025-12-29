@@ -39,7 +39,7 @@ class User extends Controller {
     ];
     const DEFAULT_COMMAND = User::COMMAND_INFO;
 
-    const EXCEPTION_COMMAND_PARAMETER = '{{literal}}{{$command}}{{/literal}}';
+    const EXCEPTION_COMMAND_PARAMETER = '$command';
     const EXCEPTION_COMMAND = 'invalid command (' . User::EXCEPTION_COMMAND_PARAMETER . ')' . PHP_EOL;
 
     const INFO = [
@@ -76,7 +76,6 @@ class User extends Controller {
                 ucfirst(__FUNCTION__) .
                 $object->config('extension.json')
             ;
-            d($url);
             User::parse_read($object, $url);
             $object->set('template.name', User::MAIN . '/' . User::MAIN);
             $url = User::locate($object);
