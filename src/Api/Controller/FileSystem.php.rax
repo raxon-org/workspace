@@ -1,0 +1,286 @@
+{{$options = options()}}
+<?php
+namespace Domain\{{php.namespace.host($options.backend.host)}}\Controller;
+
+use Domain\{{php.namespace.host($options.backend.host)}}\Service\FileSystem as Service;
+use Package\Raxon\Account\Module\Permission;
+
+use Raxon\App;
+
+use Raxon\Module\Core;
+use Raxon\Module\File;
+use Raxon\Module\Response;
+use Raxon\Module\Server;
+use Raxon\Module\Controller;
+
+use Exception;
+
+use Raxon\Exception\AuthorizationException;
+use Raxon\Exception\UrlEmptyException;
+use Raxon\Exception\ObjectException;
+
+class FileSystem extends Controller {
+    const DIR = __DIR__ . DIRECTORY_SEPARATOR;
+
+    /**
+     * @throws UrlEmptyException
+     * @throws ObjectException
+     * @throws Exception
+     */
+    public static function create(App $object){
+        $role = Permission::controller($object,Service::NAME, __FUNCTION__, $user);
+        if(
+            $role->name !== 'ROLE_ANONYMOUS' &&
+            $user
+        ){
+            $data = Service::create($object, $role, $user);
+            return new Response(
+                $data,
+                Response::TYPE_JSON
+            );
+        } else {
+            $token = Server::token();
+            if($token){
+                throw new AuthorizationException('Invalid token.');
+            } else {
+                Core::redirect("/Readme");
+            }
+        }
+    }
+
+    /**
+     * @throws UrlEmptyException
+     * @throws ObjectException
+     * @throws Exception
+     */
+    public static function read(App $object){
+        $role = Permission::controller($object,Service::NAME, __FUNCTION__, $user);
+        if(
+            property_exists($role, 'name') &&
+            $role->name !== 'ROLE_ANONYMOUS' &&
+            $user
+        ){
+            $extension = File::extension($object->request('url'));
+            if($extension === ''){
+                $extension = 'txt';
+            }
+            $contentType = $object->config('contentType.' . $extension);
+            if($contentType){
+                $data = Service::read($object, $role, $user);
+                $length = strlen($data);
+                return new Response(
+                    $data,
+                    Response::TYPE_FILE,
+                    Response::STATUS_OK,
+                    [
+                        'Content-Type: ' . $contentType
+                    ]
+                );
+            }
+            throw new Exception('ContentType ' . $contentType . ' not supported, please add it to the config if wanted.');
+        } else {
+            $token = Server::token();
+            if($token){
+                throw new AuthorizationException('Invalid token.');
+            } else {
+                Core::redirect("/Readme");
+            }
+        }
+    }
+
+    /**
+     * @throws UrlEmptyException
+     * @throws ObjectException
+     * @throws Exception
+     */
+    public static function update(App $object){
+        $role = Permission::controller($object,Service::NAME, __FUNCTION__, $user);
+        if(
+            property_exists($role, 'name') &&
+            $role->name !== 'ROLE_ANONYMOUS' &&
+            $user
+        ){
+            $data = Service::update($object, $role, $user);
+            return new Response(
+                $data,
+                Response::TYPE_JSON
+            );
+        } else {
+            $token = Server::token();
+            if($token){
+                throw new AuthorizationException('Invalid token.');
+            } else {
+                Core::redirect("/Readme");
+            }
+        }
+    }
+
+    /**
+     * @throws UrlEmptyException
+     * @throws ObjectException
+     * @throws Exception
+     */
+    public static function delete(App $object){
+        $role = Permission::controller($object,Service::NAME, __FUNCTION__, $user);
+        if(
+            property_exists($role, 'name') &&
+            $role->name !== 'ROLE_ANONYMOUS' &&
+            $user
+        ){
+            $data = Service::delete($object, $role, $user);
+            return new Response(
+                $data,
+                Response::TYPE_JSON
+            );
+        } else {
+            $token = Server::token();
+            if($token){
+                throw new AuthorizationException('Invalid token.');
+            } else {
+                Core::redirect("/Readme");
+            }
+        }
+    }
+
+    /**
+     * @throws UrlEmptyException
+     * @throws ObjectException
+     * @throws Exception
+     */
+    public static function list(App $object){
+        $role = Permission::controller($object,Service::NAME, __FUNCTION__, $user);
+        if(
+            property_exists($role, 'name') &&
+            $role->name !== 'ROLE_ANONYMOUS'
+        ){
+            $data = Service::list($object, $role, $user);
+            return new Response(
+                $data,
+                Response::TYPE_JSON
+            );
+        } else {
+            $token = Server::token();
+            if($token){
+                throw new AuthorizationException('Invalid token.');
+            } else {
+                Core::redirect("/Readme");
+            }
+        }
+    }
+
+    /**
+     * @throws UrlEmptyException
+     * @throws ObjectException
+     * @throws Exception
+     */
+    public static function rename(App $object){
+        $role = Permission::controller($object,Service::NAME, __FUNCTION__, $user);
+        if(
+            property_exists($role, 'name') &&
+            $role->name !== 'ROLE_ANONYMOUS' &&
+            $user
+        ){
+            $data = Service::rename($object, $role, $user);
+            return new Response(
+                $data,
+                Response::TYPE_JSON
+            );
+        } else {
+            $token = Server::token();
+            if($token){
+                throw new AuthorizationException('Invalid token.');
+            } else {
+                Core::redirect("/Readme");
+            }
+        }
+    }
+
+    /**
+     * @throws UrlEmptyException
+     * @throws ObjectException
+     * @throws Exception
+     */
+    public static function copy(App $object){
+        $role = Permission::controller($object,Service::NAME, __FUNCTION__, $user);
+        if(
+            property_exists($role, 'name') &&
+            $role->name !== 'ROLE_ANONYMOUS' &&
+            $user
+        ){
+            $data = Service::copy($object, $role, $user);
+            return new Response(
+                $data,
+                Response::TYPE_JSON
+            );
+        } else {
+            $token = Server::token();
+            if($token){
+                throw new AuthorizationException('Invalid token.');
+            } else {
+                Core::redirect("/Readme");
+            }
+        }
+    }
+
+    /**
+     * @throws UrlEmptyException
+     * @throws ObjectException
+     * @throws Exception
+     */
+    public static function upload(App $object){
+        $role = Permission::controller($object,Service::NAME, __FUNCTION__, $user);
+        if(
+            property_exists($role, 'name') &&
+            $role->name !== 'ROLE_ANONYMOUS' &&
+            $user
+        ){
+            $message = Service::upload($object, $role, $user);
+            if(empty($message)){
+                $code = 200;
+            } else {
+                $code = 405;
+            }
+            return new Response(
+                $message,
+                Response::TYPE_HTML,
+                $code
+            );
+        } else {
+            $token = Server::token();
+            if($token){
+                throw new AuthorizationException('Invalid token.');
+            } else {
+                Core::redirect("/Readme");
+            }
+        }
+    }
+
+    /**
+     * @throws UrlEmptyException
+     * @throws ObjectException
+     * @throws Exception
+     */
+    public static function context_menu(App $object){
+        return false;
+        $role = Permission::controller($object,Service::NAME, __FUNCTION__, $user);
+        if(
+            property_exists($role, 'name') &&
+            $role->name !== 'ROLE_ANONYMOUS' &&
+            $user
+        ){
+            $data = Service::context_menu($object, $role, $user);
+            return new Response(
+                $data,
+                Response::TYPE_JSON
+            );
+        } else {
+            $token = Server::token();
+            if($token){
+                throw new AuthorizationException('Invalid token.');
+            } else {
+                Core::redirect("/Readme");
+            }
+        }
+    }
+
+}

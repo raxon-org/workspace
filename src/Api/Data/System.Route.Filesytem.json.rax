@@ -1,0 +1,111 @@
+{
+  "System": {
+    "Route": [
+      {
+        "name": "filesystem-list",
+        "path": "/FileSystem/List/{{literal}}{{$type}}{{/literal}}/",
+        "host": "{{options('backend.host')}}",
+        "controller": "Domain:{{app.controller.host(options('backend.host'))}}:Controller:FileSystem:list",
+        "priority": 2003,
+        "method": [
+          "GET",
+          "POST"
+        ]
+      },
+      {
+        "name": "filesystem-move",
+        "path": "/FileSystem/Move/",
+        "host": "{{options('backend.host')}}",
+        "controller": "Domain:{{app.controller.host(options('backend.host'))}}:Controller:FileSystem:move",
+        "priority": 2004,
+        "method": [
+          "POST"
+        ]
+      },
+      {
+        "name": "filesystem-upload",
+        "path": "/FileSystem/Upload/",
+        "host": "{{options('backend.host')}}",
+        "controller": "Domain:{{app.controller.host(options('backend.host'))}}:Controller:FileSystem:upload",
+        "priority": 2005,
+        "method": [
+          "GET",
+          "POST"
+        ]
+      },
+      {
+        "name": "filesystem-context-menu",
+        "path": "/FileSystem/ContextMenu/",
+        "host": "{{options('backend.host')}}",
+        "controller": "Domain:{{app.controller.host(options('backend.host'))}}:Controller:FileSystem:context.menu",
+        "priority": 2005,
+        "method": [
+          "GET",
+          "POST"
+        ]
+      },
+      {
+        "name": "filesystem-rename",
+        "path": "/FileSystem/Rename/",
+        "host": "{{options('backend.host')}}",
+        "controller": "Domain:{{app.controller.host(options('backend.host'))}}:Controller:FileSystem:rename",
+        "priority": 2005,
+        "method": [
+          "POST"
+        ]
+      },
+      {
+        "name": "filesystem-copy",
+        "path": "/FileSystem/Copy/",
+        "host": "{{options('backend.host')}}",
+        "controller": "Domain:{{app.controller.host(options('backend.host'))}}:Controller:FileSystem:copy",
+        "priority": 2005,
+        "method": [
+          "POST"
+        ]
+      },
+      {
+        "name": "filesystem-create",
+        "path": "/FileSystem/{{literal}}{{$type}}{{/literal}}/",
+        "host": "{{options('backend.host')}}",
+        "controller": "Domain:{{app.controller.host(options('backend.host'))}}:Controller:FileSystem:create",
+        "priority": 2006,
+        "method": [
+          "POST"
+        ]
+      },
+      {
+        "name": "filesystem-read",
+        "path": "/FileSystem/",
+        "host": "{{options('backend.host')}}",
+        "controller": "Domain:{{app.controller.host(options('backend.host'))}}:Controller:FileSystem:read",
+        "priority": 2007,
+        "method": [
+          "GET",
+          "POST"
+        ]
+      },
+      {
+        "name": "filesystem-update",
+        "path": "/FileSystem/",
+        "host": "{{options('backend.host')}}",
+        "controller": "Domain:{{app.controller.host(options('backend.host'))}}:Controller:FileSystem:update",
+        "priority": 2008,
+        "method": [
+          "PATCH",
+          "PUT"
+        ]
+      },
+      {
+        "name": "filesystem-delete",
+        "path": "/FileSystem/",
+        "host": "{{options('backend.host')}}",
+        "controller": "Domain:{{app.controller.host(options('backend.host'))}}:Controller:FileSystem:delete",
+        "priority": 2009,
+        "method": [
+          "DELETE"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,888 @@
+{{$options = options()}}
+<?php
+namespace Domain\{{php.namespace.host($options.backend.host)}}\Service;
+
+use DateTime;
+
+use Exception;
+
+use Raxon\App;
+
+use Raxon\Exception\ErrorException;
+use Raxon\Exception\FileMoveException;
+use Raxon\Exception\FileNotExistException;
+use Raxon\Exception\FileWriteException;
+
+use Raxon\Module\Data;
+use Raxon\Module\Dir;
+use Raxon\Module\File;
+use Raxon\Module\Filter;
+use Raxon\Module\Sort;
+
+class FileSystem {
+    const NAME = 'FileSystem';
+
+    const TYPE_FILE = 'file';
+    const TYPE_DIRECTORY = 'directory';
+    const TYPE_TREE = 'tree';
+    const TYPE_DESKTOP = 'desktop';
+    const TYPE_FAVORITE = 'favorite';
+
+
+    /**
+     * @throws Exception
+     */
+    public static function create(App $object, object $role, object|null $user=null): array
+    {
+        if(
+            property_exists($role, 'name') &&
+            in_array(
+                $role->name, [
+                'ROLE_ADMIN',
+                'ROLE_SYSTEM'
+            ])
+        ){
+            $type = $object->request('type');
+            $url = htmlspecialchars_decode($object->request('url'), ENT_HTML5);
+            $record = [];
+            $record['url'] = $url;
+            switch(strtolower($type)){
+                case FileSystem::TYPE_DIRECTORY :
+                    if(File::exist($url)){
+                        throw new Exception('File already exists...');
+                    }
+                    $create = Dir::create($url, Dir::CHMOD);
+                    if(!$create){
+                        throw new Exception('Failed to create directory...');
+                    }
+                    $record['type'] = Dir::TYPE;
+                break;
+                case FileSystem::TYPE_FILE :
+                    if(File::exist($url)){
+                        throw new Exception('File already exists...');
+                    }
+                    $content = $object->request('content');
+                    if($content){
+                        $write = File::write($url, $content);
+                        if(!$write){
+                            throw new Exception('Failed to create file...');
+                        }
+                    } else {
+                        $touch = File::touch($url);
+                        if(!$touch){
+                            throw new Exception('Failed to create file...');
+                        }
+                    }
+                    $record['type'] = File::TYPE;
+                break;
+                case 'exist':
+                    $record['exist'] = File::exist($url);
+                break;
+                default:
+                    throw new Exception('Type (' . $type . ') undefined in create...');
+            }
+            $record['extension'] = File::extension($url);
+            $record['name'] = File::basename($url, '.' . $record['extension']);
+            $record['size'] = File::size($url);
+            $record['isModified'] = new DateTime();
+            return $record;
+        }
+        throw new Exception('Role (' . $role->name . ') undefined...');
+    }
+
+    /**
+     * @throws Exception
+     */
+    public static function rename(App $object, object $role, object|null $user=null): array
+    {
+        if(
+            property_exists($role, 'name') &&
+            in_array(
+                $role->name, [
+                'ROLE_ADMIN',
+                'ROLE_SYSTEM'
+            ])
+        ) {
+            $source = $object->request('source');
+            $destination = $object->request('destination');
+            $overwrite = $object->request('overwrite') ?? false;
+            $move = File::move($source, $destination, $overwrite);
+            $record = [];
+            $record['source'] = $source;
+            $record['destination'] = $destination;
+            $record['result'] = $move;
+            return $record;
+        }
+        throw new Exception('Role (' . $role->name . ') undefined...');
+    }
+
+    /**
+     * @throws Exception
+     */
+    public static function copy(App $object, object $role, object|null $user=null): array
+    {
+        if(
+            property_exists($role, 'name') &&
+            in_array(
+                $role->name, [
+                'ROLE_ADMIN',
+                'ROLE_SYSTEM'
+            ])
+        ) {
+            $source = $object->request('source');
+            $destination = $object->request('destination');
+            if(Dir::is($source)){
+                $copy = Dir::copy($source, $destination);
+            } else {
+                $copy = File::copy($source, $destination);
+            }
+            $record = [];
+            $record['source'] = $source;
+            $record['destination'] = $destination;
+            $record['result'] = $copy;
+            return $record;
+        }
+        throw new Exception('Role (' . $role->name . ') undefined...');
+    }
+
+    /**
+     * @throws FileNotExistException
+     * @throws Exception
+     */
+    public static function read(App $object, object $role, object|null $user=null): string
+    {
+        if(
+            property_exists($role, 'name') &&
+            in_array(
+                $role->name,
+                [
+                    'ROLE_ADMIN',
+                    'ROLE_SYSTEM'
+                ]
+            )
+        ){
+            $url = htmlspecialchars_decode($object->request('url'), ENT_HTML5);
+            if(File::exist($url)){
+                return File::read($url);
+            }
+            throw new FileNotExistException('File (' . $url .') not exist...');
+        }
+        throw new Exception('Role (' . $role->name . ') undefined...');
+    }
+
+    /**
+     * @throws FileNotExistException
+     * @throws FileWriteException
+     * @throws Exception
+     */
+    public static function update(App $object, object $role, object|null $user=null): array
+    {
+        if(
+            property_exists($role, 'name') &&
+            in_array(
+                $role->name, [
+                'ROLE_ADMIN',
+                'ROLE_SYSTEM'
+            ])
+        ){
+            $url = htmlspecialchars_decode($object->request('url'), ENT_HTML5);
+            $content = $object->request('content');
+            if(
+                File::exist($url) &&
+                $content !== null
+            ){
+                File::write($url, $content);
+            }
+            elseif($content === null){
+                throw new Exception('Content is null...');
+            } else {
+                throw new FileNotExistException('File (' . $url .') not exist...');
+            }
+            $record = [];
+            $record['url'] = $url;
+            $record['type'] = File::TYPE;
+            $record['extension'] = File::extension($url);
+            $record['name'] = File::basename($url, '.' . $record['extension']);
+            $record['size'] = File::size($url);
+            $record['isModified'] = new DateTime();
+            return $record;
+        }
+        throw new Exception('Role (' . $role->name . ') undefined...');
+    }
+
+    /**
+     * @throws Exception
+     */
+    public static function delete(App $object, object $role, object|null $user=null): array
+    {
+        if(
+            property_exists($role, 'name') &&
+            in_array(
+                $role->name, [
+                    'ROLE_ADMIN',
+                    'ROLE_SYSTEM'
+                ]
+            )
+        ){
+            $url = $object->request('url');
+            if(File::exist($url)){
+                $record = [];
+                $record['url'] = $url;
+                if(Dir::is($url)){
+                    $record['type'] = Dir::TYPE;
+                    $is_delete = Dir::remove($url);
+                } else {
+                    $record['type'] = File::TYPE;
+                    $is_delete = File::delete($url);
+                }
+                if($is_delete === true){
+                    $record['extension'] = File::extension($url);
+                    $record['name'] = File::basename($url, '.' . $record['extension']);
+                    $record['isDeleted'] = new DateTime();
+                    return $record;
+                }
+                else {
+                    throw new Exception('Cannot delete file...');
+                }
+            } else {
+                throw new Exception('Cannot delete file, file doesn\'t exist...');
+            }
+        }
+        throw new Exception('Role (' . $role->name . ') undefined...');
+    }
+
+    /**
+     * @throws ErrorException
+     * @throws Exception
+     */
+    public static function list(App $object, object $role, object|null $user=null): array
+    {
+//        $object->session('start');
+        $type = $object->request('type');
+        $directory = $object->request('directory');
+//        clearstatcache();
+        if(
+            property_exists($role, 'name') &&
+            $role->name === 'ROLE_ANONYMOUS'){
+            switch (strtolower($type)){
+                case FileSystem::TYPE_TREE :
+                    return [];
+                default :
+                    $list = [];
+                    $list['files'] = [];
+                    $list['dir'] = [];
+                    return $list;
+            }
+        }
+        elseif($role->name === 'ROLE_USER'){
+            /**
+             * user dir only & maxSize on upload & write
+             */
+            throw new Exception('Not implemented yet...');
+        }
+        elseif($role->name === 'ROLE_ADMIN'){
+            if(empty($directory)){
+                $directory = '/';
+            }
+        }
+        if(!Dir::is($directory)){
+            throw new ErrorException('Please give a valid directory...');
+        }
+        switch(strtolower($type)){
+            case FileSystem::TYPE_FILE :
+                $dir = new Dir();
+                $read = $dir->read($directory);
+                if($read){
+                    $list_dir = Filter::list($read)->where([
+                        'type' => [
+                            'operator' => '===',
+                            'value' => Dir::TYPE
+                        ]
+                    ]);
+                    $list_file = Filter::list($read)->where([
+                        'type' => [
+                            'operator' => '===',
+                            'value' => File::TYPE
+                        ]
+                    ]);
+                    foreach($list_dir as $nr => $record){
+                        $list_dir[$nr]->mtime = File::mtime($record->url);
+//                        $list_dir[$nr]->context_menu = FileSystem::context_menu($object, $role, $user, $record);
+                    }
+                    foreach($list_file as $nr => $record){
+                        $list_file[$nr]->mtime = File::mtime($record->url);
+//                        $list_file[$nr]->context_menu = FileSystem::context_menu($object, $role, $user, $record);
+                    }
+                    $list_read = Sort::list($list_dir)->with([
+                        'name' => 'asc',
+                        'mtime' => 'asc'
+                    ]);
+                    $list_file = Sort::list($list_file)->with([
+                        'name' => 'asc',
+                        'mtime' => 'asc'
+                    ]);
+                    $merge = array_merge($list_read, $list_file);
+                    $list = [];
+                    $list['nodeList'] = [];
+                    $list['dir'] = $directory;
+                    foreach($merge as $node){
+                        unset($node->uuid);
+                        $node = File::info($object, $node);
+                        $node->contextMenu = FileSystem::context_menu($object, $role, $user, $node);                        
+                        $list['nodeList'][] = $node;
+                    }
+                    return $list;
+                } else {
+                    $list['nodeList'] = [];
+                    $list['dir'] = $directory;
+                    return $list;
+                }
+            case FileSystem::TYPE_DIRECTORY :
+                $dir = new Dir();
+                $read = $dir->read($directory);
+                if($read){
+                    $list_read = Filter::list($read)->where([
+                        'type' => [
+                            'operator' => '===',
+                            'value' => Dir::TYPE
+                        ]
+                    ]);
+                    foreach($list_read as $nr => $node){
+                        $list_read[$nr] = File::info($object, $node);
+                        try {
+                            $list_sub = $dir->read($node->url);
+                            $list_sub = Filter::list($list_sub)->where([
+                                'type' => [
+                                    'operator' => '===',
+                                    'value' => Dir::TYPE
+                                ]
+                            ]);
+                            if(is_array($list_sub) && count($list_sub) > 0){
+                                $list_read[$nr]->has_sub_dir = true;
+                            }
+                        } catch (Exception | ErrorException $exception){
+                            //nothing
+                        }
+                    }
+                    $list_read = Sort::list($list_read)->with([
+                        'name' => 'asc',
+                        'mtime' => 'asc'
+                    ]);
+                    $list = [];
+                    $list['nodeList'] = [];
+                    foreach ($list_read as $node){
+                        unset($node->uuid);
+                        $list['nodeList'][] = $node;
+                    }
+                    $list['dir'] = $directory;
+                    return $list;
+                } else {
+                    $list['nodeList'] = [];
+                    $list['dir'] = $directory;
+                    return $list;
+                }
+            case FileSystem::TYPE_TREE :
+                $read = FileSystem::createTree($object, $user);
+                if($read){
+                    $list = [];
+                    $list['nodeList'] = $read->data();
+                    return $list;
+                }
+        }
+        return [];
+    }
+
+    /**
+     * @throws Exception
+     */
+    public static function upload(App $object, object $role, object $user): string
+    {
+        if(in_array(
+            $role->name, [
+            'ROLE_ADMIN',
+            'ROLE_SYSTEM'
+        ])
+        ){
+            $directory = $object->request('directory');
+            if(empty($directory)){
+                throw new Exception('Please give a valid directory...');
+            }
+            if(!Dir::is($directory)){
+                Dir::create($directory, Dir::CHMOD);
+            }
+            $error = [];
+            $file = $object->request('file');
+            $data = $object->request('data');
+            if($file && $data){
+                $type = $object->request('type');
+                $explode = explode(';', $type, 2);
+                if(array_key_exists(1, $explode)){
+                    $base64 = $explode[1];
+                } else {
+                    $base64 = false;
+                }
+                if($base64 !== false){
+                    $explode = explode(',', $data, 2);
+                    if(array_key_exists(1, $explode)){
+                        $data = base64_decode($explode[1]);
+                    }
+                }
+                $write = File::write($directory . $file, $data);
+                d($write);
+                d($file);
+                d($data);
+                ddd($base64);
+            } else {
+                foreach($object->upload()->data() as $nr => $upload){
+                    $data = new Data($upload);
+                    if($data->get('error') !== 0){
+                        $error[] = $data;
+                        continue;
+                    }
+                    if(!File::is_writeable($directory)){
+                        $data->set('message', 'The directory isn\'t writable...');
+                        $error[] = $data;
+                        continue;
+                    }
+                    $move = File::upload($data, $directory);
+                    if($move === false){
+                        $data->set('message', 'The upload couldn\'t be moved...');
+                        $error[] = $data;
+                    }
+                }
+                $message = [];
+                if(!empty($error)){
+                    foreach($error as $nr => $data){
+                        if($data->get('message') !== null){
+                            $message[] = $data->get('message');
+                        } else {    
+                            switch($data->get('error')){
+                                case 1 :
+                                    $message[] =  'The uploaded file exceeds the upload_max_filesize directive in php.ini.';
+                                    break;
+                                case 2 :
+                                    $message[] =  'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form.';
+                                    break;
+                                case 3 :
+                                    $message[] =  'The uploaded file was only partially uploaded.';
+                                    break;
+                                case 4 :
+                                    $message[] =  'No file was uploaded.';
+                                    break;
+                                case 6 :
+                                    $message[] =  'Missing a temporary folder.';
+                                    break;
+                                case 7 :
+                                    $message[] =  'Failed to write file to disk.';
+                                    break;
+                                case 8 :
+                                    $message[] =  'A PHP extension stopped the file upload.';
+                                    break;
+                            }
+                        }
+                    }
+                }
+                return implode("\n", $message);
+            }
+        }
+        throw new Exception('Role (' . $role->name . ') undefined...');
+    }
+
+    /**
+     * @throws Exception
+     */
+    public static function context_menu(App $object, object $role, object $user, $file): array
+    {
+        $nodeList = [];
+        $is_new = false;
+        switch(strtoupper($role->name)){
+            case 'ROLE_ADMIN':
+                $dir_data = $object->config('domain.dir.data');
+                $dir_user = $dir_data . 'User/';
+                $dir_user_uuid = $dir_user . $user->uuid . '/';
+                $url_data = $dir_user_uuid . 'Application.File.Manager.Context.Menu' . $object->config('extension.json');
+                Dir::create($dir_user_uuid, Dir::CHMOD);
+                
+                $data = $object->data_read($url_data);
+                $data = false; //@testing new creation of context menu
+                if(!$data){
+                    $data = new Data();
+                    $list = [];
+                    $node = (object) [
+                        'contentType' => ['*'],
+                        'menu' => (object) [
+                            'name' => 'file.manager.contextmenu.open_with',
+                            'icon' => (object) [
+                                'src' => '',
+                                'class' => 'icon far fa-file'
+                            ],
+                            'action' => 'file-open-with',
+                            'keyboard' => 'enter',
+                            'script' => []
+                        ]
+                    ];                    
+                    $list[] = $node;
+                    $node = (object) [
+                        'contentType' => ['*'],
+                        'menu' => (object) [
+                            'name' => 'file.manager.contextmenu.new',
+                            'icon' => (object) [
+                                'src' => '',
+                                'class' => 'icon far fa-file'
+                            ],
+                            'action' => 'file-new',
+                            'keyboard' => '',
+                            'script' => [],
+                            'submenu' => [
+                                (object) [
+                                    'name' => 'file.manager.contextmenu.new_file',
+                                    'icon' => (object) [
+                                        'src' => '',
+                                        'class' => 'icon far fa-file'
+                                    ],
+                                    'action' => '',
+                                    'script' => [],
+                                    'keyboard' => 'ctrl-n',
+                                    'submenu' => []
+                                ],
+                                (object) [
+                                    'name' => 'file.manager.contextmenu.new_directory',
+                                    'icon' => (object) [
+                                        'src' => '',
+                                        'class' => 'icon far fa-file'
+                                    ],
+                                    'action' => '',
+                                    'keyboard' => 'ctrl-alt-n',
+                                    'script' => [],
+                                    'submenu' => []
+                                ]
+                            ]
+                        ]
+                    ];
+                    $list[] = $node;
+                    $node = (object) [
+                        'contentType' => ['*'],
+                        'menu' => (object) [
+                            'name' => 'file.manager.contextmenu.cut',
+                            'icon' => (object) [
+                                'src' => '',
+                                'class' => 'icon far fa-file'
+                            ],
+                            'action' => 'file-cut',
+                            'keyboard' => 'ctrl-x',
+                            'script' => []
+                        ]
+                    ];
+                    $list[] = $node;
+                    $node = (object) [
+                        'contentType' => ['*'],
+                        'menu' => (object) [
+                            'name' => 'file.manager.contextmenu.copy',
+                            'icon' => (object) [
+                                'src' => '',
+                                'class' => 'icon far fa-file'
+                            ],
+                            'action' => 'file-copy',
+                            'keyboard' => 'ctrl-c',
+                            'script' => []
+                        ]
+                    ];
+                    $list[] = $node;
+                    $node = (object) [
+                        'contentType' => ['*'],
+                        'menu' => (object) [
+                            'name' => 'file.manager.contextmenu.paste',
+                            'icon' => (object) [
+                                'src' => '',
+                                'class' => 'icon far fa-file'
+                            ],
+                            'action' => 'file-paste',
+                            'keyboard' => 'ctrl-v',
+                            'script' => []
+                        ]
+                    ];
+                    $list[] = $node;
+                    $node = (object) [
+                        'contentType' => ['*'],
+                        'menu' => (object) [
+                            'name' => 'file.manager.contextmenu.rename',
+                            'icon' => (object) [
+                                'src' => '',
+                                'class' => 'icon far fa-edit'
+                            ],
+                            'action' => 'file-rename',
+                            'keyboard' => 'f2',
+                            'script' => []
+                        ]
+                    ];
+                    $list[] = $node;
+                    $node = (object) [
+                        'contentType' => ['*'],
+                        'menu' => (object) [
+                            'name' => 'file.manager.contextmenu.share',
+                            'icon' => (object) [
+                                'src' => '',
+                                'class' => 'icon far fa-file'
+                            ],
+                            'action' => 'file-share',
+                            'keyboard' => 'f3',
+                            'script' => []
+                        ]
+                    ];
+                    $list[] = $node;
+                    $node = (object) [
+                        'contentType' => ['*'],
+                        'menu' => (object) [
+                            'name' => 'file.manager.contextmenu.delete',
+                            'icon' => (object) [
+                                'src' => '',
+                                'class' => 'icon far fa-file'
+                            ],
+                            'action' => 'file-delete',
+                            'keyboard' => 'delete',
+                            'script' => []
+                        ]
+                    ];
+                    $list[] = $node;
+                    $node = (object) [
+                        'contentType' => ['audio/wav', 'audio/ogg', 'audio/mp3'],
+                        'menu' => (object) [
+                            'name' => 'file.manager.contextmenu.audio_options',
+                            'icon' => (object) [
+                                'src' => '',
+                                'class' => 'icon far fa-file'
+                            ],
+                            'action' => '',
+                            'keyboard' => 'alt-1',
+                            'script' => [],
+                            'submenu' => [
+                                (object) [
+                                    'name' => 'file.manager.contextmenu.audio_options_song_play',
+                                    'icon' => (object) [
+                                        'src' => '',
+                                        'class' => 'icon far fa-file'
+                                    ],
+                                    'action' => '',
+                                    'script' => [],
+                                    'keyboard' => 'ctrl-enter',
+                                    'submenu' => []
+                                ],
+                                (object) [
+                                    'name' => 'file.manager.contextmenu.audio_options_song_queue',
+                                    'icon' => (object) [
+                                        'src' => '',
+                                        'class' => 'icon far fa-file'
+                                    ],
+                                    'action' => '',
+                                    'keyboard' => 'shift-enter',
+                                    'script' => [],
+                                    'submenu' => []
+                                ]
+                            ]
+                        ]
+                    ];
+                    $list[] = $node;
+                    $data->set('Application.File.Manager.Context.Menu', $list);
+                    $is_new = true;
+                }
+                if($data){
+                    foreach($data->get('Application.File.Manager.Context.Menu') as $nr => $node){
+                        if(
+                            property_exists($node,'contentType') &&
+                            property_exists($node,'menu') &&
+                            in_array('*', $node->contentType, true)
+                        ){
+                            $nodeList[] = $node->menu;
+                        }
+                    }
+                    $menu_item = false;                    
+                    if(property_exists($file,'contentType')){
+                        //directories don't have a contentType
+                        switch($file->contentType){
+                            case "audio/wav":
+                            case "audio/mp3":
+                            case "audio/x-ms-wma":
+                            case "audio/ogg":
+                                foreach($data->get('Application.File.Manager.Context.Menu') as $nr => $node){
+                                    if(
+                                        property_exists($node,'contentType') &&
+                                        property_exists($node,'menu') &&
+                                        in_array($file->contentType, $node->contentType, true)
+                                    ){
+                                        $menu_item = $node->menu;
+                                        break;
+                                    }
+                                }
+                            default:
+                                //no extra menu item
+                        }
+                    }
+
+                    if($menu_item){
+                        $nodeList[] = $menu_item;
+                    }
+                } 
+                /*
+                $data->set('menu', [
+                    [
+                        'name' => 'New',
+                        'icon' => 'fas fa-plus',
+                        'submenu' => [
+                            [
+                                'name' => 'File',
+                                'icon' => 'fas fa-file',
+                                'action' => 'create',
+                                'type' => FileSystem::TYPE_FILE
+                            ],
+                            [
+                                'name' => 'Directory',
+                                'icon' => 'fas fa-folder',
+                                'action' => 'create',
+                                'type' => FileSystem::TYPE_DIRECTORY
+                            ]
+                        ]
+                    ],
+                    [
+                        'name' => 'Rename',
+                        'icon' => 'fas fa-edit',
+                        'action' => 'rename'
+                    ],
+                    [
+                        'name' => 'Cut',
+                        'icon' => 'fas fa-arrows-alt',
+                        'action' => 'move'
+                    ],
+                    [
+                        'name' => 'Copy',
+                        'icon' => 'fas fa-copy',
+                        'action' => 'copy'
+                    ],
+                    [
+                        'name' => 'Paste',
+                        'icon' => 'fas fa-paste',
+                        'action' => 'paste'
+                    ],
+                    [
+                        'name' => 'Download',
+                        'icon' => 'fas fa-download',
+                        'action' => 'download',
+                        'submenu' => [
+                            [
+                                'name' => 'Raw',
+                                'icon' => 'fas fa-file',
+                                'action' => 'create',
+                                'type' => FileSystem::TYPE_FILE
+                            ],
+                            [
+                                'name' => 'Zip archive',
+                                'icon' => 'fas fa-folder',
+                                'action' => 'create',
+                                'type' => FileSystem::TYPE_DIRECTORY
+                            ]
+                        ]
+                    ],
+                    [
+                        'name' => 'Upload',
+                        'icon' => 'fas fa-upload',
+                        'action' => 'upload'
+                    ],
+                    [
+                        'name' => 'Delete',
+                        'icon' => 'fas fa-trash',
+                        'action' => 'delete'
+                    ],
+                    [
+                        'name' => 'Properties',
+                        'icon' => 'fas fa-info',
+                        'action' => 'properties'
+                    ]
+                ]);
+                if($data){
+                    $list = [];
+                    $list['nodeList'] = $data->data();
+                    return $list;
+                }
+                */
+                if($is_new){
+                    $data->write($url_data);
+                }
+                File::permission($object, [
+                    'dir_data' => $dir_data,
+                    'dir_user' => $dir_user,
+                    'dir_user_uuid' => $dir_user_uuid,
+                    'url_data' => $url_data
+                ]);
+                return $nodeList;
+            default:
+                throw new Exception('Not implemented...');
+        }
+    }
+
+    /**
+     * @throws Exception
+     */
+    private static function createTree(App $object, $user=null): Data
+    {
+        $class = 'Application.FileManager.Tree';
+        $data = new Data();
+        $list = [];
+        $record = new Data();
+        $record->set('dir', $object->config('project.dir.mount') . 'Vps3/Mount/Desktop/');
+        $record->set('name', htmlspecialchars('Desktop', ENT_HTML5));
+        $record->set('icon.class', 'fas fa-desktop');
+        $record->set('section.dir', $record->get('name'));
+        $list[] = $record->data();
+        $record = new Data();
+        $record->set('dir', $object->config('project.dir.mount') . 'Vps3/Mount/Favorite/');
+        $record->set('name', htmlspecialchars('Favorites', ENT_HTML5));
+        $record->set('icon.class', 'fas fa-star');
+        $record->set('section.dir', $record->get('name'));
+        $list[] = $record->data();
+        $record = new Data();
+        $record->set('dir', $object->config('project.dir.mount') . 'Vps3/Mount/Document/');
+        $record->set('name', htmlspecialchars('Documents', ENT_HTML5));
+        $record->set('icon.class', 'fas fa-folder');
+        $record->set('section.dir', $record->get('name'));
+        $list[] = $record->data();
+        $record = new Data();
+        $record->set('dir',  $object->config('project.dir.mount') . 'Vps3/Mount/Audio/');
+        $record->set('name', htmlspecialchars('Audio', ENT_HTML5));
+        $record->set('icon.class', 'fas fa-music');
+        $record->set('section.dir', $record->get('name'));
+        $list[] = $record->data();
+        $record = new Data();
+        $record->set('dir', $object->config('project.dir.mount') . 'Vps3/Mount/Book/');
+        $record->set('name', htmlspecialchars('Books', ENT_HTML5));
+        $record->set('icon.class', 'fas fa-cloud');
+        $record->set('section.dir', $record->get('name'));
+        $list[] = $record->data();
+        $record = new Data();
+        $record->set('dir', $object->config('project.dir.mount') . 'Vps3/Mount/Video/');
+        $record->set('name', htmlspecialchars('Video\'s', ENT_HTML5));
+        $record->set('icon.class', 'fas fa-video');
+        $record->set('section.dir', $record->get('name'));
+        $list[] = $record->data();
+        $record = new Data();
+        $record->set('dir', $object->config('project.dir.mount') . 'Vps3/Mount/Photo/');
+        $record->set('name', htmlspecialchars('Photo\'s', ENT_HTML5));
+        $record->set('icon.class', 'fas fa-cloud');
+        $record->set('section.dir', $record->get('name'));
+        $list[] = $record->data();
+        $record = new Data();
+        $record->set('dir', '/');
+        $record->set('name', htmlspecialchars('Root', ENT_HTML5));
+        $record->set('icon.class', 'fas fa-cloud');
+        $record->set('section.dir', $record->get('dir'));
+        $record->set('rename', false);
+        $list[] = $record->data();
+        $record = new Data();
+        $record->set('dir', $object->config('project.dir.mount'));
+        $record->set('name', htmlspecialchars('Mount', ENT_HTML5));
+        $record->set('icon.class', 'fas fa-cloud');
+        $record->set('section.dir', $record->get('dir'));
+        $record->set('rename', false);
+        $list[] = $record->data();
+        $data->data('tree', $list);
+        return $data;
+    }
+}

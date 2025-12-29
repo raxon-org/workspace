@@ -1,38 +1,15 @@
 {
+    "name" : "raxon/filesystem",
+    "description" : "raxon/filesystem see https://raxon.org for detailed usage",
+    "type" : "package",
+    "keywords" : ["package", "filesystem", "raxon", "library", "framework", "domain","raxon.org"],
     "homepage": "https://raxon.org",
-    "require": {
-        "raxon/framework": "dev-main",
-        "raxon/test": "dev-main",
-        "raxon/boot": "dev-main",
-        "raxon/node": "dev-main",
-        "raxon/route": "dev-main",
-        "raxon/event": "dev-main",
-        "raxon/middleware": "dev-main",
-        "raxon/output_filter": "dev-main",
-        "raxon/config": "dev-main",
-        "raxon/autoload": "dev-main",
-        "raxon/server": "dev-main",
-        "raxon/log": "dev-main",
-        "raxon/host": "dev-main",
-        "raxon/basic": "dev-main",
-        "raxon/account": "dev-main",
-        "raxon/parse": "dev-main",
-        "raxon/example": "dev-main",
-        "raxon/doctrine": "dev-main",
-        "raxon/ollama": "dev-main",
-        "guzzlehttp/guzzle": "^7.9",
-        "ext-pcntl": "*",
-        "raxon/deno": "dev-main",
-        "raxon/task": "dev-main",
-        "raxon_app/filemanager": "dev-main",
-        "raxon/markdown": "dev-main",
-        "raxon/search": "dev-main",
-        "raxon/frankenphp": "dev-main"
+    "require" : {
+        "raxon/framework": ">=2024.09.04"
     },
     "license" : "MIT",
     "authors" : [{
         "name" : "Remco van der Velde",
         "email" : "development@universeorange.com"
-    }],
-    "prefer-stable": true
+    }]
 }
