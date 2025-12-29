@@ -1,5 +1,5 @@
 <?php
-namespace Package\Raxon\Filesystem\Trait;
+namespace Package\Raxon\Workspace\Trait;
 
 use Raxon\App;
 use Raxon\Config;
@@ -80,6 +80,7 @@ trait Main {
             ddd($options);
             throw new Exception('Frontend host not found aborting...');
         }
+        ddd($response_frontend);
         $response_backend = $node->record($class, $node->role_system(), $backend_options);
         if($response_backend === false){
             throw new Exception('Frontend host not found aborting...');

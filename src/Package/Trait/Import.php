@@ -1,5 +1,5 @@
 <?php
-namespace Package\Raxon\Filesystem\Trait;
+namespace Package\Raxon\Workspace\Trait;
 
 use Raxon\Exception\DirectoryCreateException;
 use Raxon\Exception\FileWriteException;

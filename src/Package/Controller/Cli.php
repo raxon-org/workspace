@@ -1,6 +1,6 @@
 <?php
 
-namespace Package\Raxon\Filesystem\Controller;
+namespace Package\Raxon\Workspace\Controller;
 
 use Raxon\App;
 use Raxon\Config;
@@ -22,8 +22,8 @@ class Cli extends Controller {
     const DIR = __DIR__ . 'Cli.php/';
     const MODULE_INFO = 'Info';
     const INFO = [
-        '{{binary()}} raxon filesystem',
-        '{{binary()}} raxon filesystem setup',
+        '{{binary()}} raxon workspace',
+        '{{binary()}} raxon workspace setup',
     ];
 
     /**
