@@ -77,13 +77,184 @@ trait Main {
         $node = new Node($object);
         $response_frontend = $node->record($class, $node->role_system(), $frontend_options);
         if($response_frontend === false){
-            ddd($options);
-            throw new Exception('Frontend host not found aborting...');
+            $explode = explode('.', $options->frontend->host);
+            $count_explode = count($explode);
+            if($count_explode === 2){
+                $domain = $explode[0];
+                $extension = $explode[1];
+                $node->create(
+                    $class,
+                    $node->role_system(),
+                    [
+                        'name' => ucfirst($domain) . '.' . ucfirst($extension),
+                        'subdomain' => false,
+                        'domain' => $domain,
+                        'extension' => $extension,
+                        'url' => [
+                            'development' => 'https://' . $domain . '.' . 'local' . '/',
+                            'staging' => 'https://' . $domain . '.' . 'staging' . '/',
+                            'production' => 'https://' . $domain . '.' . $extension . '/'
+                        ]
+                    ]
+                );
+                $class = 'System.Host.Mapper';
+                $mapper_options = [
+                    'where' => [
+                        [
+                            'value' => $options->backend->host,
+                            'attribute' => 'destination',
+                            'operator' => 'partial',
+                        ]
+                    ]
+                ];
+                $mapper = $node->record($class, $node->role_system(), $mapper_options);
+                if($mapper === false){
+                    $node->create(
+                        $class,
+                        $node->role_system(),
+                        [
+                            'source' => $domain . '.' . 'local',
+                            'destination' => $domain . '.' . $extension,
+                            'extension' => $extension,
+                        ]
+                    );
+                }
+            }
+            elseif($count_explode === 3){
+                $subdomain = $explode[0];
+                $domain = $explode[1];
+                $extension = $explode[2];
+                $node->create(
+                    $class,
+                    $node->role_system(),
+                    [
+                        'name' => ucfirst($subdomain) . '.' . ucfirst($domain) . '.' . ucfirst($extension),
+                        'subdomain' => $subdomain,
+                        'domain' => $domain,
+                        'extension' => $extension,
+                        'url' => [
+                            'development' => 'https://' . $subdomain . '.' . $domain . '.' . 'local' . '/',
+                            'staging' => 'https://' . $subdomain . '.' . $domain . '.' . 'staging' . '/',
+                            'production' => 'https://' . $subdomain . '.' . $domain . '.' . $extension . '/'
+                        ]
+                    ]
+                );
+                $class = 'System.Host.Mapper';
+                $mapper_options = [
+                    'where' => [
+                        [
+                            'value' => $options->backend->host,
+                            'attribute' => 'destination',
+                            'operator' => 'partial',
+                        ]
+                    ]
+                ];
+                $mapper = $node->record($class, $node->role_system(), $mapper_options);
+                if($mapper === false){
+                    $node->create(
+                        $class,
+                        $node->role_system(),
+                        [
+                            'source' => $subdomain . '.' . $domain . '.' . 'local',
+                            'destination' => $subdomain . '.' . $domain . '.' . $extension,
+                            'extension' => $extension,
+                        ]
+                    );
+                }
+            } else {
+                throw new Exception('Frontend host not found aborting...');
+            }
         }
         ddd($response_frontend);
         $response_backend = $node->record($class, $node->role_system(), $backend_options);
         if($response_backend === false){
-            throw new Exception('Frontend host not found aborting...');
+            $explode = explode('.', $options->backend->host);
+            $count_explode = count($explode);
+            if($count_explode === 2){
+                $domain = $explode[0];
+                $extension = $explode[1];
+                $node->create(
+                    $class,
+                    $node->role_system(),
+                    [
+                        'name' => ucfirst($domain) . '.' . ucfirst($extension),
+                        'subdomain' => false,
+                        'domain' => $domain,
+                        'extension' => $extension,
+                        'url' => [
+                            'development' => 'https://' . $domain . '.' . 'local' . '/',
+                            'staging' => 'https://' . $domain . '.' . 'staging' . '/',
+                            'production' => 'https://' . $domain . '.' . $extension . '/'
+                        ]
+                    ]
+                );
+                $class = 'System.Host.Mapper';
+                $mapper_options = [
+                    'where' => [
+                        [
+                            'value' => $options->backend->host,
+                            'attribute' => 'destination',
+                            'operator' => 'partial',
+                        ]
+                    ]
+                ];
+                $mapper = $node->record($class, $node->role_system(), $mapper_options);
+                if($mapper === false){
+                    $node->create(
+                        $class,
+                        $node->role_system(),
+                        [
+                            'source' => $domain . '.' . 'local',
+                            'destination' => $domain . '.' . $extension,
+                            'extension' => $extension,
+                        ]
+                    );
+                }
+            }
+            elseif($count_explode === 3){
+                $subdomain = $explode[0];
+                $domain = $explode[1];
+                $extension = $explode[2];
+                $node->create(
+                    $class,
+                    $node->role_system(),
+                    [
+                        'name' => ucfirst($subdomain) . '.' . ucfirst($domain) . '.' . ucfirst($extension),
+                        'subdomain' => $subdomain,
+                        'domain' => $domain,
+                        'extension' => $extension,
+                        'url' => [
+                            'development' => 'https://' . $subdomain . '.' . $domain . '.' . 'local' . '/',
+                            'staging' => 'https://' . $subdomain . '.' . $domain . '.' . 'staging' . '/',
+                            'production' => 'https://' . $subdomain . '.' . $domain . '.' . $extension . '/'
+                        ]
+                    ]
+                );
+                $class = 'System.Host.Mapper';
+                $mapper_options = [
+                    'where' => [
+                        [
+                            'value' => $options->backend->host,
+                            'attribute' => 'destination',
+                            'operator' => 'partial',
+                        ]
+                    ]
+                ];
+                $mapper = $node->record($class, $node->role_system(), $mapper_options);
+                if($mapper === false){
+                    $node->create(
+                        $class,
+                        $node->role_system(),
+                        [
+                            'source' => $subdomain . '.' . $domain . '.' . 'local',
+                            'destination' => $subdomain . '.' . $domain . '.' . $extension,
+                            'extension' => $extension,
+                        ]
+                    );
+                }
+            } else {
+                throw new Exception('Backend host not found aborting...');
+            }
         }
         $this->install_backend($response_backend, $response_frontend, $options);
         $command = 'app install raxon/account -patch';
