@@ -165,7 +165,6 @@ trait Main {
                 throw new Exception('Frontend host not found aborting...');
             }
         }
-        ddd($response_frontend);
         $response_backend = $node->record($class, $node->role_system(), $backend_options);
         if($response_backend === false){
             $explode = explode('.', $options->backend->host);
