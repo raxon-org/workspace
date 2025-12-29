@@ -1,8 +1,8 @@
 {
-    "name" : "raxon/filesystem",
-    "description" : "raxon/filesystem see https://raxon.org for detailed usage",
+    "name" : "raxon/workspace",
+    "description" : "raxon/workspace see https://raxon.org for detailed usage",
     "type" : "package",
-    "keywords" : ["package", "filesystem", "raxon", "library", "framework", "domain","raxon.org"],
+    "keywords" : ["package", "workspace", "raxon", "library", "framework", "domain","raxon.org"],
     "homepage": "https://raxon.org",
     "require" : {
         "raxon/framework": ">=2024.09.04"
