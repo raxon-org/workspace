@@ -68,10 +68,10 @@ trait Main {
             }
         }
         if($has_frontend === false){
-            throw new Exception('Frontend.host option is required and must be defined in Node/System.Host.json aborting...');
+            throw new Exception('Frontend.host option is required and will be defined in Node/System.Host.json aborting...');
         }
         if($has_backend === false){
-            throw new Exception('Backend.host option is required and must be defined in Node/System.Host.json aborting...');
+            throw new Exception('Backend.host option is required and will be defined in Node/System.Host.json aborting...');
         }
         $class = 'System.Host';
         $node = new Node($object);
@@ -119,6 +119,7 @@ trait Main {
                         ]
                     );
                 }
+                $response_frontend = $node->record($class, $node->role_system(), $frontend_options);
             }
             elseif($count_explode === 3){
                 $subdomain = $explode[0];
@@ -161,6 +162,7 @@ trait Main {
                         ]
                     );
                 }
+                $response_frontend = $node->record($class, $node->role_system(), $frontend_options);
             } else {
                 throw new Exception('Frontend host not found aborting...');
             }
@@ -209,6 +211,7 @@ trait Main {
                         ]
                     );
                 }
+                $response_backend = $node->record($class, $node->role_system(), $backend_options);
             }
             elseif($count_explode === 3){
                 $subdomain = $explode[0];
@@ -251,11 +254,13 @@ trait Main {
                         ]
                     );
                 }
+                $response_backend = $node->record($class, $node->role_system(), $backend_options);
             } else {
                 throw new Exception('Backend host not found aborting...');
             }
         }
         $this->install_backend($response_backend, $response_frontend, $options);
+        $this->install_frontend($response_backend, $response_frontend, $options);
         $command = 'app install raxon/account -patch';
         Core::execute($object, $command, $output, $notification);
         if($output){
@@ -264,6 +269,38 @@ trait Main {
         if($notification){
             echo $notification;
         }
+    }
+
+    private function install_frontend($response_backend, $response_frontend, $options): void
+    {
+        $object = $this->object();
+        $dir_read_frontend = $object->config('project.dir.vendor') .
+            $object->request('package') .
+            $object->config('ds') .
+            'src' .
+            $object->config('ds') .
+            'Admin' .
+            $object->config('ds')
+        ;
+        $dir_admin = $object->config('project.dir.domain') .
+            $response_frontend['node']->name .
+            $object->config('ds')
+        ;
+        if(!File::exist($dir_admin)){
+            Dir::create($dir_admin, Dir::CHMOD);
+            File::permission($object, [
+                'admin' => $dir_admin,
+            ]);
+        }
+        $dir = new Dir();
+        $read = $dir->read($dir_read_frontend, true);
+        foreach($read as $nr => $file){
+            $explode = explode($dir_read_frontend, $file->url, 2);
+            if(array_key_exists(1, $explode)){
+                $file->target = $dir_admin . $explode[1];
+            }
+        }
+        $this->install_service($read, $response_backend, $response_frontend, $options);
     }
 
     private function install_backend($response_backend, $response_frontend, $options): void
@@ -277,20 +314,8 @@ trait Main {
             'Api' .
             $object->config('ds')
         ;
-        $dir_read_frontend = $object->config('project.dir.vendor') .
-            $object->request('package') .
-            $object->config('ds') .
-            'src' .
-            $object->config('ds') .
-            'Api' .
-            $object->config('ds')
-        ;
         $dir_api = $object->config('project.dir.domain') .
             $response_backend['node']->name .
-            $object->config('ds')
-        ;
-        $dir_admin = $object->config('project.dir.domain') .
-            $response_frontend['node']->name .
             $object->config('ds')
         ;
         if(!File::exist($dir_api)){
