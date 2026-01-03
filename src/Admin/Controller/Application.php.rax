@@ -1,0 +1,109 @@
+{{$options = options()}}
+<?php
+namespace Domain\{{php.namespace.host($options.frontend.host)}}\Controller;
+
+use Raxon\App;
+
+use Raxon\Module\Controller;
+
+use Raxon\Exception\FileWriteException;
+use Raxon\Exception\ObjectException;
+use Raxon\Exception\LocateException;
+use Raxon\Exception\UrlEmptyException;
+use Raxon\Exception\UrlNotExistException;
+
+class Application extends Controller {
+    const DIR = __DIR__ . DIRECTORY_SEPARATOR;
+
+    /**
+     * @throws LocateException
+     * @throws ObjectException
+     * @throws UrlEmptyException
+     * @throws UrlNotExistException
+     * @throws FileWriteException
+     */
+    public static function load(App $object){
+        $name = Application::name(__FUNCTION__, __CLASS__, '/');
+        $url = Application::locate($object, $name);
+        return Application::response($object, $url);
+    }
+
+    /**
+     * @throws LocateException
+     * @throws ObjectException
+     * @throws UrlEmptyException
+     * @throws UrlNotExistException
+     * @throws FileWriteException
+     */
+    public static function open(App $object){
+        $name = Application::name(__FUNCTION__ . '/' . ucfirst(__FUNCTION__), __CLASS__, '/');
+        $url = Application::locate($object, $name);
+        return ltrim(Application::response($object, $url));
+    }
+
+    /**
+     * @throws LocateException
+     * @throws ObjectException
+     * @throws UrlEmptyException
+     * @throws UrlNotExistException
+     * @throws FileWriteException
+     */
+    public static function edit(App $object){
+        $name = Application::name(__FUNCTION__ .  '/' . ucfirst(__FUNCTION__), __CLASS__, '/');
+        $url = Application::locate($object, $name);
+        return Application::response($object, $url);
+    }
+
+    /**
+     * @throws LocateException
+     * @throws ObjectException
+     * @throws UrlEmptyException
+     * @throws UrlNotExistException
+     * @throws FileWriteException
+     */
+    public static function overview(App $object){
+        $name = Application::name(__FUNCTION__ . '/' . ucfirst(__FUNCTION__), __CLASS__, '/');
+        $url = Application::locate($object, $name);
+        return Application::response($object, $url);
+    }
+
+    /**
+     * @throws LocateException
+     * @throws ObjectException
+     * @throws UrlEmptyException
+     * @throws UrlNotExistException
+     * @throws FileWriteException
+     */
+    public static function overview_application_list(App $object){
+        $name = Application::name('Overview/' . ucfirst(__FUNCTION__), __CLASS__, '/');
+        $url = Application::locate($object, $name);
+        return Application::response($object, $url);
+    }
+
+    /**
+     * @throws LocateException
+     * @throws ObjectException
+     * @throws UrlEmptyException
+     * @throws UrlNotExistException
+     * @throws FileWriteException
+     */
+    public static function detail(App $object){
+        $name = Application::name('Detail/' . ucfirst(__FUNCTION__), __CLASS__, '/');
+        $url = Application::locate($object, $name);
+        return Application::response($object, $url);
+    }
+
+    /**
+     * @throws LocateException
+     * @throws ObjectException
+     * @throws UrlEmptyException
+     * @throws UrlNotExistException
+     * @throws FileWriteException
+     */
+    public static function delete(App $object){
+        $name = Application::name('Delete/' . ucfirst(__FUNCTION__), __CLASS__, '/');
+        $url = Application::locate($object, $name);
+        return Application::response($object, $url);
+    }
+
+}

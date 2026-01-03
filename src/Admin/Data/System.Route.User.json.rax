@@ -1,0 +1,38 @@
+{
+  "System": {
+    "Route": [
+      {
+        "name": "user-login",
+        "path": "\/User\/Login\/",
+        "host": "{{options('frontend.host')}}",
+        "controller": "Domain:{{app.controller.host(options('frontend.host'))}}:Controller:User:login",
+        "priority": 2004,
+        "method": [
+          "GET",
+          "POST"
+        ]
+      },
+      {
+        "name": "user-login-blocked",
+        "path": "\/User\/Login\/Blocked\/",
+        "host": "{{options('frontend.host')}}",
+        "controller": "Domain:{{app.controller.host(options('frontend.host'))}}:Controller:User:login.blocked",
+        "priority": 2005,
+        "method": [
+          "GET"
+        ]
+      },
+      {
+        "name": "user-logout",
+        "path": "\/User\/Logout\/",
+        "host": "{{options('frontend.host')}}",
+        "controller": "Domain:{{app.controller.host(options('frontend.host'))}}:Controller:User:logout",
+        "priority": 2006,
+        "method": [
+          "GET",
+          "POST"
+        ]
+      }
+    ]
+  }
+}

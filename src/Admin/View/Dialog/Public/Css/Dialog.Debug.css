@@ -1,0 +1,31 @@
+.dialog.debug {
+    left: 25%;
+    width: 50%;
+    right: 25%;
+}
+
+.dialog.debug .head span {
+    float: left;
+}
+
+.dialog.debug .head .icon {
+    font-size: 32px;
+    height: 32px;
+}
+.dialog.debug .body {
+    background: rgba(255, 255, 255, 1);
+    max-height: 500px;
+    overflow: auto;
+}
+
+.dialog.debug pre {
+    margin-bottom: 0;
+}
+
+.dialog.debug .tab-body {
+    display:none;
+}
+
+.dialog.debug .tab-body.selected {
+    display: block;
+}

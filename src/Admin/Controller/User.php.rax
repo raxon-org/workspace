@@ -1,0 +1,63 @@
+{{$options = options()}}
+<?php
+namespace Domain\{{php.namespace.host($options.frontend.host)}}\Controller;
+
+use Raxon\App;
+
+use Raxon\Module\Controller;
+
+use Exception;
+
+use Raxon\Exception\LocateException;
+use Raxon\Exception\UrlEmptyException;
+use Raxon\Exception\UrlNotExistException;
+use Raxon\Exception\ObjectException;
+use Raxon\Exception\FileWriteException;
+class User extends Controller {
+    const DIR = __DIR__ . DIRECTORY_SEPARATOR;
+
+    /**
+     * @throws ObjectException
+     * @throws LocateException
+     * @throws UrlEmptyException
+     * @throws UrlNotExistException
+     * @throws FileWriteException
+     * @throws Exception
+     */
+    public static function login(App $object){
+        $name = User::name(__FUNCTION__, __CLASS__, '/');
+        if(App::contentType($object) == App::CONTENT_TYPE_HTML){
+            $url = User::locate($object, 'Main/Main');
+            $object->data('template.name', $name);
+            $object->data('template.dir', User::DIR);
+            $view = User::response($object, $url);
+        } else {
+            $url = User::locate($object, $name);
+            $view = User::response($object, $url);
+        }
+        return $view;
+    }
+
+    /**
+     * @throws LocateException
+     * @throws ObjectException
+     * @throws UrlEmptyException
+     * @throws UrlNotExistException
+     * @throws FileWriteException
+     */
+    public static function logout(App $object){
+        $name = User::name(__FUNCTION__, __CLASS__, '/');
+        $name = explode('.', $name);
+        $name = implode('/', $name);
+        if(App::contentType($object) == App::CONTENT_TYPE_HTML){
+            $url = User::locate($object, 'Main/Main');
+            $object->data('template.name', $name);
+            $object->data('template.dir', User::DIR);
+            $view = User::response($object, $url);
+        } else {
+            $url = User::locate($object, $name);
+            $view = User::response($object, $url);
+        }
+        return $view;
+    }
+}

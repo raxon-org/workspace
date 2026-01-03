@@ -1,0 +1,17 @@
+{
+  "System": {
+    "Route": [
+      {
+        "name": "application-open",
+        "path": "\/Application\/Open\/",
+        "host": "{{options('frontend.host')}}",
+        "controller": "Domain:{{app.controller.host(options('frontend.host'))}}:Controller:Application:open",
+        "priority": 2003,
+        "method": [
+          "GET",
+          "POST"
+        ]
+      }
+    ]
+  }
+}

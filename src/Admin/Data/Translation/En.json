@@ -1,0 +1,20 @@
+{
+    "meta.author" : "Remco van der Velde (remco@universeorange.com)",
+    "meta.description" : "Workandtravel Admin panel",
+    "meta.keywords" : "cms, admin, workandtravel, panel, r3m, universe, orange, php, javascript, js",
+    "meta.title" : "Admin | workandtravel.world",
+    "user.blocked" : "User is blocked for 15 minutes.<br>Please try again later...",
+    "user.e-mail" : "Email",
+    "user.login.title" : "User login",
+    "user.login" : "Login",
+    "user.logout.title" : "Logout:",
+    "user.logout.text" : "Logging out...",
+    "user.password" : "Password",
+    "user.password.forgot" : "Forgot password",
+    "user.password.forgot.text" : "Please fill in your e-mail address in order to receive a recovery e-mail:",
+    "user.password.forgot.title" : "Forgot password",
+    "user.password.forgot.success" : "An e-mail with instructions is send to \"{{request('email')}}\"",
+    "user.version" : "Version ",
+    "user.send" : "Send",
+    "navigation.week" : "Week"
+}

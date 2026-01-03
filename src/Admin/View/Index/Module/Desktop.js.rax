@@ -1,0 +1,29 @@
+//{{RAX}}
+import user from "/Module/User.js";
+import { exception } from "/Module/Exception.js";
+import { version } from "/Module/Priya.js";
+import { navigation } from "/Application/Desktop/Module/Navigation.js";
+import { application } from "/Module/Application.js";
+import { keyboard } from "/Module/Keyboard.js";
+import { root } from "/Module/Web.js";
+
+
+let desktop = {};
+
+desktop.init = (init) => {
+    request(init.url);
+};
+
+ready(() => {
+    console.log('navigation init');
+    desktop.init({
+        "url": "{{literal}}{{route.get('application-desktop')}}{{/literal}}"
+    });
+    application.init({
+        "url": "{{literal}}{{server.url({{/literal}}{{options('backend.host')}}{{literal}})}}{{/literal}}Node/Application"
+    });
+    keyboard.init({
+        "navigation": navigation,
+        "application": application
+    });    
+});

@@ -1,0 +1,27 @@
+{
+  "System": {
+    "Route": [
+      {
+        "name": "*",
+        "host": "{{options('frontend.host')}}",
+        "controller": "Domain:{{app.controller.host(options('frontend.host'))}}:Controller:Index:main",
+        "priority": 2001,
+        "method": [
+          "GET",
+          "POST"
+        ]
+      },
+      {
+        "name": "index",
+        "path": "\/",
+        "host": "{{options('frontend.host')}}",
+        "controller": "Domain:{{app.controller.host(options('frontend.host'))}}:Controller:Index:main",
+        "priority": 2002,
+        "method": [
+          "GET",
+          "POST"
+        ]
+      }
+    ]
+  }
+}

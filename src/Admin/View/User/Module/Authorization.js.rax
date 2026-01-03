@@ -1,0 +1,74 @@
+//{{RAX}}
+import user from "/Module/User.js";
+ready(() => {
+    if(user.token()){
+        let url = "{{literall}}{{server.url('{{/literall}}{{options('backend.host')}}{{literal}}')}}{//literal}}User/Current/";
+        header('Authorization', 'Bearer ' + user.token());
+        request(url, null, (url, response) => {
+            if(!is.empty(response.node)){
+                user.data(response.node);
+            } else {
+                if (user.refreshToken()) {
+                    //should get new token | refreshToken
+                    url = "{{literall}}{{server.url('{{/literall}}{{options('backend.host')}}{{literal}}')}}{//literal}}User/Refresh/Token/";
+                    header('Authorization', 'Bearer ' + user.refreshToken());
+                    request(url, null, (url, response) => {
+                        if (!is.empty(response.node)) {
+                            if (response.node?.token) {
+                                user.token(response.node.token);
+                            }
+                            if (response.node?.refreshToken) {
+                                user.refreshToken(response.node.refreshToken);
+                            }
+                            const node = response.node;
+                            delete node?.token;
+                            delete node?.refreshToken;
+                            user.data(node);
+                        } else {
+                            //redirect user login
+                            redirect("{{route.get('user-login')}}");
+                        }
+                    });
+                } else {
+                    let redirect_url = "{{route.get('user-login')}}";
+                    if(redirect_url){
+                        //redirect user login
+                        redirect(redirect_url);
+                    }
+                }
+            }
+        });
+    } else {
+        if(user.refreshToken()){
+            //validate refresh token and get user with new token & refreshToken
+            const url = "{{literall}}{{server.url('{{/literall}}{{options('backend.host')}}{{literal}}')}}{//literal}}User/Refresh/Token/";
+            header('Authorization', 'Bearer ' + user.refreshToken());
+            request(url, null, (url, response) => {
+                if(!is.empty(response.user)){
+                    if(response.user?.token){
+                        user.token(response.user.token);
+                    }
+                    if(response.user?.refreshToken){
+                        user.refreshToken(response.user.refreshToken);
+                    }
+                    const node = response.user;
+                    delete node?.token;
+                    delete node?.refreshToken;
+                    user.data(node);
+                } else {
+                    let redirect_url = "{{route.get('user-login')}}";
+                    if(redirect_url){
+                        //redirect user login
+                        redirect(redirect_url);
+                    }
+                }
+            });
+        } else {
+            let redirect_url = "{{route.get('user-login')}}";
+            if(redirect_url){
+                //redirect user login
+                redirect(redirect_url);
+            }
+        }
+    }
+});

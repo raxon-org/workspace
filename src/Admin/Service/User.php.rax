@@ -1,0 +1,101 @@
+{{$options = options()}}
+<?php
+namespace Domain\{{php.namespace.host($options.frontend.host)}}\Service;
+
+use Entity\User as Entity;
+
+use Raxon\App;
+use Raxon\Config;
+
+use Raxon\Module\Core;
+use Raxon\Module\Database;
+use Raxon\Module\Handler;
+
+use DateTime;
+use Exception;
+
+use Raxon\Exception\FileWriteException;
+use Raxon\Exception\ObjectException;
+use Raxon\Exception\AuthorizationException;
+use Raxon\Exception\ErrorException;
+
+use Doctrine\ORM\Exception\NotSupported;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\Exception\ORMException;
+use Doctrine\ORM\NonUniqueResultException;
+
+class User
+{
+    /**
+     * @throws AuthorizationException
+     * @throws ObjectException
+     * @throws FileWriteException
+     * @throws ORMException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws Exception
+     */
+    public static function getByAuthorization(App $object){
+        if($object->config('framework.environment') === Config::MODE_DEVELOPMENT){
+            $object->logger()->info('getByAuthorization need session from backend.');
+        }
+
+        $node = $object->get('user');
+        if(!empty($node)){
+            return $node;
+        }
+        $token = '';
+        if($object->request('authorization')){
+            $token = $object->request('authorization');
+        }
+        elseif($object->data(App::REQUEST_HEADER . '.' . 'Authorization')){
+            $token = $object->data(App::REQUEST_HEADER . '.' . 'Authorization');
+        }
+        elseif(array_key_exists('HTTP_AUTHORIZATION', $_SERVER)){
+            $token = $_SERVER['HTTP_AUTHORIZATION'];
+        }
+        elseif(array_key_exists('REDIRECT_HTTP_AUTHORIZATION', $_SERVER)){
+            $token = $_SERVER['REDIRECT_HTTP_AUTHORIZATION'];
+        }
+        $token = substr($token , 7);
+        if(!$token){
+            $status = 401;
+            Handler::header('Status: ' . $status, $status, true);
+            throw new AuthorizationException('Please provide a valid token...');
+        }
+        $token_unencrypted = Jwt::decryptToken($object, $token);
+        $claims = $token_unencrypted->claims();
+        if($claims->has('user')) {
+            $user = $claims->get('user');
+            $entityManager = Database::entityManager($object);
+            $repository = $entityManager->getRepository('\\Entity\\User');
+            $node = $repository->findOneBy([
+                'uuid' => $user['uuid'],
+                'email' => $user['email'],
+            ]);
+            if($node) {
+                if(empty($node->getIsActive())){
+                    $status = 401;
+                    Handler::header('Status: ' . $status, $status, true);
+                    throw new AuthorizationException('Account is not active.');
+                }
+                if(!empty($node->getIsDeleted())){
+                    $status = 401;
+                    Handler::header('Status: ' . $status, $status, true);
+                    throw new AuthorizationException('Account is deleted.');
+                }
+                if(empty($node->getRoles())){
+                    $status = 401;
+                    Handler::header('Status: ' . $status, $status, true);
+                    throw new AuthorizationException('Account has no roles.');
+                }
+                $node->setIsLoggedIn(new DateTime());
+                $entityManager->persist($node);
+                $entityManager->flush();
+                $object->set('user', $node);
+                return $node;
+            }
+        }
+        return null;
+    }
+
+}

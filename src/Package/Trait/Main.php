@@ -118,6 +118,15 @@ trait Main {
                             'extension' => $extension,
                         ]
                     );
+                    $node->create(
+                        $class,
+                        $node->role_system(),
+                        [
+                            'source' => $domain . '.' . 'staging',
+                            'destination' => $domain . '.' . $extension,
+                            'extension' => $extension,
+                        ]
+                    );
                 }
                 $response_frontend = $node->record($class, $node->role_system(), $frontend_options);
             }
@@ -157,6 +166,15 @@ trait Main {
                         $node->role_system(),
                         [
                             'source' => $subdomain . '.' . $domain . '.' . 'local',
+                            'destination' => $subdomain . '.' . $domain . '.' . $extension,
+                            'extension' => $extension,
+                        ]
+                    );
+                    $node->create(
+                        $class,
+                        $node->role_system(),
+                        [
+                            'source' => $subdomain . '.' . $domain . '.' . 'staging',
                             'destination' => $subdomain . '.' . $domain . '.' . $extension,
                             'extension' => $extension,
                         ]
@@ -206,6 +224,15 @@ trait Main {
                         $node->role_system(),
                         [
                             'source' => $domain . '.' . 'local',
+                            'destination' => $domain . '.' . $extension,
+                            'extension' => $extension,
+                        ]
+                    );
+                    $node->create(
+                        $class,
+                        $node->role_system(),
+                        [
+                            'source' => $domain . '.' . 'staging',
                             'destination' => $domain . '.' . $extension,
                             'extension' => $extension,
                         ]

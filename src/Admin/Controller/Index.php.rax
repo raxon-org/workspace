@@ -1,0 +1,41 @@
+{{$options = options()}}
+<?php
+namespace Domain\{{php.namespace.host($options.frontend.host)}}\Controller;
+
+use Raxon\App;
+
+use Raxon\Module\Controller;
+
+use Exception;
+
+use Raxon\Exception\ObjectException;
+use Raxon\Exception\LocateException;
+use Raxon\Exception\UrlEmptyException;
+use Raxon\Exception\UrlNotExistException;
+use Raxon\Exception\FileWriteException;
+
+class Index extends Controller {
+    const DIR = __DIR__ . DIRECTORY_SEPARATOR;
+
+    /**
+     * @throws ObjectException
+     * @throws LocateException
+     * @throws UrlEmptyException
+     * @throws UrlNotExistException
+     * @throws FileWriteException
+     * @throws Exception
+     */
+    public static function main(App $object){
+        $name = Index::name(__FUNCTION__, __CLASS__, '/');
+        if(App::contentType($object) == App::CONTENT_TYPE_HTML){
+            $url = Index::locate($object, 'Main/Main');
+            $object->data('template.name', $name);
+            $object->data('template.dir', Index::DIR);
+            $view = Index::response($object, $url);
+        } else {
+            $url = Index::locate($object, $name);
+            $view = Index::response($object, $url);
+        }
+        return $view;
+    }
+}
