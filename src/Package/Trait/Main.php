@@ -76,7 +76,7 @@ trait Main {
         $class = 'System.Host';
         $node = new Node($object);
         $response_frontend = $node->record($class, $node->role_system(), $frontend_options);
-        if($response_frontend === false){
+        if($response_frontend === null){
             $explode = explode('.', $options->frontend->host);
             $count_explode = count($explode);
             if($count_explode === 2){
@@ -186,8 +186,7 @@ trait Main {
             }
         }
         $response_backend = $node->record($class, $node->role_system(), $backend_options);
-        ddd($response_backend);
-        if($response_backend === false){
+        if($response_backend === null){
             $explode = explode('.', $options->backend->host);
             $count_explode = count($explode);
             if($count_explode === 2){
