@@ -244,10 +244,6 @@ trait Main {
                 $subdomain = $explode[0];
                 $domain = $explode[1];
                 $extension = $explode[2];
-                d($subdomain);
-                d($domain);
-                d($extension);
-                ddd($class);
                 $node->create(
                     $class,
                     $node->role_system(),
