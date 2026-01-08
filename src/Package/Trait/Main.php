@@ -186,7 +186,6 @@ trait Main {
             }
         }
         $response_backend = $node->record($class, $node->role_system(), $backend_options);
-        ddd($response_backend);
         if($response_backend === null){
             $explode = explode('.', $options->backend->host);
             $count_explode = count($explode);
