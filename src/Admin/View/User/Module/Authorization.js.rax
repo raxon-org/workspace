@@ -2,7 +2,7 @@
 import user from "/Module/User.js";
 ready(() => {
     if(user.token()){
-        let url = "{{literall}}{{server.url('{{/literall}}{{options('backend.host')}}{{literal}}')}}{//literal}}User/Current/";
+        let url = "{{literal}}{{server.url('{{/literal}}{{options('backend.host')}}{{literal}}')}}{//literal}}User/Current/";
         header('Authorization', 'Bearer ' + user.token());
         request(url, null, (url, response) => {
             if(!is.empty(response.node)){
@@ -10,7 +10,7 @@ ready(() => {
             } else {
                 if (user.refreshToken()) {
                     //should get new token | refreshToken
-                    url = "{{literall}}{{server.url('{{/literall}}{{options('backend.host')}}{{literal}}')}}{//literal}}User/Refresh/Token/";
+                    url = "{{literal}}{{server.url('{{/literal}}{{options('backend.host')}}{{literal}}')}}{//literal}}User/Refresh/Token/";
                     header('Authorization', 'Bearer ' + user.refreshToken());
                     request(url, null, (url, response) => {
                         if (!is.empty(response.node)) {
@@ -41,7 +41,7 @@ ready(() => {
     } else {
         if(user.refreshToken()){
             //validate refresh token and get user with new token & refreshToken
-            const url = "{{literall}}{{server.url('{{/literall}}{{options('backend.host')}}{{literal}}')}}{//literal}}User/Refresh/Token/";
+            const url = "{{literal}}{{server.url('{{/literal}}{{options('backend.host')}}{{literal}}')}}{//literal}}User/Refresh/Token/";
             header('Authorization', 'Bearer ' + user.refreshToken());
             request(url, null, (url, response) => {
                 if(!is.empty(response.user)){
