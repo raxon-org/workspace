@@ -377,7 +377,7 @@ trait Main {
             if ($notification) {
                 echo $notification;
             }
-            $command = Core::binary($object) . ' raxon/basic apache2 site backup';
+            $command = Core::binary($object) . ' raxon/basic apache2 backup';
             Core::execute($object, $command, $output, $notification);
             if ($output) {
                 echo $output;
