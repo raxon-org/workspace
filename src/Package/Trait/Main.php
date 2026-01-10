@@ -351,37 +351,40 @@ trait Main {
         if($notification){
             echo $notification;
         }
-        $command = Core::binary($object) . ' raxon/basic apache2 site create -server.admin=\''. $options->server->admin .'\' -server.name=\''. $options->server->name .'\' -development';
-        foreach($options->server->alias as $nr => $alias){
-            $command .= ' -server.alias[]=' . $alias;
-        }
+        $command = Core::binary($object) . ' raxon/basic apache2 site has -server.name=\'' . $options->server->name . '\'';
         Core::execute($object, $command, $output, $notification);
-        if($output){
-            echo $output;
+        if($output !== 'true') {
+            $command = Core::binary($object) . ' raxon/basic apache2 site create -server.admin=\'' . $options->server->admin . '\' -server.name=\'' . $options->server->name . '\' -development';
+            foreach ($options->server->alias as $nr => $alias) {
+                $command .= ' -server.alias[]=' . $alias;
+            }
+            Core::execute($object, $command, $output, $notification);
+            if ($output) {
+                echo $output;
+            }
+            if ($notification) {
+                echo $notification;
+            }
+            $command = Core::binary($object) . ' raxon/basic apache2 site create -server.admin=\'' . $options->server->admin . '\' -server.name=\'' . $options->server->name . '\' -production';
+            foreach ($options->server->alias as $nr => $alias) {
+                $command .= ' -server.alias[]=' . $alias;
+            }
+            Core::execute($object, $command, $output, $notification);
+            if ($output) {
+                echo $output;
+            }
+            if ($notification) {
+                echo $notification;
+            }
+            $command = Core::binary($object) . ' raxon/basic apache2 site backup';
+            Core::execute($object, $command, $output, $notification);
+            if ($output) {
+                echo $output;
+            }
+            if ($notification) {
+                echo $notification;
+            }
         }
-        if($notification){
-            echo $notification;
-        }
-        $command = Core::binary($object) . ' raxon/basic apache2 site create -server.admin=\''. $options->server->admin .'\' -server.name=\''. $options->server->name .'\' -production';
-        foreach($options->server->alias as $nr => $alias){
-            $command .= ' -server.alias[]=' . $alias;
-        }
-        Core::execute($object, $command, $output, $notification);
-        if($output){
-            echo $output;
-        }
-        if($notification){
-            echo $notification;
-        }
-        $command = Core::binary($object) . ' raxon/basic apache2 site backup';
-        Core::execute($object, $command, $output, $notification);
-        if($output){
-            echo $output;
-        }
-        if($notification){
-            echo $notification;
-        }
-
     }
 
     private function install_frontend($response_backend, $response_frontend, $options): void
