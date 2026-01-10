@@ -206,6 +206,7 @@ trait Main {
                         ]
                     );
                 }
+                $class = 'System.Host';
                 $response_frontend = $node->record($class, $node->role_system(), $frontend_options);
             } else {
                 throw new Exception('Frontend host not found aborting...');
