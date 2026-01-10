@@ -74,6 +74,7 @@ trait Main {
             throw new Exception('Backend.host option is required and will be defined in Node/System.Host.json aborting...');
         }
         $node = new Node($object);
+        $class = 'System.Host';
         $response_frontend = $node->record($class, $node->role_system(), $frontend_options);
         if($response_frontend === null){
             $explode = explode('.', $options->frontend->host);
