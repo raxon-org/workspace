@@ -287,9 +287,85 @@ trait Main {
                 throw new Exception('Backend host not found aborting...');
             }
         }
+        if(
+            property_exists($options, 'server') &&
+            property_exists($options->server, 'admin')
+        ){
+            //nothing
+        } else {
+            if(!property_exists($options, 'server')){
+                $options->server = (object) [
+                    'admin' => 'development@' . $response_frontend['node']->domain . '.' . $response_frontend['node']->extension,
+                ];
+            } else {
+                $options->server->admin = 'development@' . $response_frontend['node']->domain . '.' . $response_frontend['node']->extension;
+            }
+        }
+        if(
+            property_exists($options, 'server') &&
+            property_exists($options->server, 'name')
+        ){
+            //nothing
+        } else {
+            $options->server->name = $response_frontend['node']->domain . '.' . $response_frontend['node']->extension;
+        }
+        if(
+            property_exists($options, 'server') &&
+            property_exists($options->server, 'alias')
+        ){
+            if(!is_array($options->server->alias)){
+                throw new Exception('Server.alias must be an array...');
+            }
+            if(
+                !in_array(
+                    $options->backend->host,
+                    $options->server->alias,
+                    true
+                )
+            ){
+                $options->server->alias[] = $options->backend->host;
+            }
+            if(
+                !in_array(
+                    $options->frontend->host,
+                    $options->server->alias,
+                    true
+                )
+            ){
+                $options->server->alias[] = $options->frontend->host;
+            }
+        } else {
+            $options->server->alias = [
+                'www.' . $response_frontend['node']->domain . '.' . $response_frontend['node']->extension,
+                $options->backend->host,
+                $options->frontend->host,
+            ];
+        }
         $this->install_backend($response_backend, $response_frontend, $options);
         $this->install_frontend($response_backend, $response_frontend, $options);
-        $command = 'app install raxon/account -patch';
+        $command = Core::binary($object) . ' install raxon/account -patch';
+        Core::execute($object, $command, $output, $notification);
+        if($output){
+            echo $output;
+        }
+        if($notification){
+            echo $notification;
+        }
+        $command = Core::binary($object) . ' raxon/basic apache2 site create -server.admin=\''. $options->server->admin .'\' -server.name=\''. $options->server->name .'\' -development';
+        foreach($options->server->alias as $nr => $alias){
+            $command .= ' -server.alias[]=' . $alias;
+        }
+        Core::execute($object, $command, $output, $notification);
+        if($output){
+            echo $output;
+        }
+        if($notification){
+            echo $notification;
+        }
+        $command = Core::binary($object) . ' raxon/basic apache2 site create -server.admin=\''. $options->server->admin .'\' -server.name=\''. $options->server->name .'\' -production';
+        foreach($options->server->alias as $nr => $alias){
+            $command .= ' -server.alias[]=' . $alias;
+        }
         Core::execute($object, $command, $output, $notification);
         if($output){
             echo $output;
