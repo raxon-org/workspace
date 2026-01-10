@@ -108,7 +108,7 @@ trait Main {
                     ]
                 ];
                 $mapper = $node->record($class, $node->role_system(), $mapper_options);
-                if($mapper === false){
+                if($mapper === null){
                     $node->create(
                         $class,
                         $node->role_system(),
@@ -169,7 +169,7 @@ trait Main {
                     ]
                 ];
                 $mapper = $node->record($class, $node->role_system(), $mapper_options);
-                if($mapper === false){
+                if($mapper === null){
                     $node->create(
                         $class,
                         $node->role_system(),
