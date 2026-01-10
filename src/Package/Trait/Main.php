@@ -352,6 +352,7 @@ trait Main {
             echo $notification;
         }
         $command = Core::binary($object) . ' raxon/basic apache2 site has -server.name=\'' . $options->server->name . '\'';
+        $output = [];
         exec($command, $output);
         d($output);
         if($output !== 'true') {
