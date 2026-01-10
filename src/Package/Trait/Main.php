@@ -218,12 +218,21 @@ trait Main {
                     ]
                 ];
                 $mapper = $node->record($class, $node->role_system(), $mapper_options);
-                if($mapper === false){
+                if($mapper === null){
                     $node->create(
                         $class,
                         $node->role_system(),
                         [
                             'source' => $domain . '.' . 'local',
+                            'destination' => $domain . '.' . $extension,
+                            'extension' => $extension,
+                        ]
+                    );
+                    $node->create(
+                        $class,
+                        $node->role_system(),
+                        [
+                            'source' => $domain . '.' . 'local:5003',
                             'destination' => $domain . '.' . $extension,
                             'extension' => $extension,
                         ]
@@ -270,12 +279,30 @@ trait Main {
                     ]
                 ];
                 $mapper = $node->record($class, $node->role_system(), $mapper_options);
-                if($mapper === false){
+                if($mapper === null){
                     $node->create(
                         $class,
                         $node->role_system(),
                         [
                             'source' => $subdomain . '.' . $domain . '.' . 'local',
+                            'destination' => $subdomain . '.' . $domain . '.' . $extension,
+                            'extension' => $extension,
+                        ]
+                    );
+                    $node->create(
+                        $class,
+                        $node->role_system(),
+                        [
+                            'source' => $subdomain . '.' . $domain . '.' . 'local:5003',
+                            'destination' => $subdomain . '.' . $domain . '.' . $extension,
+                            'extension' => $extension,
+                        ]
+                    );
+                    $node->create(
+                        $class,
+                        $node->role_system(),
+                        [
+                            'source' => $subdomain . '.' . $domain . '.' . 'staging',
                             'destination' => $subdomain . '.' . $domain . '.' . $extension,
                             'extension' => $extension,
                         ]
