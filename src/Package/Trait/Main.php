@@ -122,6 +122,15 @@ trait Main {
                         $class,
                         $node->role_system(),
                         [
+                            'source' => $domain . '.' . 'local:5003',
+                            'destination' => $domain . '.' . $extension,
+                            'extension' => $extension,
+                        ]
+                    );
+                    $node->create(
+                        $class,
+                        $node->role_system(),
+                        [
                             'source' => $domain . '.' . 'staging',
                             'destination' => $domain . '.' . $extension,
                             'extension' => $extension,
@@ -166,6 +175,15 @@ trait Main {
                         $node->role_system(),
                         [
                             'source' => $subdomain . '.' . $domain . '.' . 'local',
+                            'destination' => $subdomain . '.' . $domain . '.' . $extension,
+                            'extension' => $extension,
+                        ]
+                    );
+                    $node->create(
+                        $class,
+                        $node->role_system(),
+                        [
+                            'source' => $subdomain . '.' . $domain . '.' . 'local:5003',
                             'destination' => $subdomain . '.' . $domain . '.' . $extension,
                             'extension' => $extension,
                         ]
