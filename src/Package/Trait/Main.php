@@ -353,7 +353,7 @@ trait Main {
         }
         $command = Core::binary($object) . ' raxon/basic apache2 site has -server.name=\'' . $options->server->name . '\'';
         Core::execute($object, $command, $output, $notification);
-
+ddd($output);
         if($output !== 'true') {
             $command = Core::binary($object) . ' raxon/basic apache2 site create -server.admin=\'' . $options->server->admin . '\' -server.name=\'' . $options->server->name . '\' -development';
             foreach ($options->server->alias as $nr => $alias) {
