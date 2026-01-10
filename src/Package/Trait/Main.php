@@ -336,7 +336,6 @@ trait Main {
             }
         } else {
             $options->server->alias = [
-                'www.' . $response_frontend['node']->domain . '.' . $response_frontend['node']->extension,
                 $options->backend->host,
                 $options->frontend->host,
             ];
