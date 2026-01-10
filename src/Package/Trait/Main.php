@@ -359,26 +359,25 @@ trait Main {
             foreach ($options->server->alias as $nr => $alias) {
                 $command .= ' -server.alias[]=' . $alias;
             }
-            Core::execute($object, $command, $output, $notification);
+            $output = [];
+            exec($command, $output);
+            $output = implode(PHP_EOL, $output);
             if ($output) {
                 echo $output;
-            }
-            if ($notification) {
-                echo $notification;
             }
             $command = Core::binary($object) . ' raxon/basic apache2 site create -server.admin=\'' . $options->server->admin . '\' -server.name=\'' . $options->server->name . '\' -production';
             foreach ($options->server->alias as $nr => $alias) {
                 $command .= ' -server.alias[]=' . $alias;
             }
-            Core::execute($object, $command, $output, $notification);
+            $output = [];
+            exec($command, $output);
+            $output = implode(PHP_EOL, $output);
             if ($output) {
                 echo $output;
             }
-            if ($notification) {
-                echo $notification;
-            }
             $command = Core::binary($object) . ' raxon/basic apache2 backup';
-            Core::execute($object, $command, $output, $notification);
+            $output = [];
+            exec($command, $output);
             if ($output) {
                 echo $output;
             }
