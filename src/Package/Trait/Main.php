@@ -73,7 +73,6 @@ trait Main {
         if($has_backend === false){
             throw new Exception('Backend.host option is required and will be defined in Node/System.Host.json aborting...');
         }
-        $class = 'System.Host';
         $node = new Node($object);
         $response_frontend = $node->record($class, $node->role_system(), $frontend_options);
         if($response_frontend === null){
@@ -82,6 +81,7 @@ trait Main {
             if($count_explode === 2){
                 $domain = $explode[0];
                 $extension = $explode[1];
+                $class = 'System.Host';
                 $node->create(
                     $class,
                     $node->role_system(),
@@ -109,6 +109,7 @@ trait Main {
                 ];
                 $mapper = $node->record($class, $node->role_system(), $mapper_options);
                 if($mapper === null){
+                    $class = 'System.Host.Mapper';
                     $node->create(
                         $class,
                         $node->role_system(),
@@ -118,6 +119,7 @@ trait Main {
                             'extension' => $extension,
                         ]
                     );
+                    $class = 'System.Host.Mapper';
                     $node->create(
                         $class,
                         $node->role_system(),
@@ -127,6 +129,7 @@ trait Main {
                             'extension' => $extension,
                         ]
                     );
+                    $class = 'System.Host.Mapper';
                     $node->create(
                         $class,
                         $node->role_system(),
@@ -143,6 +146,7 @@ trait Main {
                 $subdomain = $explode[0];
                 $domain = $explode[1];
                 $extension = $explode[2];
+                $class = 'System.Host';
                 $node->create(
                     $class,
                     $node->role_system(),
@@ -170,6 +174,7 @@ trait Main {
                 ];
                 $mapper = $node->record($class, $node->role_system(), $mapper_options);
                 if($mapper === null){
+                    $class = 'System.Host.Mapper';
                     $node->create(
                         $class,
                         $node->role_system(),
@@ -179,6 +184,7 @@ trait Main {
                             'extension' => $extension,
                         ]
                     );
+                    $class = 'System.Host.Mapper';
                     $node->create(
                         $class,
                         $node->role_system(),
@@ -188,6 +194,7 @@ trait Main {
                             'extension' => $extension,
                         ]
                     );
+                    $class = 'System.Host.Mapper';
                     $node->create(
                         $class,
                         $node->role_system(),
@@ -210,6 +217,7 @@ trait Main {
             if($count_explode === 2){
                 $domain = $explode[0];
                 $extension = $explode[1];
+                $class = 'System.Host';
                 $node->create(
                     $class,
                     $node->role_system(),
@@ -237,6 +245,7 @@ trait Main {
                 ];
                 $mapper = $node->record($class, $node->role_system(), $mapper_options);
                 if($mapper === null){
+                    $class = 'System.Host.Mapper';
                     $node->create(
                         $class,
                         $node->role_system(),
@@ -246,6 +255,7 @@ trait Main {
                             'extension' => $extension,
                         ]
                     );
+                    $class = 'System.Host.Mapper';
                     $node->create(
                         $class,
                         $node->role_system(),
@@ -255,6 +265,7 @@ trait Main {
                             'extension' => $extension,
                         ]
                     );
+                    $class = 'System.Host.Mapper';
                     $node->create(
                         $class,
                         $node->role_system(),
@@ -271,6 +282,7 @@ trait Main {
                 $subdomain = $explode[0];
                 $domain = $explode[1];
                 $extension = $explode[2];
+                $class = 'System.Host';
                 $node->create(
                     $class,
                     $node->role_system(),
@@ -298,6 +310,7 @@ trait Main {
                 ];
                 $mapper = $node->record($class, $node->role_system(), $mapper_options);
                 if($mapper === null){
+                    $class = 'System.Host.Mapper';
                     $node->create(
                         $class,
                         $node->role_system(),
@@ -307,6 +320,7 @@ trait Main {
                             'extension' => $extension,
                         ]
                     );
+                    $class = 'System.Host.Mapper';
                     $node->create(
                         $class,
                         $node->role_system(),
@@ -316,6 +330,7 @@ trait Main {
                             'extension' => $extension,
                         ]
                     );
+                    $class = 'System.Host.Mapper';
                     $node->create(
                         $class,
                         $node->role_system(),
