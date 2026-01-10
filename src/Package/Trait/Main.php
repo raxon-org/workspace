@@ -373,6 +373,15 @@ trait Main {
         if($notification){
             echo $notification;
         }
+        $command = Core::binary($object) . ' raxon/basic apache2 site backup';
+        Core::execute($object, $command, $output, $notification);
+        if($output){
+            echo $output;
+        }
+        if($notification){
+            echo $notification;
+        }
+
     }
 
     private function install_frontend($response_backend, $response_frontend, $options): void
