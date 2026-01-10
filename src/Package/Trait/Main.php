@@ -354,7 +354,7 @@ trait Main {
         $command = Core::binary($object) . ' raxon/basic apache2 site has -server.name=\'' . $options->server->name . '\'';
         $output = [];
         exec($command, $output);
-        $output = implode('', $output);
+        $output = implode(PHP_EOL, $output);
         d($output);
         if($output !== 'true') {
             $command = Core::binary($object) . ' raxon/basic apache2 site create -server.admin=\'' . $options->server->admin . '\' -server.name=\'' . $options->server->name . '\' -development';
