@@ -282,7 +282,6 @@ trait Main {
                     );
                 }
                 $response_backend = $node->record($class, $node->role_system(), $backend_options);
-                ddd($response_backend);
             } else {
                 throw new Exception('Backend host not found aborting...');
             }
