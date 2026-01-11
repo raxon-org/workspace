@@ -401,6 +401,10 @@ trait Main {
                 $options->frontend->host,
             ];
         }
+        Dir::create($object->config('project.dir.domain'), Dir::CHMOD);
+        File::permission($object, [
+            'domain' => $object->config('project.dir.domain'),
+        ]);
         $this->install_backend($response_backend, $response_frontend, $options);
         $this->install_frontend($response_backend, $response_frontend, $options);
         $command = Core::binary($object) . ' install raxon/account -patch';
