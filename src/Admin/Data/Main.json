@@ -2,10 +2,7 @@
     "url" : "{{config('domain.url')}}",
     "version": "1.0",
     "script" : [
-        "<script src=\"{{server.url('script.raxon.org')}}Js\/Priya\/Latest\/Priya.js\"></script>",
-        "<script src=\"{{config('domain.url')}}Js\/Ace\/01.03.24\/ace.js\"></script>",
-        "<script src=\"{{config('domain.url')}}Js\/Ace\/01.03.24\/ext-language_tools.js\"></script>",
-        "<script src=\"{{config('domain.url')}}Js\/Chart\/chart.umd.js\"></script>",
+        "<script src=\"{{config('domain.url')}}Js\/Priya\/0.3.18\/Priya.js\"></script>",
         "<script src=\"{{config('domain.url')}}Js\/Audio\/Recorder\/AudioProcessorNode.js\"></script>"
     ],
     "link" : [
