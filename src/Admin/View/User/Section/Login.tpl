@@ -1,4 +1,3 @@
-{{RAX}}
 <section name="user-login" style="display:none;">
     <h1><i class="fas fa-sign-in-alt"></i>{{__('user.login.title')}}</h1>
     <div class="user-login">
