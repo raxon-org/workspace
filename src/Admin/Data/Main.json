@@ -1,6 +1,6 @@
 {
     "url" : "{{config('domain.url')}}",
-    "version": "1.0",
+    "version": "{{app.version()}}",
     "script" : [
         "<script src=\"{{config('domain.url')}}Js\/Priya\/0.3.18\/Priya.js\"></script>",
         "<script src=\"{{config('domain.url')}}Js\/Audio\/Recorder\/AudioProcessorNode.js\"></script>"

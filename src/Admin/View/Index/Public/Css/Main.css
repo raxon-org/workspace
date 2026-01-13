@@ -6,7 +6,9 @@ html, body {
 
 body {
     background: rgba(0, 0, 0, 1);
+    /*
     background: url('/Application/Desktop/Image/Background/background-100.png');
+     */
     background-repeat: no-repeat;
     background-size: cover;
 }
