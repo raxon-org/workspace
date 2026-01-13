@@ -4,7 +4,7 @@
     <div class="user-login">
         <form
                 name="user_login"
-                data-url="{{literall}}{{server.url('{{/literall}}{{options('backend.host')}}{{literal}}')}}{//literal}}}User/Login/"
+                data-url="{{literal}}{{server.url(\"{{/literal}}{{options('backend.host')}}{{literal}}\")}}{{/literal}}User/Login/"
                 method="post"
         >
             <label for="email"><i class="fas fa-user""></i></label>
