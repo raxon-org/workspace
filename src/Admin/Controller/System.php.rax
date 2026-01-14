@@ -1,0 +1,46 @@
+{{$options = options()}}
+<?php
+namespace Domain\{{php.namespace.host($options.frontend.host)}}\Controller;
+
+use Raxon\App;
+
+use Raxon\Module\Controller;
+use Raxon\Module\File;
+
+use Exception;
+
+use Raxon\Exception\LocateException;
+use Raxon\Exception\UrlEmptyException;
+use Raxon\Exception\UrlNotExistException;
+use Raxon\Exception\ObjectException;
+use Raxon\Exception\FileWriteException;
+class System extends Controller {
+    const DIR = __DIR__ . DIRECTORY_SEPARATOR;
+
+    /**
+     * @throws ObjectException
+     * @throws LocateException
+     * @throws UrlEmptyException
+     * @throws UrlNotExistException
+     * @throws FileWriteException
+     * @throws Exception
+     */
+    public static function setup(App $object){
+        $name = User::name(__FUNCTION__, __CLASS__, '/');
+
+        $system = $object->config('project.dir.data') . 'Sqlite/System.db';
+        if(File::exist($system)){
+            Core::redirect('/User/Login/');
+        }
+        if(App::contentType($object) == App::CONTENT_TYPE_HTML){
+            $url = System::locate($object, 'Main/Main');
+            $object->data('template.name', $name);
+            $object->data('template.dir', User::DIR);
+            $view = System::response($object, $url);
+        } else {
+            $url = System::locate($object, $name);
+            $view = System::response($object, $url);
+        }
+        return $view;
+    }
+}

@@ -5,6 +5,7 @@ namespace Domain\{{php.namespace.host($options.frontend.host)}}\Controller;
 use Raxon\App;
 
 use Raxon\Module\Controller;
+use Raxon\Module\File;
 
 use Exception;
 
@@ -26,6 +27,11 @@ class User extends Controller {
      */
     public static function login(App $object){
         $name = User::name(__FUNCTION__, __CLASS__, '/');
+
+        $system = $object->config('project.dir.data') . 'Sqlite/System.db';
+        if(!File::exist($system)){
+            Core::redirect('/System/Setup/');
+        }
         if(App::contentType($object) == App::CONTENT_TYPE_HTML){
             $url = User::locate($object, 'Main/Main');
             $object->data('template.name', $name);

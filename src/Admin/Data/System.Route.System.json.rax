@@ -1,0 +1,17 @@
+{
+  "System": {
+    "Route": [
+      {
+        "name": "system-setup",
+        "path": "\/System\/Setup\/",
+        "host": "{{options('frontend.host')}}",
+        "controller": "Domain:{{app.controller.host(options('frontend.host'))}}:Controller:System:setup",
+        "priority": 2004,
+        "method": [
+          "GET",
+          "POST"
+        ]
+      }
+    ]
+  }
+}
