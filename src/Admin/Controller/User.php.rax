@@ -4,7 +4,7 @@ namespace Domain\{{php.namespace.host($options.frontend.host)}}\Controller;
 
 use Raxon\App;
 
-use Raxon\Core;
+use Raxon\Module\Core;
 use Raxon\Module\Controller;
 use Raxon\Module\File;
 
