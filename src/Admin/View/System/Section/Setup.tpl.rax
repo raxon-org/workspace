@@ -1,0 +1,33 @@
+<section name="system-setup" style="display:none;">
+    <h1><i class="fas fa-sign-in-alt"></i>{{literal}}{{__('system.setup.title')}}{{/literal}}</h1>
+    <div class="system-setup">
+        <form
+                name="system_setup"
+                data-url="{{literal}}{{server.url(\"{{/literal}}{{options('backend.host')}}{{literal}}\")}}{{/literal}}User/Login/"
+                method="post"
+        >
+            <label for="email"><i class="fas fa-user""></i></label>
+            <input id="email" type="email" autocomplete="email" name="email" value="{{literal}}{{$request.email|>default:''}}{{/literal}}" placeholder="{{literal}}{{__('system.setup.e-mail')}}{{/literal}}"/><br>
+            <label for="password"><i class="fas fa-key""></i></label>
+            <input id="password" type="password" autocomplete="on" name="password" value="{{literal}}{{$request.password|>default:''}}{{/literal}}" placeholder="{{literal}}{{__('system.setup.password')}}{{/literal}}"/><br>
+            <label for="password_repeat"><i class="fas fa-key""></i></label>
+            <input id="password_repeat" type="password" autocomplete="on" name="password_repeat" value="{{literal}}{{$request.password_repeat|>default:''}}{{/literal}}" placeholder="{{literal}}{{__('system.setup.password.repeat')}}{{/literal}}"/><br>
+            <button
+                    type="submit"
+            >
+                {{literal}}{{__('system.setup')}}{{/literal}}
+            </button>
+            <button
+                    type="button"
+                    class="password-forgot"
+                    data-url="{{literal}}{{route.get(route.prefix() + '-user-password-forgot')}}{{/literal}}"
+                    data-target="section[name='system-setup']"
+                    data-method="replace-with"
+            >
+                {{literal}}{{__('user.password.forgot')}}{{/literal}}
+            </button><br>
+            <span class="system-setup-error"></span>
+        </form>
+        <p class="version">{{literal}}{{__('user.version')}}{{/literal}}<small>{{literal}}{{app.version()}}{{/literal}}</small></p>
+    </div>
+</section>

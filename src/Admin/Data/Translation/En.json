@@ -16,5 +16,10 @@
     "user.password.forgot.success" : "An e-mail with instructions is send to \"{{request('email')}}\"",
     "user.version" : "Version ",
     "user.send" : "Send",
+    "system.setup.title" : "Setup",
+    "system.setup" : "Setup",
+    "system.setup.password" : "Password",
+    "system.setup.password.repeat" : "Password repeat",
+    "system.setup.e-mail" : "Email",
     "navigation.week" : "Week"
 }
