@@ -7,7 +7,7 @@ ready(() => {
     require(
     [
     root() + 'System/Css/Setup.css?' + version(),
-    root() + 'Application/Desktop/Css/Main.css?' + version(),
+    root() + 'Application/Desktop/Css/Desktop.css?' + version(),
     ],
     () => {
         setup.url("{{route.get('system-setup')}}");
