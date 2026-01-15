@@ -17,9 +17,9 @@ setup.set = (attribute, value) => {
 
 setup.url = (url) => {
     if(url){
-        login.set('url', url);
+        setup.set('url', url);
     }
-    return login.get('url');
+    return setup.get('url');
 }
 
 setup.data = (data) => {
