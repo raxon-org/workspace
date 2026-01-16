@@ -17,15 +17,7 @@
             >
                 {{literal}}{{__('system.setup')}}{{/literal}}
             </button>
-            <button
-                    type="button"
-                    class="password-forgot"
-                    data-url="{{literal}}{{route.get(route.prefix() + '-user-password-forgot')}}{{/literal}}"
-                    data-target="section[name='system-setup']"
-                    data-method="replace-with"
-            >
-                {{literal}}{{__('user.password.forgot')}}{{/literal}}
-            </button><br>
+            <br>
             <span class="system-setup-error"></span>
         </form>
         <p class="version">{{literal}}{{__('user.version')}}{{/literal}}<small>{{literal}}{{app.version()}}{{/literal}}</small></p>
