@@ -11,8 +11,6 @@ ready(() => {
     root() + 'Index/Css/Main.css?' + version(),
     ],
     () => {
-        console.log("{{route.prefix()}}-user-login")
-        console.log("{{route.get('user-login')}}");
         login.url("{{route.get('user-login')}}");
         login.init({
             "route" : {
