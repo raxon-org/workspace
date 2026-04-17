@@ -429,16 +429,29 @@ class Ollama extends Controller {
         }
     }
 
+    /**
+     * @throws Exception
+     */
     public static function tool(App $object){
-        d($object->request());;
+        switch($object->request('function')){
+            case 'directory_list':
+                $dir = new Dir();
+                $list = $dir->read($object->request('arguments.directory'));
+                return new Response($list, Response::TYPE_JSON);
+            default:
+                throw new Exception('Unknown function: ' . $object->request('function'));
+        }
     }
 
     public static function abort(App $object){
+
+        $command = Core::binary($object) . ' raxon/ollama kill';
+        exec($command, $output, $code);
+        echo implode(PHP_EOL, $output);
         /*
          * app raxon/task create -execute?[]=app raxon/ollama stop && sleep 1
          * app raxon/task create -execute?[]=app raxon/ollama stop && sleep 1
          * app raxon/task create -execute?[]=app raxon/ollama start
          */
-        d($object->request());;
     }
 }
