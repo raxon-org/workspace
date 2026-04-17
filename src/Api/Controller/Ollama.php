@@ -432,4 +432,13 @@ class Ollama extends Controller {
     public static function tool(App $object){
         d($object->request());;
     }
+
+    public static function abort(App $object){
+        /*
+         * app raxon/task create -execute?[]=app raxon/ollama stop && sleep 1
+         * app raxon/task create -execute?[]=app raxon/ollama stop && sleep 1
+         * app raxon/task create -execute?[]=app raxon/ollama start
+         */
+        d($object->request());;
+    }
 }
