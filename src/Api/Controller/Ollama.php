@@ -428,4 +428,8 @@ class Ollama extends Controller {
             }
         }
     }
+
+    public static function tool(App $object){
+        d($object->request());;
+    }
 }
