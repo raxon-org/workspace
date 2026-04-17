@@ -445,7 +445,7 @@ class Ollama extends Controller {
 
     public static function abort(App $object){
 
-        $command = Core::binary($object) . ' raxon/ollama kill';
+        $command = Core::binary($object) . ' raxon/task create -command[]="app raxon/ollama kill"';
         exec($command, $output, $code);
         echo implode(PHP_EOL, $output);
         /*
