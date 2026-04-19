@@ -35,7 +35,28 @@
               "GET",
               "POST"
             ]
-          }
-        ]
+          },
+          {
+            "#class": "System.Route",
+            "name": "ollama-tool",
+            "host": "{{options('backend.host')}}",
+            "controller": "Domain:{{app.controller.host(options('backend.host'))}}:Controller:Ollama:tool",
+            "path": "\/Ollama\/Tool\/",
+            "priority": 2039,
+            "method": [
+                "POST"
+            ]
+        },
+        {
+            "#class": "System.Route",
+            "name": "ollama-abort",
+            "host": "{{options('backend.host')}}",
+            "controller": "Domain:{{app.controller.host(options('backend.host'))}}:Controller:Ollama:abort",
+            "path": "\/Ollama\/Abort\/",
+            "priority": 2039,
+            "method": [
+                "POST"
+            ]
+        }
     }
 }
