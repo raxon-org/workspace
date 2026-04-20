@@ -1,0 +1,96 @@
+{{$options = options()}}
+<?php
+namespace Domain\{{php.namespace.host($options.backend.host)}}\Controller;
+
+use Doctrine\ORM\Exception\ORMException;
+use Package\Raxon\Account\Module\Permission;
+
+use Raxon\App;
+use Raxon\Config;
+
+use Raxon\Module\Core;
+use Raxon\Module\Controller;
+
+use Raxon\Module\Dir;
+use Raxon\Module\File;
+
+use Raxon\Module\Response;
+
+use Raxon\Doctrine\Module\Database;
+
+use Raxon\Node\Module\Node;
+
+use Exception;
+
+use Raxon\Exception\AuthorizationException;
+use Raxon\Exception\LocateException;
+use Raxon\Exception\UrlEmptyException;
+use Raxon\Exception\UrlNotExistException;
+use Raxon\Exception\FileWriteException;
+use Raxon\Exception\ObjectException;
+
+class Ollama extends Controller {
+    const DIR = __DIR__ . DIRECTORY_SEPARATOR;
+    const NAME = 'Raxon.Ollama';
+
+    public static function role_for_node(App $object, $role){
+        $role_permissions = $role->permissions ?? [];
+        $permissions = [];
+        foreach($role_permissions as $permission){
+            $permissions[] = (object) [
+                'name' => $permission->name,
+                'class' => 'Account.Permission'
+            ];
+        }
+        $node_role = (object) [
+            'name' => $role->name,
+            'rank' => $role->rank,
+            'uuid' => Core::uuid(),
+            'permission' => $permissions,
+        ];
+        return $node_role;
+    }
+
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     * @throws ORMException
+     */
+    public static function speech_to_text(App $object){
+        try {
+            $role = Permission::controller(
+                $object,
+                Ollama::NAME,
+                __FUNCTION__,
+                $user
+            );
+            if($role){
+                dd($object->request());
+//                $data = Core::object($object->request(), Core::OBJECT_JSON);
+
+//                $dir_model = $object->config('project.dir.model') . 'Audio/STT/';
+//                Dir::create($dir_model, Dir::CHMOD);
+//                $whisper = Whisper::fromPretrained('tiny.en', $dir_model);
+
+
+
+                /*
+                $audio = readAudio(__DIR__.'/sounds/sample.wav');
+                $segments = $whisper->transcribe($audio, 4);
+
+// Accessing segment data
+                foreach ($segments as $segment) {
+                    echo toTimestamp($segment->startTimestamp) . ': ' . $segment->text . "\n";
+                }
+                */
+
+                $response = new Response($create, Response::TYPE_JSON);
+                $response->status(200);
+                echo Response::output($object, $response);
+                exit(0);
+            }
+
+        } catch (Exception | FileWriteException | ObjectException | LocateException | UrlEmptyException | UrlNotExistException $exception){
+            return $exception;
+        }
+    }
+}
