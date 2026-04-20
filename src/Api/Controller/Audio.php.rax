@@ -29,7 +29,7 @@ use Raxon\Exception\UrlNotExistException;
 use Raxon\Exception\FileWriteException;
 use Raxon\Exception\ObjectException;
 
-class Ollama extends Controller {
+class Audio extends Controller {
     const DIR = __DIR__ . DIRECTORY_SEPARATOR;
     const NAME = 'Raxon.Ollama';
 
