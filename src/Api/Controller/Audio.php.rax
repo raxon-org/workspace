@@ -47,6 +47,10 @@ class Audio extends Controller {
                 $user
             );
             if($role){
+                $autoload =$object->config(App::AUTOLOAD);
+                dd($autoload);
+
+
                 $dir_model = $object->config('project.dir.model') . 'Audio/STT/';
                 Dir::create($dir_model, Dir::CHMOD);
                 $whisper = Whisper::fromPretrained('tiny.en', $dir_model);
