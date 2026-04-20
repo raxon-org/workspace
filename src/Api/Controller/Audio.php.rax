@@ -31,25 +31,7 @@ use Raxon\Exception\ObjectException;
 
 class Audio extends Controller {
     const DIR = __DIR__ . DIRECTORY_SEPARATOR;
-    const NAME = 'Raxon.Ollama';
-
-    public static function role_for_node(App $object, $role){
-        $role_permissions = $role->permissions ?? [];
-        $permissions = [];
-        foreach($role_permissions as $permission){
-            $permissions[] = (object) [
-                'name' => $permission->name,
-                'class' => 'Account.Permission'
-            ];
-        }
-        $node_role = (object) [
-            'name' => $role->name,
-            'rank' => $role->rank,
-            'uuid' => Core::uuid(),
-            'permission' => $permissions,
-        ];
-        return $node_role;
-    }
+    const NAME = 'Audio';
 
     /**
      * @throws \Doctrine\DBAL\Exception

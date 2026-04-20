@@ -27,6 +27,11 @@
       "name": "FileSystem:read",
       "#class": "Account.Permission",
       "#comment": "Application PhotoViewer read"
+    },
+    {
+      "name": "Raxon:Ollama:speech.to.text",
+      "#class": "Account.Permission",
+      "#comment": "Application Cpp Speech to Text"
     }
   ]
 }
