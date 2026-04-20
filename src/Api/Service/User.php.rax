@@ -14,7 +14,7 @@ use Raxon\Module\Handler;
 
 use Raxon\Doctrine\Module\Database;
 
-use Package\Raxon\Account\Service\Jwt;
+use Package\Raxon\Account\Module\Jwt; //not found error
 
 use DateTime;
 use Exception;
