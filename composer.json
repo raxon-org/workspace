@@ -5,11 +5,17 @@
     "keywords" : ["package", "workspace", "raxon", "library", "framework", "domain","raxon.org"],
     "homepage": "https://raxon.org",
     "require" : {
-        "raxon/framework": ">=2024.09.04"
+        "raxon/framework": ">=2024.09.04",
+        "codewithkyrian/whisper": "^1.0.0"
     },
     "license" : "MIT",
     "authors" : [{
         "name" : "Remco van der Velde",
         "email" : "development@universeorange.com"
-    }]
+    }],
+    "autoload" : {
+      "psr-4" : {
+        "Codewithkyrian\\Whisper\\" : "whisper.php/src/"
+      }
+    }
 }
