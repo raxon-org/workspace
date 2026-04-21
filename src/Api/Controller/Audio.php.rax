@@ -2,7 +2,7 @@
 <?php
 namespace Domain\{{php.namespace.host($options.backend.host)}}\Controller;
 
-//use Codewithkyrian\Whisper;
+use Package\Raxon\Audio\SpeechToText\Whisper;
 use Doctrine\ORM\Exception\ORMException;
 use Package\Raxon\Account\Module\Permission;
 
