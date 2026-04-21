@@ -55,7 +55,7 @@ class Audio extends Controller {
                 $segments = $whisper->transcribe($audio, 4);
                 // Accessing segment data
                 foreach ($segments as $segment) {
-                    echo toTimestamp($segment->startTimestamp) . ': ' . $segment->text . "\n";
+                    echo $segment->text . "\n";
                 }
 //                $response = new Response($create, Response::TYPE_JSON);
 //                $response->status(200);
