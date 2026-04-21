@@ -47,7 +47,9 @@ class Audio extends Controller {
                 $user
             );
             if($role){
-                require_once $object->config('project.dir.package') . 'Raxon/Audio/SpeechToText/Utils.php';
+                $url_util =  $object->config('project.dir.package') . 'Raxon/Audio/SpeechToText/Utils.php';
+                ddd($url_util);
+                require_once $url_util;
                 $dir_model = $object->config('project.dir.model') . 'Audio/STT/';
                 Dir::create($dir_model, Dir::CHMOD);
                 $whisper = Whisper::fromPretrained('tiny.en', $dir_model);
