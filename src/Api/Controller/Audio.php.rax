@@ -50,7 +50,7 @@ class Audio extends Controller {
                 $dir_model = $object->config('project.dir.model') . 'Audio/STT/';
                 Dir::create($dir_model, Dir::CHMOD);
                 $whisper = Whisper::fromPretrained('tiny.en', $dir_model);
-                $audio = readAudio($object->request()->get('url'));
+                $audio = readAudio($object->request('url');
                 $segments = $whisper->transcribe($audio, 4);
                 // Accessing segment data
                 foreach ($segments as $segment) {
