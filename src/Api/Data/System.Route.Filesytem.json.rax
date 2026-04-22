@@ -105,6 +105,16 @@
         "method": [
           "DELETE"
         ]
+      },
+      {
+          "name": "filesystem-download",
+          "path": "/FileSystem/Download/",
+          "host": "{{options('backend.host')}}",
+          "controller": "Domain:{{app.controller.host(options('backend.host'))}}:Controller:FileSystem:download",
+          "priority": 2010,
+          "method": [
+            "DELETE"
+          ]
       }
     ]
   }
