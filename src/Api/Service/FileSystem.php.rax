@@ -90,6 +90,69 @@ class FileSystem {
         throw new Exception('Role (' . $role->name . ') undefined...');
     }
 
+     /**
+         * @throws Exception
+         */
+        public static function download(App $object, object $role, object|null $user=null): array
+        {
+            if(
+                property_exists($role, 'name') &&
+                in_array(
+                    $role->name, [
+                    'ROLE_ADMIN',
+                    'ROLE_SYSTEM'
+                ])
+            ){
+                $type = $object->request('type');
+                $url = htmlspecialchars_decode($object->request('url'), ENT_HTML5);
+                d($tpe);
+                dd($url);
+                $record = [];
+                $record['url'] = $url;
+                switch(strtolower($type)){
+                    case FileSystem::TYPE_DIRECTORY :
+                        if(File::exist($url)){
+                            throw new Exception('File already exists...');
+                        }
+                        $create = Dir::create($url, Dir::CHMOD);
+                        if(!$create){
+                            throw new Exception('Failed to create directory...');
+                        }
+                        $record['type'] = Dir::TYPE;
+                    break;
+                    case FileSystem::TYPE_FILE :
+                        if(File::exist($url)){
+                            throw new Exception('File already exists...');
+                        }
+                        $content = $object->request('content');
+                        if($content){
+                            $write = File::write($url, $content);
+                            if(!$write){
+                                throw new Exception('Failed to create file...');
+                            }
+                        } else {
+                            $touch = File::touch($url);
+                            if(!$touch){
+                                throw new Exception('Failed to create file...');
+                            }
+                        }
+                        $record['type'] = File::TYPE;
+                    break;
+                    case 'exist':
+                        $record['exist'] = File::exist($url);
+                    break;
+                    default:
+                        throw new Exception('Type (' . $type . ') undefined in create...');
+                }
+                $record['extension'] = File::extension($url);
+                $record['name'] = File::basename($url, '.' . $record['extension']);
+                $record['size'] = File::size($url);
+                $record['isModified'] = new DateTime();
+                return $record;
+            }
+            throw new Exception('Role (' . $role->name . ') undefined...');
+        }
+
     /**
      * @throws Exception
      */

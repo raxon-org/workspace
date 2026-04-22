@@ -48,6 +48,32 @@ class FileSystem extends Controller {
         }
     }
 
+        /**
+         * @throws UrlEmptyException
+         * @throws ObjectException
+         * @throws Exception
+         */
+        public static function download(App $object){
+            $role = Permission::controller($object,Service::NAME, __FUNCTION__, $user);
+            if(
+                $role->name !== 'ROLE_ANONYMOUS' &&
+                $user
+            ){
+                $data = Service::download($object, $role, $user);
+                return new Response(
+                    $data,
+                    Response::TYPE_JSON
+                );
+            } else {
+                $token = Server::token();
+                if($token){
+                    throw new AuthorizationException('Invalid token.');
+                } else {
+                    Core::redirect("/Readme");
+                }
+            }
+        }
+
     /**
      * @throws UrlEmptyException
      * @throws ObjectException
