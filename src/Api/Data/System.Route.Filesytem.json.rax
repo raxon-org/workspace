@@ -65,6 +65,16 @@
         ]
       },
       {
+        "name": "filesystem-download",
+        "path": "/FileSystem/Download/",
+        "host": "{{options('backend.host')}}",
+        "controller": "Domain:{{app.controller.host(options('backend.host'))}}:Controller:FileSystem:download",
+        "priority": 2005,
+        "method": [
+          "DELETE"
+        ]
+      }
+      {
         "name": "filesystem-create",
         "path": "/FileSystem/{{literal}}{{$type}}{{/literal}}/",
         "host": "{{options('backend.host')}}",
@@ -105,16 +115,6 @@
         "method": [
           "DELETE"
         ]
-      },
-      {
-          "name": "filesystem-download",
-          "path": "/FileSystem/Download/",
-          "host": "{{options('backend.host')}}",
-          "controller": "Domain:{{app.controller.host(options('backend.host'))}}:Controller:FileSystem:download",
-          "priority": 2010,
-          "method": [
-            "DELETE"
-          ]
       }
     ]
   }
