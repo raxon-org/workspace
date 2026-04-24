@@ -50,6 +50,7 @@ class Audio extends Controller {
                 $command = 'app raxon/task create -controller[]=Domain:Api.Raxon.Cloud:Controller:Audio.speech.to.text.task';
                 exec($command, $output);
                 echo implode("\n", $output);
+                throw new Exception('test');
                 /*
                 $dir_model = $object->config('project.dir.asset') . 'Audio/STT/';
                 Dir::create($dir_model, Dir::CHMOD);
