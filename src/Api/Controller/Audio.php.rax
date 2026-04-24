@@ -47,6 +47,18 @@ class Audio extends Controller {
                 $user
             );
             if($role){
+                $command = 'app raxon/task create -controller[]=Domain:Api.Raxon.Cloud:Controller:Audio.speech.to.text.task';
+                Core::interactive();
+                $output='';
+                $notification='';
+                Core::execute($object, $command, $output, $notification);
+                if($output){
+                    echo $output;
+                }
+                if($notification){
+                    echo $notification;
+                }
+                /*
                 $dir_model = $object->config('project.dir.asset') . 'Audio/STT/';
                 Dir::create($dir_model, Dir::CHMOD);
                 //$whisper = Whisper::fromPretrained('tiny.en', $dir_model);
@@ -61,6 +73,7 @@ class Audio extends Controller {
 //                $response->status(200);
 //                echo Response::output($object, $response);
                 exit(0);
+                */
             }
 
         } catch (Exception | FileWriteException | ObjectException | LocateException | UrlEmptyException | UrlNotExistException $exception){
