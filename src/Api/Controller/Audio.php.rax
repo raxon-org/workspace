@@ -42,7 +42,7 @@ class Audio extends Controller {
         try {
             $role = Permission::controller(
                 $object,
-                Ollama::NAME,
+                Audio::NAME,
                 __FUNCTION__,
                 $user
             );
@@ -82,7 +82,7 @@ class Audio extends Controller {
             try {
                 $role = Permission::controller(
                     $object,
-                    Ollama::NAME,
+                    Audio::NAME,
                     __FUNCTION__,
                     $user
                 );
