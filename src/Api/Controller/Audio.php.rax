@@ -47,7 +47,7 @@ class Audio extends Controller {
                 $user
             );
             if($role){
-                $command = 'app raxon/task create -controller[]=Domain:Api.Raxon.Cloud:Controller:Audio.speech.to.text.task';
+                $command = "app raxon/task create -controller[]='Domain:Api.Raxon.Cloud:Controller:Audio.speech.to.text.task'";
                 exec($command, $output);
                 throw new Exception(implode("\n", $output));
                 /*
