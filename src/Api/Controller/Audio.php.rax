@@ -47,6 +47,7 @@ class Audio extends Controller {
                 $user
             );
             if($role){
+                //task create needs to return an uuid.
                 $command = "app raxon/task create -controller[]='Domain:Api.Raxon.Cloud:Controller:Audio.speech.to.text.task'";
                 exec($command, $output);
                 throw new Exception(implode("\n", $output));
@@ -72,4 +73,37 @@ class Audio extends Controller {
             return $exception;
         }
     }
+
+     /**
+         * @throws \Doctrine\DBAL\Exception
+         * @throws ORMException
+         */
+        public static function speech_to_text_task(App $object){
+            try {
+                $role = Permission::controller(
+                    $object,
+                    Ollama::NAME,
+                    __FUNCTION__,
+                    $user
+                );
+                if($role){
+                    $dir_model = $object->config('project.dir.asset') . 'Audio/STT/';
+                    Dir::create($dir_model, Dir::CHMOD);
+                    //$whisper = Whisper::fromPretrained('tiny.en', $dir_model);
+                    $whisper = Whisper::fromPretrained('small.en', $dir_model);
+                    $audio = readAudio($object->request('url'));
+                    $segments = $whisper->transcribe($audio, 4);
+                    // Accessing segment data
+                    foreach ($segments as $segment) {
+                        echo $segment->text . "\n";
+                    }
+    //                $response = new Response($create, Response::TYPE_JSON);
+    //                $response->status(200);
+    //                echo Response::output($object, $response);
+                    exit(0);
+                }
+            } catch (Exception | FileWriteException | ObjectException | LocateException | UrlEmptyException | UrlNotExistException $exception){
+                return $exception;
+            }
+        }
 }
