@@ -79,6 +79,7 @@ class Audio extends Controller {
          * @throws ORMException
          */
         public static function speech_to_text_task(App $object){
+            d($object);
             try {
                 $role = Permission::controller(
                     $object,
