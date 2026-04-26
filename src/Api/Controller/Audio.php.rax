@@ -50,7 +50,7 @@ class Audio extends Controller {
                 //task create needs to return an uuid.
                 $command = "app raxon/task create -controller[]='Domain:Api.Raxon.Cloud:Controller:Audio.speech.to.text.task'";
                 exec($command, $output);
-                throw new Exception(Core::object(implode("\n", $output)));
+                throw new Exception(json_encode(Core::object(implode("\n", $output))));
                 /*
                 $dir_model = $object->config('project.dir.asset') . 'Audio/STT/';
                 Dir::create($dir_model, Dir::CHMOD);
