@@ -54,6 +54,7 @@ class Audio extends Controller {
                 $command = 'app raxon/task create -controller[]=' . $name . ' -user.email=' . $user->email;
                 exec($command, $output);
                 $record = Core::object(implode("\n", $output));
+                dd($record);
                 $config = Database::config($object);
                 $connection = $object->config('doctrine.environment.system.*');
                 $connection->manager = Database::entity_manager($object, $config, $connection);
