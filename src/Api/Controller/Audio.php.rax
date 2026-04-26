@@ -72,7 +72,7 @@ class Audio extends Controller {
                         $entity . '.read.output'
                     );
                     $record = [];
-                    $record = Entity::output(
+                    $record = (object) Entity::output(
                         $object,
                         $repository_record,
                         $expose,
