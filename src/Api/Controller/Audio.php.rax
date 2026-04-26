@@ -84,7 +84,7 @@ class Audio extends Controller {
                     if($record->status === 'completed'){
                         break;
                     }
-                    usleep(1/60 * 1000);
+                    usleep((int) (1/60 * 1000 * 1000);
                 }
                 /*
                 $dir_model = $object->config('project.dir.asset') . 'Audio/STT/';
