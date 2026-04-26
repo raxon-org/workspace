@@ -51,7 +51,7 @@ class Audio extends Controller {
                 //task create needs to return an uuid.
                 //need host backend
                 $name = Controller::name("Domain:{{$options.backend.host}}:Controller:Audio");
-                ddd($name);
+                d($name);
                 $command = "app raxon/task create -controller[]='Domain:Api.Raxon.Cloud:Controller:Audio.speech.to.text.task'";
                 exec($command, $output);
                 $record = Core::object(implode("\n", $output));
