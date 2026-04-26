@@ -81,7 +81,7 @@ class Audio extends Controller {
                         $record,
                         $role_system
                     );
-                    throw new Exception($record);
+                    ddd($record);
                     if($record->status === 'completed'){
                         break;
                     }
