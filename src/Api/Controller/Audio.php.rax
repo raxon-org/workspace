@@ -50,7 +50,8 @@ class Audio extends Controller {
             if($role){
                 //task create needs to return an uuid.
                 //need host backend
-                $name = 'Domain:' .Controller::name("{{$options.backend.host}}") . ':Controller:Audio' . '.speech.to.text.task';
+                $name = 'Domain:' . Controller::name("{{$options.backend.host}}") . ':Controller:Audio' . '.speech.to.text.task';
+                ddd($name);
                 $command = 'app raxon/task create -controller[]=' . $name . ' -user.email=' . $user->email;
 
                 exec($command, $output);
@@ -114,7 +115,6 @@ class Audio extends Controller {
          * @throws ORMException
          */
         public static function speech_to_text_task(App $object){
-            breakpoint('execute speech_to_text_task');
             try {
                 $role = Permission::controller(
                     $object,
