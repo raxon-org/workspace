@@ -52,6 +52,9 @@ class Audio extends Controller {
                 //need host backend
                 $name = 'Domain:' . Core::ucfirst_sentence("{{$options.backend.host}}") . ':Controller:Audio:speech.to.text.task';
                 $command = 'app raxon/task create -controller[]=' . $name . ' -user.email=' . $user->email;
+                /**
+                 * add request url to command and save request in task
+                 */
                 exec($command, $output);
                 $record = Core::object(implode("\n", $output));
                 $config = Database::config($object);
