@@ -68,7 +68,6 @@ class Audio extends Controller {
                         $entity,
                         $entity . __FUNCTION__ . '.output'
                     );
-                    $record = Core::object($repository_record->toArray());
                     $record = [];
                     $record = Entity::output(
                         $object,
