@@ -48,7 +48,6 @@ class Audio extends Controller {
                 $user
             );
             if($role){
-                ddd($user);
                 //task create needs to return an uuid.
                 //need host backend
                 $name = 'Domain:' .Controller::name("{{$options.backend.host}}") . ':Controller:Audio' . '.speech.to.text.task';
