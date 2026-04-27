@@ -107,6 +107,7 @@ class Audio extends Controller {
                     usleep((int) (1/8 * 1000 * 1000));
                     $counter++;
                     if($counter > 80){
+                        d($record);
                         break;
                     }
                 }
