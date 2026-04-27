@@ -184,6 +184,7 @@ class Audio extends Controller {
                     $destination = new Destination();
                     $route = (object) ['controller' => $object->request('controller') . '\\' . $object->request('function')];
                     $route = Route::controller($route);
+                    ddd($route);
                     $destination->set('controller',  $route->controller);
                     $destination->set('function', $route->function);
                     App::controller($object, $destination);
