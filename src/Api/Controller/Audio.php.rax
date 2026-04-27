@@ -127,6 +127,7 @@ class Audio extends Controller {
                         break;
                     }
                 }
+                exit(0);
             }
         } catch (Exception | FileWriteException | ObjectException | LocateException | UrlEmptyException | UrlNotExistException $exception){
             return $exception;
