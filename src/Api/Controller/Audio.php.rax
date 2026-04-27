@@ -101,18 +101,17 @@ class Audio extends Controller {
                         $role_system
                     );
                     if($record->status === Status::COMPLETED){
-                        d($record->status);
-                        //throw new Exception('Task completed');
                         break;
                     }
-                    d($record->status);
                     usleep((int) (1/4 * 1000 * 1000));
                     $counter++;
                     if($counter > 40){
                         break;
                     }
                 }
-                ddd($counter);
+                ddd($record->output);
+
+
                 /*
                 $dir_model = $object->config('project.dir.asset') . 'Audio/STT/';
                 Dir::create($dir_model, Dir::CHMOD);
