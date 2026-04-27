@@ -84,7 +84,7 @@ class Audio extends Controller {
                     $connection->manager->clear();
                     if($app_cache){
                         $object->set(App::CACHE, $app_cache);
-                    }                                        }
+                    }
                     $repository = $connection->manager->getRepository('\\Entity\\Task');
                     $repository_record = $repository->findOneBy([
                         'uuid' => $record->uuid
@@ -115,14 +115,6 @@ class Audio extends Controller {
                         break;
                     }
                 }
-                /*
-                if(is_array($record->output)){
-                    ddd($record);
-                    foreach($record->output as $output){
-                        d($output);
-                    }
-                }
-                */
             }
         } catch (Exception | FileWriteException | ObjectException | LocateException | UrlEmptyException | UrlNotExistException $exception){
             return $exception;
