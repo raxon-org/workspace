@@ -184,10 +184,11 @@ class Audio extends Controller {
                     ];
                     OutputFilter::on($object, $list);
                     $destination = new Destination();
-                    $route = (object) ['controller' => $object->request('controller') . '\' . $object->request('function')];;
+                    $route = (object) ['controller' => $object->request('controller') . '\' . $object->request('function')];
                     ddd($route);
+                    /*
                     $route = Route::controller($route);
-                    $destination->set('controller',  $route->controller);;
+                    $destination->set('controller',  $route->controller);
                     $destination->set('function', $route->function);
                     App::controller($object, $destination);
                     $controller = $destination->get('controller');
@@ -197,6 +198,7 @@ class Audio extends Controller {
                         'methods' => $methods,
                         'response' => $output
                     ]);
+                    */
                 }
             } catch (Exception | FileWriteException | ObjectException | LocateException | UrlEmptyException | UrlNotExistException $exception){
                 return $exception;
