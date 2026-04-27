@@ -140,8 +140,8 @@ class Audio extends Controller {
                 if($role){
                     $dir_model = $object->config('project.dir.asset') . 'Audio/STT/';
                     Dir::create($dir_model, Dir::CHMOD);
-                    //$whisper = Whisper::fromPretrained('tiny.en', $dir_model);
-                    $whisper = Whisper::fromPretrained('small.en', $dir_model);
+                    $whisper = Whisper::fromPretrained('tiny.en', $dir_model);
+                    //$whisper = Whisper::fromPretrained('small.en', $dir_model);
                     $audio = readAudio($object->request('url'));
                     $segments = $whisper->transcribe($audio, 4);
                     // Accessing segment data
@@ -187,7 +187,7 @@ class Audio extends Controller {
                         'function' => $function,
                         'response' => $output
                     ]);
-                    d($output);
+                    ddd($output);
                     return $output;
                 }
             } catch (Exception | FileWriteException | ObjectException | LocateException | UrlEmptyException | UrlNotExistException $exception){
