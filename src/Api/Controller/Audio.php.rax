@@ -90,6 +90,7 @@ class Audio extends Controller {
                         $record,
                         $role_system
                     );
+                    dd($record);
                     if($record->status === 'completed'){
                         break;
                     }
