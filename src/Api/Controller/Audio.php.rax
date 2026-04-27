@@ -200,7 +200,7 @@ class Audio extends Controller {
                         'function' => $function,
                         'response' => $output
                     ]);
-                    d($output;
+                    d($output);
                     return $output;
                 }
             } catch (Exception | FileWriteException | ObjectException | LocateException | UrlEmptyException | UrlNotExistException $exception){
