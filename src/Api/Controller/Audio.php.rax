@@ -125,7 +125,7 @@ class Audio extends Controller {
          * @throws \Doctrine\DBAL\Exception
          * @throws ORMException
          */
-        public static function speech_to_text_task(App $object){
+        public static function speech_to_text_task(App $object): array{
             try {
                 $role = Permission::controller(
                     $object,
@@ -141,8 +141,10 @@ class Audio extends Controller {
                     $audio = readAudio($object->request('url'));
                     $segments = $whisper->transcribe($audio, 4);
                     // Accessing segment data
+                    $output = [];
+                    ddd($segments);
                     foreach ($segments as $segment) {
-                        echo $segment->text . "\n";
+                        $output[] = $segment->text . "\n";
                     }
     //                $response = new Response($create, Response::TYPE_JSON);
     //                $response->status(200);
