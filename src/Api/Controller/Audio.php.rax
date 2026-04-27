@@ -70,6 +70,7 @@ class Audio extends Controller {
                 $entity = 'Task';
                 $node = new Node($object);
                 $role_system = $node->role_system();
+                $counter = 0;
                 while(true){
                     $repository = $connection->manager->getRepository('\\Entity\\Task');
                     $repository_record = $repository->findOneBy([
@@ -95,6 +96,10 @@ class Audio extends Controller {
                     }
                     d($record->status);
                     usleep((int) (1/60 * 1000 * 1000));
+                    $counter++;
+                    if($counter > 300){
+                        break;
+                    }
                 }
                 /*
                 $dir_model = $object->config('project.dir.asset') . 'Audio/STT/';
