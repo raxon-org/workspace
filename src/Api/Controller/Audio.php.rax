@@ -3,6 +3,7 @@
 namespace Domain\{{php.namespace.host($options.backend.host)}}\Controller;
 
 use Package\Raxon\Audio\SpeechToText\Whisper;
+use Package\Raxon\Task\Module\Status;
 use Raxon\Doctrine\Module\Entity;
 use Doctrine\ORM\Exception\ORMException;
 use Package\Raxon\Account\Module\Permission;
@@ -91,7 +92,7 @@ class Audio extends Controller {
                         $role_system
                     );
                     dd($record);
-                    if($record->status === 'completed'){
+                    if($record->status === Status::COMPLETED){
                         break;
                     }
                     usleep((int) (1/60 * 1000 * 1000));
