@@ -109,6 +109,7 @@ class Audio extends Controller {
                         break;
                     }
                 }
+                d($record);
                 if(is_array($record->output)){
                     ddd($record);
                     foreach($record->output as $output){
