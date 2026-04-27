@@ -103,9 +103,9 @@ class Audio extends Controller {
                     if($record->status === Status::COMPLETED){
                         break;
                     }
-                    usleep((int) (1/4 * 1000 * 1000));
+                    usleep((int) (1/8 * 1000 * 1000));
                     $counter++;
-                    if($counter > 40){
+                    if($counter > 80){
                         break;
                     }
                 }
@@ -153,8 +153,8 @@ class Audio extends Controller {
                 if($role){
                     $dir_model = $object->config('project.dir.asset') . 'Audio/STT/';
                     Dir::create($dir_model, Dir::CHMOD);
-                    $whisper = Whisper::fromPretrained('tiny.en', $dir_model);
-                    //$whisper = Whisper::fromPretrained('small.en', $dir_model);
+                    //$whisper = Whisper::fromPretrained('tiny.en', $dir_model);
+                    $whisper = Whisper::fromPretrained('small.en', $dir_model);
                     $audio = readAudio($object->request('url'));
                     $segments = $whisper->transcribe($audio, 4);
                     // Accessing segment data
@@ -184,7 +184,7 @@ class Audio extends Controller {
                     ];
                     OutputFilter::on($object, $list);
                     $destination = new Destination();
-                    $route = (object) ['controller' => $object->request('controller')];;
+                    $route = (object) ['controller' => $object->request('controller') . ':' . $object->request('function')];;
                     ddd($route);
                     $route = Route::controller($route);
                     $destination->set('controller',  $route->controller);;
