@@ -142,7 +142,8 @@ class Audio extends Controller {
          * @throws \Doctrine\DBAL\Exception
          * @throws ORMException
          */
-        public static function speech_to_text_task(App $object): array | Exception {
+        public static function speech_to_text_task(App $object): array | Exception
+        {
             try {
                 $role = Permission::controller(
                     $object,
@@ -184,7 +185,7 @@ class Audio extends Controller {
                     ];
                     OutputFilter::on($object, $list);
                     $destination = new Destination();
-                    $route = (object) ['controller' => $object->request('controller') . '\' . $object->request('function')];
+                    $route = (object) ['controller' => $object->request('controller') . '\\' . $object->request('function')];
                     ddd($route);
                     /*
                     $route = Route::controller($route);
