@@ -14,13 +14,16 @@ use Raxon\Config;
 use Raxon\Module\Core;
 use Raxon\Module\Controller;
 
+use Raxon\Module\Destination;
 use Raxon\Module\Dir;
 use Raxon\Module\File;
 
+use Raxon\Module\OutputFilter;
 use Raxon\Module\Response;
 
 use Raxon\Doctrine\Module\Database;
 
+use Raxon\Module\Route;
 use Raxon\Node\Module\Node;
 
 use Exception;
@@ -59,9 +62,6 @@ class Audio extends Controller {
                     }
                     $command .= ' -request.' . $key . '=' . $value;
                 }
-                /**
-                 * add request url to command and save request in task
-                 */
                 exec($command, $output);
                 $record = Core::object(implode("\n", $output));
                 $config = Database::config($object);
@@ -167,10 +167,39 @@ class Audio extends Controller {
                             'end' => $segment->endTimestamp,
                         ];
                     }
-                    return $output;
+                    //outputfilter
+                    $list = [
+                        (object) [
+                            "uuid" => Core::uuid(),
+                            "options" => (object) [
+                                "priority" => 10,
+                                "command" => [],
+                                "controller" => [
+                                    "Package:Raxon:Audio:Output:Filter:Stt:Segment:segment.filter"
+                                ]
+                            ],
+                            "route" => "*",
+                            "#class" => "System.Output.Filter"
+                        ]
+                    ];
+                    OutputFilter::on($object, $list);
+                    $destination = new Destination();
+                    $route = (object) ['controller' => $object->request('controller')];;
+                    $route = Route::controller($route);
+                    $destination->set('controller',  $route->controller);;
+                    $destination->set('function', $route->function);
+                    App::controller($object, $destination);
+                    $controller = $destination->get('controller');
+                    $methods = get_class_methods($controller);
+                    $function = $destination->get('function');
+                    return OutputFilter::trigger($object, $destination, [
+                        'methods' => $methods,
+                        'response' => $output
+                    ]);
                 }
             } catch (Exception | FileWriteException | ObjectException | LocateException | UrlEmptyException | UrlNotExistException $exception){
                 return $exception;
             }
+            return [];
         }
 }
