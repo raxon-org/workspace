@@ -187,6 +187,7 @@ class Audio extends Controller {
                         'function' => $function,
                         'response' => $output
                     ]);
+                    /*
                     //make patch of task and update output
                     $config = Database::config($object);
                     $connection = $object->config('doctrine.environment.system.*');
@@ -200,6 +201,7 @@ class Audio extends Controller {
                     ]);
                     $record-
                     ddd($output);
+                    */
                     return $output;
                 }
             } catch (Exception | FileWriteException | ObjectException | LocateException | UrlEmptyException | UrlNotExistException $exception){
