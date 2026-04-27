@@ -106,7 +106,8 @@ class Audio extends Controller {
                             $record,
                             $role_system
                         );
-                        ddd($record);
+                        $record->counter = $counter;
+                        d($record);
                     }
                     usleep((int) (1/8 * 1000 * 1000));
                     $counter++;
