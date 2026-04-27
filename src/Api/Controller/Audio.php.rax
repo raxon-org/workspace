@@ -56,7 +56,7 @@ class Audio extends Controller {
                     if($key === 'request'){
                         continue;
                     }
-                    $command .= ' -' . $key . '=' . $value;
+                    $command .= ' -request.' . $key . '=' . $value;
                 }
                 dd($command);
                 /**
