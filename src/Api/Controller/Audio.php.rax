@@ -64,14 +64,18 @@ class Audio extends Controller {
                 }
                 exec($command, $output);
                 $record = Core::object(implode("\n", $output));
-                $config = Database::config($object);
-                $connection = $object->config('doctrine.environment.system.*');
-                $connection->manager = Database::entity_manager($object, $config, $connection);
                 $entity = 'Task';
                 $node = new Node($object);
                 $role_system = $node->role_system();
                 $counter = 0;
                 while(true){
+                    $app_cache = $object->get(App::CACHE);
+                    if($app_cache){
+                        d($app_cache);
+                    }
+                    $config = Database::config($object);
+                    $connection = $object->config('doctrine.environment.system.*');
+                    $connection->manager = Database::entity_manager($object, $config, $connection);
                     $cache = $connection->manager->getConfiguration()->getQueryCache();
                     $cache->clear();
                     $cache = $connection->manager->getConfiguration()->getMetadataCache();
