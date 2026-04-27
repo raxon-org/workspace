@@ -109,7 +109,8 @@ class Audio extends Controller {
                         $record->counter = $counter;
                         if(property_exists($record, 'output')){
                             foreach($record->output as $key => $value){
-                                if(is_array($value) && array_key_exists('text', $value){
+                                if(is_array($value) && array_key_exists('text', $value)){
+                                    //add some json from to here and add a form for it...
                                     if(stristr($value['text'], 'blank_audio')){
                                         echo ' ';
                                     } else {
