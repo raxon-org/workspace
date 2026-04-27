@@ -104,8 +104,16 @@ class Audio extends Controller {
                         $record,
                         $role_system
                     );
+                    ddD($record);
                     if($record->status === Status::COMPLETED){
-                        ddd($record);
+                        /*
+                        if(property_exists($record, 'output')){
+                            if(property_exists($record->output, 'response')){
+                                throw new Exception($record->output->error);
+                            }
+                            return $record->output;
+                        }
+                        */
                         break;
                     }
                     usleep((int) (1/8 * 1000 * 1000));
