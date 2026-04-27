@@ -195,6 +195,7 @@ class Audio extends Controller {
                     $function = $destination->get('function');
                     $output = OutputFilter::trigger($object, $destination, [
                         'methods' => $methods,
+                        'function' => $function,
                         'response' => $output
                     ]);
                     dd($output);
