@@ -87,24 +87,30 @@ class Audio extends Controller {
                     }
                     $repository = $connection->manager->getRepository('\\Entity\\Task');
                     $repository_record = $repository->findOneBy([
-                        'uuid' => $record->uuid
+                        'uuid' => $record->uuid,
+                        'status' => Status::COMPLETED
                     ]);
-                    $expose = Entity::expose_get(
-                        $object,
-                        $entity,
-                        $entity . '.read.output'
-                    );
-                    $record = [];
-                    $record = (object) Entity::output(
-                        $object,
-                        $repository_record,
-                        $expose,
-                        $entity,
-                        'read',
-                        $record,
-                        $role_system
-                    );
-                    ddD($record);
+                    if($repository_record !== null){
+                        $expose = Entity::expose_get(
+                            $object,
+                            $entity,
+                            $entity . '.read.output'
+                        );
+                        $record = [];
+                        $record = (object) Entity::output(
+                            $object,
+                            $repository_record,
+                            $expose,
+                            $entity,
+                            'read',
+                            $record,
+                            $role_system
+                        );
+                        ddd($record);
+                    }
+
+                    /*
+
                     if($record->status === Status::COMPLETED){
                         /*
                         if(property_exists($record, 'output')){
@@ -116,6 +122,7 @@ class Audio extends Controller {
                         */
                         break;
                     }
+                    */
                     usleep((int) (1/8 * 1000 * 1000));
                     $counter++;
                     if($counter > 80){
