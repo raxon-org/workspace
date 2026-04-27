@@ -193,10 +193,12 @@ class Audio extends Controller {
                     $controller = $destination->get('controller');
                     $methods = get_class_methods($controller);
                     $function = $destination->get('function');
-                    return OutputFilter::trigger($object, $destination, [
+                    $output = OutputFilter::trigger($object, $destination, [
                         'methods' => $methods,
                         'response' => $output
                     ]);
+                    dd($output);
+                    return $output;
                 }
             } catch (Exception | FileWriteException | ObjectException | LocateException | UrlEmptyException | UrlNotExistException $exception){
                 return $exception;
