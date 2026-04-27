@@ -203,7 +203,7 @@ class Audio extends Controller {
                     $record-
                     ddd($output);
                     */
-                    return $output->response ?? [];
+                    return $output ?? [];
                 }
             } catch (Exception | FileWriteException | ObjectException | LocateException | UrlEmptyException | UrlNotExistException $exception){
                 return $exception;
