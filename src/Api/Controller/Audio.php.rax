@@ -142,7 +142,6 @@ class Audio extends Controller {
                     $segments = $whisper->transcribe($audio, 4);
                     // Accessing segment data
                     $output = [];
-                    ddd($segments);
                     foreach ($segments as $segment) {
                         $output[] = (object) [
                             'segment' => $segment->segment,
