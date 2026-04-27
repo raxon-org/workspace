@@ -109,6 +109,9 @@ class Audio extends Controller {
                         break;
                     }
                 }
+                if(is_array($record->output)){
+
+                }
                 ddd($record->output);
 
 
