@@ -187,6 +187,7 @@ class Audio extends Controller {
                         'function' => $function,
                         'response' => $output
                     ]);
+                    //make patch of task and update output
                     ddd($output);
                     return $output;
                 }
