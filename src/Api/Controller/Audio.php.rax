@@ -72,6 +72,14 @@ class Audio extends Controller {
                 $role_system = $node->role_system();
                 $counter = 0;
                 while(true){
+                    $cache = $connection->manager->getConfiguration()->getQueryCache();
+                    $cache->clear();
+                    $cache = $connection->manager->getConfiguration()->getMetadataCache();
+                    $cache->clear();
+                    $cache = $connection->manager->getConfiguration()->getResultCache();
+                    $cache->clear();
+                    $cache = $connection->manager->getUnitOfWork();
+                    $cache->clear();
                     $connection->manager->clear();
                     $repository = $connection->manager->getRepository('\\Entity\\Task');
                     $repository_record = $repository->findOneBy([
