@@ -72,6 +72,7 @@ class Audio extends Controller {
                 $role_system = $node->role_system();
                 $counter = 0;
                 while(true){
+                    $connection->manager->clear();
                     $repository = $connection->manager->getRepository('\\Entity\\Task');
                     $repository_record = $repository->findOneBy([
                         'uuid' => $record->uuid
