@@ -101,7 +101,8 @@ class Audio extends Controller {
                         $role_system
                     );
                     if($record->status === Status::COMPLETED){
-                        throw new Exception('Task completed');
+                        d($record->status);
+                        //throw new Exception('Task completed');
                         break;
                     }
                     d($record->status);
