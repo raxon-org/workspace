@@ -93,6 +93,7 @@ class Audio extends Controller {
                     if($record->status === Status::COMPLETED){
                         break;
                     }
+                    d($record->status);
                     usleep((int) (1/60 * 1000 * 1000));
                 }
                 /*
