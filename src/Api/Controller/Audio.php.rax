@@ -106,7 +106,7 @@ class Audio extends Controller {
                     d($record->status);
                     usleep((int) (1/4 * 1000 * 1000));
                     $counter++;
-                    if($counter > 600){
+                    if($counter > 50){
                         break;
                     }
                 }
