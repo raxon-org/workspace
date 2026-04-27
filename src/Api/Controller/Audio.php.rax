@@ -62,8 +62,9 @@ class Audio extends Controller {
                 /**
                  * add request url to command and save request in task
                  */
+                dd($command);
                 exec($command, $output);
-                ddd($output);
+                d($output);
                 $record = Core::object(implode("\n", $output));
                 $config = Database::config($object);
                 $connection = $object->config('doctrine.environment.system.*');
