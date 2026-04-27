@@ -185,6 +185,7 @@ class Audio extends Controller {
                     OutputFilter::on($object, $list);
                     $destination = new Destination();
                     $route = (object) ['controller' => $object->request('controller')];;
+                    ddd($route);
                     $route = Route::controller($route);
                     $destination->set('controller',  $route->controller);;
                     $destination->set('function', $route->function);
