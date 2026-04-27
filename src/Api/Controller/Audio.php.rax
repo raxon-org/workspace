@@ -70,9 +70,6 @@ class Audio extends Controller {
                 $counter = 0;
                 while(true){
                     $app_cache = $object->get(App::CACHE);
-                    if($app_cache){
-                        d($app_cache);
-                    }
                     $config = Database::config($object);
                     $connection = $object->config('doctrine.environment.system.*');
                     $connection->manager = Database::entity_manager($object, $config, $connection);
@@ -85,6 +82,9 @@ class Audio extends Controller {
                     $cache = $connection->manager->getUnitOfWork();
                     $cache->clear();
                     $connection->manager->clear();
+                    if($app_cache){
+                        $object->set(App::CACHE, $app_cache);
+                    }                                        }
                     $repository = $connection->manager->getRepository('\\Entity\\Task');
                     $repository_record = $repository->findOneBy([
                         'uuid' => $record->uuid
