@@ -110,7 +110,9 @@ class Audio extends Controller {
                     }
                 }
                 if(is_array($record->output)){
-                    d($record->output);
+                    foreach($record->output as $output){
+                        d($output);
+                    }
                 }
                 /*
                 $dir_model = $object->config('project.dir.asset') . 'Audio/STT/';
