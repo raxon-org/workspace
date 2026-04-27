@@ -107,6 +107,9 @@ class Audio extends Controller {
                             $role_system
                         );
                         $record->counter = $counter;
+                        if(property_exists($record, 'output')){
+
+                        }
                         d($record);
                     }
                     usleep((int) (1/8 * 1000 * 1000));
@@ -200,7 +203,7 @@ class Audio extends Controller {
                     $record-
                     ddd($output);
                     */
-                    return $output;
+                    return $output->response ?? [];
                 }
             } catch (Exception | FileWriteException | ObjectException | LocateException | UrlEmptyException | UrlNotExistException $exception){
                 return $exception;
