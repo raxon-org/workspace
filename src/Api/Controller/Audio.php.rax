@@ -108,21 +108,6 @@ class Audio extends Controller {
                         );
                         ddd($record);
                     }
-
-                    /*
-
-                    if($record->status === Status::COMPLETED){
-                        /*
-                        if(property_exists($record, 'output')){
-                            if(property_exists($record->output, 'response')){
-                                throw new Exception($record->output->error);
-                            }
-                            return $record->output;
-                        }
-                        */
-                        break;
-                    }
-                    */
                     usleep((int) (1/8 * 1000 * 1000));
                     $counter++;
                     if($counter > 80){
