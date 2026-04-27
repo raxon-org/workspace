@@ -144,12 +144,14 @@ class Audio extends Controller {
                     $output = [];
                     ddd($segments);
                     foreach ($segments as $segment) {
-                        $output[] = $segment->text . "\n";
+                        $output[] = (object) [
+                            'segment' => $segment->segment,
+                            'text' => $segment->text,
+                            'start' => $segment->startTimestamp,
+                            'end' => $segment->endTimestamp,
+                        ];
                     }
-    //                $response = new Response($create, Response::TYPE_JSON);
-    //                $response->status(200);
-    //                echo Response::output($object, $response);
-                    exit(0);
+                    return $output;
                 }
             } catch (Exception | FileWriteException | ObjectException | LocateException | UrlEmptyException | UrlNotExistException $exception){
                 return $exception;
