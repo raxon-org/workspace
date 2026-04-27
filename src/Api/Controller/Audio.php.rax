@@ -142,7 +142,7 @@ class Audio extends Controller {
          * @throws \Doctrine\DBAL\Exception
          * @throws ORMException
          */
-        public static function speech_to_text_task(App $object): array{
+        public static function speech_to_text_task(App $object): array | Exception {
             try {
                 $role = Permission::controller(
                     $object,
