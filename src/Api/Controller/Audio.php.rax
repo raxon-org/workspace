@@ -58,7 +58,6 @@ class Audio extends Controller {
                     }
                     $command .= ' -' . $key . '=' . $value;
                 }
-                dd($command);
                 /**
                  * add request url to command and save request in task
                  */
