@@ -108,14 +108,21 @@ class Audio extends Controller {
                         );
                         $record->counter = $counter;
                         if(property_exists($record, 'output')){
-
+                            foreach($record->output as $key => $value){
+                                if(is_array($value) && array_key_exists('text', $value){
+                                    if(stristr($value['text'], 'blank_audio')){
+                                        echo ' ';
+                                    } else {
+                                        echo $value['text'];
+                                    }
+                                }
+                            }
                         }
-                        d($record);
+                        break;
                     }
                     usleep((int) (1/8 * 1000 * 1000));
                     $counter++;
                     if($counter > 80){
-                        d($record);
                         break;
                     }
                 }
