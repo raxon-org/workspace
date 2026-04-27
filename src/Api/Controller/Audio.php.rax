@@ -110,11 +110,8 @@ class Audio extends Controller {
                     }
                 }
                 if(is_array($record->output)){
-
+                    d($record->output);
                 }
-                ddd($record->output);
-
-
                 /*
                 $dir_model = $object->config('project.dir.asset') . 'Audio/STT/';
                 Dir::create($dir_model, Dir::CHMOD);
