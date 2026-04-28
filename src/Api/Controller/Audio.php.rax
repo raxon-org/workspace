@@ -106,7 +106,6 @@ class Audio extends Controller {
                             $record,
                             $role_system
                         );
-                        ddd($record);
                         $record->counter = $counter;
                         if(property_exists($record, 'output')){
                             foreach($record->output as $key => $value){
