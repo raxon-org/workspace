@@ -63,6 +63,7 @@ class Audio extends Controller {
                     $command .= ' -request.' . $key . '=' . $value;
                 }
                 exec($command, $output);
+                ddd($output);
                 $record = Core::object(implode("\n", $output));
                 $entity = 'Task';
                 $node = new Node($object);
