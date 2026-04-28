@@ -64,7 +64,6 @@ class Audio extends Controller {
                 }
                 exec($command, $output);
                 $record = Core::object(implode("\n", $output));
-                ddd($record);
                 $entity = 'Task';
                 $node = new Node($object);
                 $role_system = $node->role_system();
@@ -107,6 +106,7 @@ class Audio extends Controller {
                             $record,
                             $role_system
                         );
+                        ddd($record);
                         $record->counter = $counter;
                         if(property_exists($record, 'output')){
                             foreach($record->output as $key => $value){
