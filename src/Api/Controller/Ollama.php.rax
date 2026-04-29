@@ -92,7 +92,6 @@ class Ollama extends Controller {
                 $create = $node->create($class, $role, $entity, [
                     'debug' => true,
                 ]);
-                ddd($create);
                 /*
                 $dir = $object->config('ramdisk.url') .
                     $object->config(Config::POSIX_ID) .
