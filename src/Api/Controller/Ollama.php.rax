@@ -80,7 +80,7 @@ class Ollama extends Controller {
                 ){
                     exit(0);
                 }
-                $date = date('Y-m-d H:i:s');
+                $date = microtime(true);
                 if(is_object($entity)){
                     $entity->is = (object) [
                         'created' => $date,
