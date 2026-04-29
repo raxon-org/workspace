@@ -80,12 +80,19 @@ class Ollama extends Controller {
                 ){
                     exit(0);
                 }
-                ddd($entity);
+                $date = dte('Y-m-d H:i:s');
+                if(is_object($entity){
+                    $entity->is = (object) [
+                        'created' => $date,
+                        'modified' => $date
+                    ];
+                }
                 $class = 'Raxon.Ollama.Input';
                 $node = new Node($object);                
                 $create = $node->create($class, $role, $entity, [
                     'debug' => true,
                 ]);
+                ddd($create);
                 /*
                 $dir = $object->config('ramdisk.url') .
                     $object->config(Config::POSIX_ID) .
