@@ -80,6 +80,7 @@ class Ollama extends Controller {
                 ){
                     exit(0);
                 }
+                ddd($entity);
                 $class = 'Raxon.Ollama.Input';
                 $node = new Node($object);                
                 $create = $node->create($class, $role, $entity, [
