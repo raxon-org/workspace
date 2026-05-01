@@ -112,7 +112,6 @@ class User extends Controller {
     public static function login(App $object){
         if (Handler::method() === 'POST') {
             $data = Module::login($object, $object->request());
-            d('test');
             return new Response(
                 $data,
                 Response::TYPE_JSON
