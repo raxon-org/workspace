@@ -30,6 +30,7 @@ class Index extends Controller {
      * @throws \Doctrine\DBAL\Exception
      */
     public static function overview(App $object){
+        dd($object->request());
         try {
             $role = Permission::controller($object,Index::NAME, __FUNCTION__, $user);
             if(
