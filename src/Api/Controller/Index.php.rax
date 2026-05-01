@@ -2,8 +2,8 @@
 <?php
 namespace Domain\{{php.namespace.host($options.backend.host)}}\Controller;
 
-use Domain\Api_Workandtravel_World\Service\Entity;
-use Domain\Api_Workandtravel_World\Service\Permission;
+use Domain\{{php.namespace.host($options.backend.host)}}\Service\Entity;
+use Domain\{{php.namespace.host($options.backend.host)}}\Service\Permission;
 
 use Raxon\App;
 use Raxon\Module\Core;
