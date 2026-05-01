@@ -38,8 +38,6 @@ class Index extends Controller {
             ){
                 $name = Index::name(__FUNCTION__, __CLASS__, '/');
                 $url = Index::locate($object, $name);
-                //Index::register($object, $role, 'Role');
-                //Index::register($object, $user, 'User');
                 return Index::response($object, $url);
             } else {
                 Core::redirect("https://{{$options.backend.host}}/Readme");
