@@ -108,16 +108,34 @@ class Audio extends Controller {
                         );
                         $record->counter = $counter;
                         if(property_exists($record, 'output')){
+                            $output = '';
                             foreach($record->output as $key => $value){
                                 if(is_array($value) && array_key_exists('text', $value)){
                                     //add some json from to here and add a form for it...
                                     if(stristr($value['text'], 'blank_audio')){
-                                        echo ' ';
+                                        $output .= ' ';
                                     } else {
-                                        echo $value['text'];
+                                    //On in, open file manager.
+                                        $output .= $value['text'];
                                     }
                                 }
                             }
+                            $commands = [];
+
+                            $route = $object->get(Route::NAME);
+                            ddd($route);
+
+
+                            $commands[] = (object) [
+                                'command' => 'On in, open file manager',
+                                "url" => '{{route.get(route.name(\'application.file.manager\'))}}',
+                            ];
+                            foreach($commands as $command){
+                                if($output === $command->command){
+
+                                }
+                            }
+                            echo $output;
                         }
                         break;
                     }
