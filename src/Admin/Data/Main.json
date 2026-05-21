@@ -2,8 +2,8 @@
     "url" : "{{config('domain.url')}}",
     "version": "0.3.18",
     "script" : [
-        "<script src=\"{{config('domain.url')}}Js\/Priya\/{{$this.#parentNode.version}}\/Priya.js\"></script>",
-        "<script src=\"{{config('domain.url')}}Js\/Audio\/Recorder\/AudioProcessorNode.js\"></script>"
+        "<script src=\"{{config('domain.url')}}Javascript\/Priya\/{{$this.#parentNode.version}}\/Priya.js\"></script>",
+        "<script src=\"{{config('domain.url')}}Javascript\/Audio\/Recorder\/AudioProcessorNode.js\"></script>"
     ],
     "link" : [
         "<link rel=\"stylesheet\" href=\"{{config('domain.url')}}Fontawesome\/5.15.2\/css\/all.css?{{$this.#parentNode.version}}\">",
