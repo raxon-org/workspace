@@ -3850,6 +3850,35 @@ _('prototype').trim = function(str, charlist){
 priya.trim = _('prototype').trim;
 
 /**
+ * Urldecode.prototype.js
+ */
+_('prototype').urldecode = function (str) {
+    return decodeURIComponent(str).replace(/\+/g, " ");
+}
+
+priya.urldecode = _('prototype').urldecode;
+
+_('prototype').urlencode = function (str) {
+    return encodeURIComponent(str).replace(/%20/g, '+');
+}
+
+
+/**
+ * Urlencode.prototype.js
+ */
+priya.urlencode = _('prototype').urlencode;
+
+
+/**
+ * sleep.prototype.js
+ */
+_('prototype').sleep = async function (msec) {
+    return new Promise(resolve => setTimeout(resolve, msec));
+}
+
+priya.sleep = _('prototype').sleep;
+
+/**
  * Usleep.prototype.js
  */
 _('prototype').usleep = function (msec){
