@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Audio Visualizer</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #000;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        canvas {
+            display: block;
+        }
+        #ui {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            cursor: pointer;
+            z-index: 10;
+            transition: opacity 0.5s;
+        }
+        .hidden { opacity: 0; pointer-events: none; }
+    </style>
+</head>
+<body>
+
+<div id="ui">
+    <h1>🎵 Audio Visualizer</h1>
+    <p>Click anywhere to start</p>
+</div>
+
+<canvas id="visualizer"></canvas>
+
+<script>
+    const canvas = document.getElementById('visualizer');
+    const ctx = canvas.getContext('2d');
+    const ui = document.getElementById('ui');
+
+    let audioCtx, analyser, dataArray, source;
+    let isInitialized = false;
+
+    // Resize canvas to full screen
+    function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    async function initAudio() {
+        // 1. Initialize Audio Context
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        analyser = audioCtx.createAnalyser();
+
+        // FFT size: determines the number of frequency bins
+        analyser.fftSize = 512;
+        const bufferLength = analyser.frequencyBinCount;
+        dataArray = new Uint8Array(bufferLength);
+
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            source = audioCtx.createMediaStreamSource(stream);
+            source.connect(analyser);
+
+            isInitialized = true;
+            ui.classList.add('hidden');
+            draw();
+        } catch (err) {
+            alert( "MediaDevices needs https:// or see console for details");
+            console.error(err);
+        }
+    }
+
+    function draw() {
+        requestAnimationFrame(draw);
+
+        // Get frequency data
+        analyser.getByteFrequencyData(dataArray);
+
+        // Create a "trail" effect (Milkdrop style)
+        // Instead of clearRect, we draw a semi-transparent rectangle
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+
+        // Calculate average volume for global scaling
+        let sum = 0;
+        for(let i = 0; i < dataArray.length; i++) sum += dataArray[i];
+        const average = sum / dataArray.length;
+
+        // Draw radial symmetry
+        const segments = 6; // Number of mirrored sections
+        const angleStep = (Math.PI * 2) / segments;
+
+        for (let s = 0; s < segments; s++) {
+            ctx.save();
+            ctx.translate(centerX, centerY);
+            ctx.rotate(s * angleStep);
+
+            ctx.beginPath();
+            ctx.lineWidth = 2;
+
+            for (let i = 0; i < dataArray.length; i++) {
+                const value = dataArray[i];
+                const percent = value / 255;
+
+                // Map frequency to distance and height
+                const radius = 100 + (percent * 150);
+                const angle = (i / dataArray.length) * Math.PI;
+
+                const x = Math.cos(angle) * radius;
+                const y = Math.sin(angle) * radius;
+
+                // Dynamic Colors based on frequency and time
+                const hue = (i + Date.now() / 50) % 360;
+                ctx.strokeStyle = `hsla(${hue}, 100%, 50%, ${percent + 0.2})`;
+
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+
+            ctx.stroke();
+            ctx.restore();
+        }
+
+        // Add a pulsing center glow
+        const glowRadius = average * 0.8;
+        const gradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, glowRadius);
+        gradient.addColorStop(0, `hsla(${Date.now()/20 % 360}, 100%, 50%, 0.3)`);
+        gradient.addColorStop(1, 'transparent');
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, glowRadius, 0, Math.PI * 2);
+        ctx.fill();
+    }
+
+    // Start on click
+    window.addEventListener('click', () => {
+        if (!isInitialized) initAudio();
+    });
+</script>
+</body>
+</html>
