@@ -87,8 +87,6 @@ login.post = (event) => {
     form.request(data, null, (url, response) => {
         //end loading
         login.loader('end');
-        console.log('cookie user_active');
-        console.log(document.cookie);
         console.log(response);
         if(
             !is.empty(response.class) &&
@@ -112,18 +110,19 @@ login.post = (event) => {
                 error.html(response.message);
             }
         }
-        else if(!is.empty(response?.user_active)){
+        else if(!is.empty(response.node)){
             const error = form.select('.user-login-error');
             if(error){
                 error.html('');
             }
             const route = login.get('route.frontend.start');
-            // localStorage.setItem('token', response.node?.token);
-            // localStorage.setItem('refreshToken', response.node?.refreshToken);
-            // const node = response.node;
-            // delete node.token;
-            // delete node.refreshToken;
-            user.data(response);
+            console.log(route);
+            localStorage.setItem('token', response.node?.token);
+            localStorage.setItem('refreshToken', response.node?.refreshToken);
+            const node = response.node;
+            delete node.token;
+            delete node.refreshToken;
+            user.data(node);
             if(route){
                 window.history.pushState(route, route, route);
                 request(route, response);
