@@ -87,6 +87,8 @@ login.post = (event) => {
     form.request(data, null, (url, response) => {
         //end loading
         login.loader('end');
+        console.log('cookie user_active');
+        console.log(document.cookie);
         console.log(response);
         if(
             !is.empty(response.class) &&
