@@ -112,19 +112,18 @@ login.post = (event) => {
                 error.html(response.message);
             }
         }
-        else if(!is.empty(response.node)){
+        else if(!is.empty(response?.user_active)){
             const error = form.select('.user-login-error');
             if(error){
                 error.html('');
             }
             const route = login.get('route.frontend.start');
-            console.log(route);
-            localStorage.setItem('token', response.node?.token);
-            localStorage.setItem('refreshToken', response.node?.refreshToken);
-            const node = response.node;
-            delete node.token;
-            delete node.refreshToken;
-            user.data(node);
+            // localStorage.setItem('token', response.node?.token);
+            // localStorage.setItem('refreshToken', response.node?.refreshToken);
+            // const node = response.node;
+            // delete node.token;
+            // delete node.refreshToken;
+            user.data(response);
             if(route){
                 window.history.pushState(route, route, route);
                 request(route, response);
