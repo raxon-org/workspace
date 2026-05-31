@@ -87,7 +87,6 @@ login.post = (event) => {
     form.request(data, null, (url, response) => {
         //end loading
         login.loader('end');
-        console.log(response);
         if(
             !is.empty(response.class) &&
             response.class === 'Raxon\\Exception\\ErrorException'
@@ -116,7 +115,6 @@ login.post = (event) => {
                 error.html('');
             }
             const route = login.get('route.frontend.start');
-            console.log(route);
             localStorage.setItem('token', response.node?.token);
             localStorage.setItem('refreshToken', response.node?.refreshToken);
             const node = response.node;
