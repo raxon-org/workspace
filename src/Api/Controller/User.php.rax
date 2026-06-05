@@ -88,7 +88,8 @@ class User extends Controller {
     /**
      * @throws Exception
      */
-    private static function token(App $object){
+    private static function token(App $object): null|Response
+    {
         if(Handler::method() === Handler::METHOD_CLI){
             $email = $object->parameter($object, __FUNCTION__, 1);
             $data = [];
@@ -100,6 +101,7 @@ class User extends Controller {
                 Response::TYPE_CLI
             );
         }
+        return null;
     }
 
     /**
@@ -109,7 +111,8 @@ class User extends Controller {
      * @throws \Doctrine\DBAL\Exception
      * @throws Exception
      */
-    public static function login(App $object){
+    public static function login(App $object): null|Response
+    {
         if (Handler::method() === 'POST') {
             $data = Module::login($object, $object->request());
             return new Response(
@@ -117,6 +120,7 @@ class User extends Controller {
                 Response::TYPE_JSON
             );
         }
+        return null;
     }
 
     /**
@@ -125,7 +129,7 @@ class User extends Controller {
      * @throws FileWriteException
      * @throws Exception
      */
-    public static function current(App $object)
+    public static function current(App $object): null|Response
     {
         if (Handler::method() === 'GET') {
             $data = Module::current($object);
@@ -134,13 +138,15 @@ class User extends Controller {
                 Response::TYPE_JSON
             );
         }
+        return null;
     }
 
     /**
      * @throws AuthorizationException
      * @throws Exception
      */
-    public static function refresh_token(App $object){        
+    public static function refresh_token(App $object): null|Response
+    {
         if (Handler::method() === 'GET') {
             $data =  Module::refresh_token($object);
             return new Response(
@@ -148,9 +154,11 @@ class User extends Controller {
                 Response::TYPE_JSON
             );
         }
+        return null;
     }
 
-    public static function role_for_node(App $object, $role){
+    public static function role_for_node(App $object, $role): object
+    {
         $role_permissions = $role->permissions;
         $permissions = [];
         foreach($role_permissions as $permission){
