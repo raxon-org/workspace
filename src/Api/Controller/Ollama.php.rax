@@ -452,19 +452,8 @@ class Ollama extends Controller {
 
     public static function abort(App $object): void
     {
-        try {
-            $role = Permission::controller(
-                $object,
-                Ollama::NAME,
-                __FUNCTION__,
-                $user
-            );
-            if($role){
-                $uuid = $object->request('uuid');
-                File::touch($object->config('ramdisk.url') . '33/Ollama/' . escapshellarg($uuid) . '.abort';
-            }
-        } catch (Exception $exception){
-            return $exception;
-        }
+        //add permission check
+        $uuid = $object->request('uuid');
+        File::touch($object->config('ramdisk.url') . '33/Ollama/' . escapshellarg($uuid) . '.abort';
     }
 }
