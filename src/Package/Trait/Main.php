@@ -420,6 +420,7 @@ trait Main {
                 print_r($response_frontend, true)
             );
         }
+
         $command = Core::binary($object) . ' install raxon/account -patch';
         Core::execute($object, $command, $output, $notification);
         if($output){
