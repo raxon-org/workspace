@@ -450,15 +450,21 @@ class Ollama extends Controller {
         }
     }
 
-    public static function abort(App $object){
-        dd('found');
-        $command = Core::binary($object) . ' raxon/task create -command[]="app raxon/ollama kill"';
-        exec($command, $output, $code);
-        echo implode(PHP_EOL, $output);
-        /*
-         * app raxon/task create -execute?[]=app raxon/ollama stop && sleep 1
-         * app raxon/task create -execute?[]=app raxon/ollama stop && sleep 1
-         * app raxon/task create -execute?[]=app raxon/ollama start
-         */
+    public static function abort(App $object): void
+    {
+        try {
+            $role = Permission::controller(
+                $object,
+                Ollama::NAME,
+                __FUNCTION__,
+                $user
+            );
+            if($role){
+                $uuid = $object->request('uuid');
+                File::touch($object->config('ramdisk.url') . '33/Ollama/' . escapshellarg($uuid) . '.abort';
+            }
+        } catch (Exception $exception){
+            return $exception;
+        }
     }
 }
