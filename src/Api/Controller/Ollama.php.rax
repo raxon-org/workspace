@@ -451,10 +451,15 @@ class Ollama extends Controller {
     }
 
     public static function abort(App $object){
-
+        $uuid = $object->request('uuid');
+        $dir = $object->config('ramdisk.url') . '33/Ollama/';
+        Dir::create($dir, Dir::CHMOD);
+        File::touch($dir . $uuid . '.abort');
+        /*
         $command = Core::binary($object) . ' raxon/task create -command[]="app raxon/ollama kill"';
         exec($command, $output, $code);
         echo implode(PHP_EOL, $output);
+        */
         /*
          * app raxon/task create -execute?[]=app raxon/ollama stop && sleep 1
          * app raxon/task create -execute?[]=app raxon/ollama stop && sleep 1
