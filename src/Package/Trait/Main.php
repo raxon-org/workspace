@@ -405,8 +405,21 @@ trait Main {
         File::permission($object, [
             'domain' => $object->config('project.dir.domain'),
         ]);
-        $this->install_backend($response_backend, $response_frontend, $options);
-        $this->install_frontend($response_backend, $response_frontend, $options);
+        if(
+            is_array($response_backend) && array_key_exists('node', $response_backend) &&
+            is_array($response_frontend) && array_key_exists('node', $response_frontend)
+        ){
+            $this->install_backend($response_backend, $response_frontend, $options);
+            $this->install_frontend($response_backend, $response_frontend, $options);
+        } else {
+            throw new Exception(
+                'Backend or Frontend not found aborting...' .
+                PHP_EOL .
+                print_r($response_backend, true) .
+                PHP_EOL .
+                print_r($response_frontend, true)
+            );
+        }
         $command = Core::binary($object) . ' install raxon/account -patch';
         Core::execute($object, $command, $output, $notification);
         if($output){
