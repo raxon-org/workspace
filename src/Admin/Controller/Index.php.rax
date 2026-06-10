@@ -32,8 +32,6 @@ class Index extends Controller {
             $object->data('template.name', $name);
             $object->data('template.dir', Index::DIR);
             $view = Index::response($object, $url);
-            d($object->data('script'));
-            dd($view);
         } else {
             $url = Index::locate($object, $name);
             $view = Index::response($object, $url);
