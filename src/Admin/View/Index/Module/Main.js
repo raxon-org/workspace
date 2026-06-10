@@ -1,5 +1,4 @@
 //{{RAX}}
-import user from "/Module/User.js";
 import { getSectionByName} from "/Module/Section.js";
 import { version } from "/Module/Priya.js";
 import { root } from "/Module/Web.js";

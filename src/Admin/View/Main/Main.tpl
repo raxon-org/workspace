@@ -18,6 +18,7 @@
             <link rel="alternate" hreflang="en" href="{{config('domain.url')}}en/">
             <link rel="canonical" href="{{$url|>default:''}}">            
             {{if (!is.empty($script))}}
+            {{dd($script)}}
 /*
 {{implode("\n\t\t\t", $script)}}
 */
