@@ -27,6 +27,7 @@ class Index extends Controller {
      */
     public static function main(App $object){
         $name = Index::name(__FUNCTION__, __CLASS__, '/');
+        ddd(App::contentType($object));
         if(App::contentType($object) == App::CONTENT_TYPE_HTML){
             $url = Index::locate($object, 'Main/Main');
             $object->data('template.name', $name);

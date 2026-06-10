@@ -8,5 +8,4 @@
 {{script('module')}}
 {{require(config('controller.dir.view') + config('controller.title') + '/Module/Main.js')}}
 {{/script}}
-{{dd($script)}}
 {{require(config('controller.dir.view') + config('controller.title') + '/Section/Main.tpl')}}
