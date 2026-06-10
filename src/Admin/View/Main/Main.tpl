@@ -17,13 +17,12 @@
             <link rel="alternate" hreflang="nl" href="{{config('domain.url')}}nl/">
             <link rel="alternate" hreflang="en" href="{{config('domain.url')}}en/">
             <link rel="canonical" href="{{$url|>default:''}}">            
-            {{if (!is.empty($script))}}
-                {{implode("\n\t\t\t", $script)}}
-            {{/if}}
-
-            {{if (!is.empty($link))}}
-                {{implode("\n\t\t\t", $link)}}
-            {{/if}}
+{{if (!is.empty($script))}}
+{{implode("\n\t\t\t", $script)}}
+{{/if}}
+{{if (!is.empty($link))}}
+{{implode("\n\t\t\t", $link)}}
+{{/if}}
     </head>
     <body>
 {{$html.content.body|>default:""}}
