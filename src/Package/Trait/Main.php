@@ -457,6 +457,7 @@ trait Main {
             $command = Core::binary($object) . ' raxon/basic apache2 backup';
             $output = [];
             exec($command, $output);
+            $output = implode(PHP_EOL, $output);
             if ($output) {
                 echo $output;
             }
