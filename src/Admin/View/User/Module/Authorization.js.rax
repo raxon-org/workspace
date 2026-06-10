@@ -1,4 +1,5 @@
 //{{RAX}}
+//workspace/src/Admin/View/User/Module/Authorization.js
 import user from "/Module/User.js";
 ready(() => {
     if(user.token()){

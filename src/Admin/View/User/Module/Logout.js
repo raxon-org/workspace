@@ -1,5 +1,5 @@
 //{{RAX}}
-
+//workspace/src/Admin/View/User/Module/Logout.js
 import logout from "/User/Module/Logout.js";
 
 ready(() => {
