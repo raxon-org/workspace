@@ -18,20 +18,12 @@
             <link rel="alternate" hreflang="en" href="{{config('domain.url')}}en/">
             <link rel="canonical" href="{{$url|>default:''}}">            
             {{if (!is.empty($script))}}
-            {{d($script)}}
-/*
-{{implode("\n\t\t\t", $script)}}
-*/
-{{implode("\n", $script)}}
+                {{implode("\n\t\t\t", $script)}}
             {{/if}}
 
             {{if (!is.empty($link))}}
-/*
-{{implode("\n\t\t\t", $link)}}
-*/
-{{implode("\n", $link)}}
+                {{implode("\n\t\t\t", $link)}}
             {{/if}}
-
     </head>
     <body>
 {{$html.content.body|>default:""}}
