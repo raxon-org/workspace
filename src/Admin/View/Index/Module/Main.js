@@ -6,7 +6,7 @@ import { root } from "/Module/Web.js";
 let main = {};
 
 main.init = () => {
-    const route = "{{route.get('index-main')}}";
+    const route = "{{route.get('index')}}";
     window.history.pushState(route, route, route);
 
     const user_login = getSectionByName("user-login");
