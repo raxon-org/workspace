@@ -12,8 +12,8 @@
                     {{$node.url = parse.string($node.url)}}
                     {{$node.icon_url = parse.string($node.icon_url)}}
                     {{$request.extension = $request.file|>file.extension}}
-                    {{dd($request.extension)}}
-                    {{$node.contentType = source.type($request.file)}}
+                    {{$node.contentType = config('contentType.' + $request.extension)}}
+                    {{dd($node)}}
                     <li data-file="{{$request.file|>default:''}}" data-url="{{$node.url|>default:''}}" data-contenttype="{{$node.contentType|>default:''}}">
                         <img class="icon-url" src="{{$node.icon_url|>default:''}}" alt="" />
                         <span class="name">
