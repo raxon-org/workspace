@@ -132,9 +132,9 @@ trait Script {
                 $is_match = false;
                 if($source === $match){
                     $is_match = true;
+                    $matches[$match_nr] = true;
                     break;
                 }
-                $matches[$match_nr] = true;
             }
         }
         foreach($options->script as $nr => $source){
