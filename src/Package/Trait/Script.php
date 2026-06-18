@@ -25,7 +25,6 @@ trait Script {
         if(!property_exists($options->backend, 'host')){
             throw new Exception('Options: backend.host not found');
         }
-        Controller::
         $url = $object->config('project.dir.domain') . Controller::name($options->frontend->host) . 'Data' . $object->config('ds') . 'Main' . $object->config('extension.json');
         d($url);
         d($flags);
