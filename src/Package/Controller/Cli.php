@@ -1,13 +1,10 @@
 <?php
 
-namespace Package\Raxon\Workspace\Controller;
+namespace Package\Raxon\Audio\Controller;
 
 use Raxon\App;
-use Raxon\Config;
 
-use Raxon\Module\Core;
 use Raxon\Module\Controller;
-use Raxon\Module\Data;
 use Raxon\Module\Dir;
 use Raxon\Module\File;
 
@@ -19,11 +16,11 @@ use Raxon\Exception\UrlEmptyException;
 use Raxon\Exception\UrlNotExistException;
 
 class Cli extends Controller {
-    const DIR = __DIR__ . 'Cli.php/';
+    const DIR = __DIR__ . '/';
     const MODULE_INFO = 'Info';
     const INFO = [
-        '{{binary()}} raxon/workspace',
-        '{{binary()}} raxon/workspace setup',
+        '{{binary()}} raxon audio',
+        '{{binary()}} raxon audio setup',
     ];
 
     /**
@@ -119,7 +116,7 @@ class Cli extends Controller {
                 $url = Cli::locate(
                     $object,
                     ucfirst($module) .
-                    'Controller' .
+                    '.' .
                     ucfirst($submodule) .
                     '.' .
                     ucfirst($command) .
@@ -140,7 +137,7 @@ class Cli extends Controller {
                 $url = Cli::locate(
                     $object,
                     ucfirst($module) .
-                    'Controller' .
+                    '.' .
                     ucfirst($submodule) .
                     '.' .
                     ucfirst($command) .
@@ -158,7 +155,7 @@ class Cli extends Controller {
                 $url = Cli::locate(
                     $object,
                     ucfirst($module) .
-                    'Controller' .
+                    '.' .
                     ucfirst($submodule) .
                     '.' .
                     ucfirst($command) .
@@ -173,7 +170,7 @@ class Cli extends Controller {
                 $url = Cli::locate(
                     $object,
                     ucfirst($module) .
-                    'Controller' .
+                    '.' .
                     ucfirst($submodule) .
                     '.' .
                     ucfirst($command)
@@ -183,7 +180,7 @@ class Cli extends Controller {
                 $url = Cli::locate(
                     $object,
                     ucfirst($module) .
-                    'Controller' .
+                    '.' .
                     ucfirst($submodule)
                 );
             } else {
