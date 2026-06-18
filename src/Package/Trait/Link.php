@@ -127,6 +127,7 @@ trait Link {
         $data = $object->data_read($url);
         $link = $data->get('link') ?? [];
         $matches = [];
+        ddd($options->link);
         foreach($link as $nr => $source){
             foreach($options->link as $match_nr => $match){
                 if($source === $match){
