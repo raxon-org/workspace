@@ -12,7 +12,6 @@ trait Script {
     public function add($flags, $options): void
     {
         $object = $this->object();
-
         if(!property_exists($options, 'frontend')){
             throw new Exception('Options: frontend.host not found');
         }
@@ -31,20 +30,21 @@ trait Script {
         if(!is_array($options->script)){
             throw new Exception('Options: script[] is not an array');
         }
-        $url = $object->config('project.dir.domain') . Controller::name($options->frontend->host) . $object->config('ds') . 'Data' . $object->config('ds') . 'Main' . $object->config('extension.json');
+        $url = $object->config('project.dir.domain') .
+            Controller::name($options->frontend->host) .
+            $object->config('ds') .
+            'Data' .
+            $object->config('ds') .
+            'Main' .
+            $object->config('extension.json')
+        ;
         $data = $object->data_read($url);
-        d($data);
-        d($options->script);
-
-
-
-        d($url);
-        d($flags);
-        d($options);
-
-
-//        $url = $object->config('controller.dir.data');
-//        d($url);
-
+        $script = $data->get('script') ?? [];
+        foreach($options->script as $nr => $source){
+            $script[] = $source;
+        }
+        $data->set('script', $script);
+        $data->write($url);
+        echo "Script added..." . PHP_EOL;
     }
 }
