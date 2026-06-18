@@ -22,8 +22,8 @@ class Cli extends Controller {
     const DIR = __DIR__ . 'Cli.php/';
     const MODULE_INFO = 'Info';
     const INFO = [
-        '{{binary()}} raxon workspace',
-        '{{binary()}} raxon workspace setup',
+        '{{binary()}} raxon/workspace',
+        '{{binary()}} raxon/workspace setup',
     ];
 
     /**
@@ -66,6 +66,9 @@ class Cli extends Controller {
         ){
             $command = false;
         }
+        d($module);
+        d($submodule);
+        dd($command);
         $subcommand = (string) $object->parameter($object, $node, 4);
         if(
             !in_array(
