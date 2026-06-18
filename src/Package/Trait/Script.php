@@ -2,7 +2,7 @@
 namespace Package\Raxon\Workspace\Trait;
 
 use Exception;
-use Raxon\Module\Dir;
+use Raxon\Module\Controller;
 
 trait Script {
 
@@ -25,7 +25,8 @@ trait Script {
         if(!property_exists($options->backend, 'host')){
             throw new Exception('Options: backend.host not found');
         }
-        $url = $object->config('project.dir.domain') . Dir::ucfirst($options->frontend->host) . 'Data' . $object->config('ds') . 'Main' . $object->config('extension.json');
+        Controller::
+        $url = $object->config('project.dir.domain') . Controller::name($options->frontend->host) . 'Data' . $object->config('ds') . 'Main' . $object->config('extension.json');
         d($url);
         d($flags);
         d($options);
