@@ -51,7 +51,7 @@ trait Script {
     /**
      * @throws Exception
      */
-    public function add($flags, $options): void
+    public function delete($flags, $options): void
     {
         $object = $this->object();
         if(!property_exists($options, 'frontend')){
