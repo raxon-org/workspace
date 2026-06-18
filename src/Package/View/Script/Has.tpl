@@ -1,2 +1,1 @@
-{{response = Package.Raxon.Workspace:Script:has(flags(), options())}}
-{{$response}}
+{{Package.Raxon.Workspace:Script:has(flags(), options())}}
