@@ -1,1 +1,1 @@
-{{Package.Raxon.Workspace:Script:add(flags(), options())}}
+{{Package.Raxon.Workspace:Script:delete(flags(), options())}}
