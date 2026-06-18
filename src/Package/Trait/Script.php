@@ -47,4 +47,48 @@ trait Script {
         $data->write($url);
         echo "Script added..." . PHP_EOL;
     }
+
+    /**
+     * @throws Exception
+     */
+    public function add($flags, $options): void
+    {
+        $object = $this->object();
+        if(!property_exists($options, 'frontend')){
+            throw new Exception('Options: frontend.host not found');
+        }
+        if(!property_exists($options->frontend, 'host')){
+            throw new Exception('Options: frontend.host not found');
+        }
+        if(!property_exists($options, 'backend')){
+            throw new Exception('Options: backend.host not found');
+        }
+        if(!property_exists($options->backend, 'host')){
+            throw new Exception('Options: backend.host not found');
+        }
+        if(!property_exists($options, 'index')){
+            throw new Exception('Options: index not found, from 0 to ...');
+        }
+        $url = $object->config('project.dir.domain') .
+            Controller::name($options->frontend->host) .
+            $object->config('ds') .
+            'Data' .
+            $object->config('ds') .
+            'Main' .
+            $object->config('extension.json')
+        ;
+        $data = $object->data_read($url);
+        $script = $data->get('script') ?? [];
+        $echo = false;
+        foreach($script as $nr => $source){
+            if($nr === $options->index){
+                $echo = $source;
+                unset($script[$nr]);
+                break;
+            }
+        }
+        $data->set('script', $script);
+        $data->write($url);
+        echo "Script deleted:"  . $echo . PHP_EOL;
+    }
 }
