@@ -139,9 +139,9 @@ trait Script {
         }
         foreach($options->script as $nr => $source){
             if(!isset($matches[$nr])){
-                echo 'false';
+                echo 'false' . PHP_EOL;
             } else {
-                echo 'true';
+                echo 'true' . PHP_EOL;
             }
         }
     }
