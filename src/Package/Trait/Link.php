@@ -129,11 +129,8 @@ trait Link {
         $matches = [];
         foreach($link as $nr => $source){
             foreach($options->link as $match_nr => $match){
-                $is_match = false;
                 if($source === $match){
-                    $is_match = true;
                     $matches[$match_nr] = true;
-                    break;
                 }
             }
         }

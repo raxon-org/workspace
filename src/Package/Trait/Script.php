@@ -129,11 +129,8 @@ trait Script {
         $matches = [];
         foreach($script as $nr => $source){
             foreach($options->script as $match_nr => $match){
-                $is_match = false;
                 if($source === $match){
-                    $is_match = true;
                     $matches[$match_nr] = true;
-                    break;
                 }
             }
         }
