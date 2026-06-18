@@ -1,14 +1,34 @@
 <?php
 namespace Package\Raxon\Workspace\Trait;
+
+use Exception;
+use Raxon\Module\Dir;
+
 trait Script {
 
+    /**
+     * @throws Exception
+     */
     public function add($flags, $options): void
     {
         $object = $this->object();
+
+        if(!property_exists($options, 'frontend')){
+            throw new Exception('Options: frontend.host not found');
+        }
+        if(!property_exists($options->frontend, 'host')){
+            throw new Exception('Options: frontend.host not found');
+        }
+        if(!property_exists($options, 'backend')){
+            throw new Exception('Options: backend.host not found');
+        }
+        if(!property_exists($options->backend, 'host')){
+            throw new Exception('Options: backend.host not found');
+        }
+        $url = $object->config('project.dir.domain') . Dir::ucfirst($options->frontend->host) . $object->config('ds') . 'Data' . $object->config('ds');
+        d($url);
         d($flags);
         d($options);
-        d($object->config('project.dir.domain'));
-        d($object->config('project.dir'));
 
 
 //        $url = $object->config('controller.dir.data');
