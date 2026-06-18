@@ -1,6 +1,6 @@
 <?php
 
-namespace Package\Raxon\Audio\Controller;
+namespace Package\Raxon\Workspace\Controller;
 
 use Raxon\App;
 
@@ -19,8 +19,8 @@ class Cli extends Controller {
     const DIR = __DIR__ . '/';
     const MODULE_INFO = 'Info';
     const INFO = [
-        '{{binary()}} raxon audio',
-        '{{binary()}} raxon audio setup',
+        '{{binary()}} raxon/workspace',
+        '{{binary()}} raxon/workspace setup',
     ];
 
     /**
