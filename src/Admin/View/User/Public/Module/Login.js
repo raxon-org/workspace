@@ -86,6 +86,8 @@ login.post = (event) => {
     login.loader('start');
     form.request(data, null, (url, response) => {
         //end loading
+        console.log(response);
+        return;
         login.loader('end');
         if(
             !is.empty(response.class) &&
