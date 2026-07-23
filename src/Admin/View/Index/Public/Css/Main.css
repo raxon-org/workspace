@@ -38,3 +38,6 @@ body {
 ::-webkit-scrollbar-corner {
     background-color: transparent; /* Fully transparent */
 }
+input[name="keyboard"] {
+    opacity:0;
+}
