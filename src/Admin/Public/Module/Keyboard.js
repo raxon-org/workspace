@@ -366,6 +366,10 @@ keyboard.init = (objects) => {
     console.log('keyboard init');
 
     let section = select('section[name="keyboard"]');
+    if(section){
+        section.remove();
+    }
+    return;
     if (!section) {
         section = create('section');
         section.attribute('name', 'keyboard');
