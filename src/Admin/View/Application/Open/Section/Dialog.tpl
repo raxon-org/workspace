@@ -6,7 +6,6 @@
         </div>
         <div class="body">
             <ul class="application-open">
-                {{dd($request.nodeList)}}
             {{if(is.array($request.nodeList))}}
                 {{foreach($request.nodeList as $nr => $node)}}
                     {{$node.url = parse.string($node.url)}}
