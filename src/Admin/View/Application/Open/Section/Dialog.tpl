@@ -1,4 +1,3 @@
-{{RAX}}
 <section id="{{$id}}" name="{{config('controller.name')}}-open" class="display-none">
     <div class="dialog dialog-{{config('controller.name')}}-open">
         <div class="head">
@@ -7,6 +6,7 @@
         </div>
         <div class="body">
             <ul class="application-open">
+                {{dd($request.nodeList)}}
             {{if(is.array($request.nodeList))}}
                 {{foreach($request.nodeList as $nr => $node)}}
                     {{$node.url = parse.string($node.url)}}
