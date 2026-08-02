@@ -1,11 +1,14 @@
 {
     "url" : "{{config('domain.url')}}",
     "priya": {
-      "version": "0.3.18"
+      "version": {
+        "current": "0.3.19",
+        "from": "0.3.18"
+      },
     },
     "version": "{{app.version()}}",
     "script" : [
-        "<script src=\"{{config('domain.url')}}Javascript\/Priya\/{{$this.#parentNode.priya.version}}\/Priya.js?{{$this.#parentNode.priya.version}}\"></script>",
+        "<script src=\"{{config('domain.url')}}Javascript\/Priya\/{{$this.#parentNode.priya.version.current}}\/Priya.js?{{$this.#parentNode.priya.version.current}}\"></script>",
         "<script src=\"{{config('domain.url')}}Javascript\/Audio\/Recorder\/AudioProcessorNode.js\"></script>"
     ],
     "link" : [
