@@ -6,7 +6,8 @@ ready(() => {
         alert(url);
         header('Authorization', 'Bearer ' + user.token());
         request(url, null, (url, response) => {
-            alert(JSON.stringify(response));
+            console.log(response);
+            alert('user current')';
             if(!is.empty(response.node)){
                 user.data(response.node);
             } else {
