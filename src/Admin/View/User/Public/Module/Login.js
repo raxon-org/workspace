@@ -117,11 +117,13 @@ login.post = (event) => {
                 error.html('');
             }
             const route = login.get('route.frontend.start');
+            console.log(response);
+            alert(route);
             localStorage.setItem('token', response.node?.token);
-            localStorage.setItem('refreshToken', response.node?.refreshToken);
+            // localStorage.setItem('refreshToken', response.node?.refreshToken);
             const node = response.node;
             delete node.token;
-            delete node.refreshToken;
+            // delete node.refreshToken;
             user.data(node);
             if(route){
                 window.history.pushState(route, route, route);
