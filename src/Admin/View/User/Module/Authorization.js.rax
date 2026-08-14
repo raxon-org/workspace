@@ -1,6 +1,8 @@
 //{{RAX}}
 import user from "/Module/User.js";
 ready(() => {
+console.warn(user.token);
+alert('yes');
     if(user.token()){
         let url = "{{literal}}{{server.url(\"{{/literal}}{{options('backend.host')}}{{literal}}\")}}{{/literal}}User/Current/";
         header('Authorization', 'Bearer ' + user.token());
@@ -64,6 +66,7 @@ ready(() => {
                 }
             });
         } else {
+            alert('here2');
             let redirect_url = "{{route.get('user-login')}}";
             if(redirect_url){
                 //redirect user login
