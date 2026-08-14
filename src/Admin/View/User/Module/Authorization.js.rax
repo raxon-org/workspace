@@ -1,12 +1,12 @@
 //{{RAX}}
 import user from "/Module/User.js";
 ready(() => {
-console.warn(user.token);
-alert('yes');
     if(user.token()){
         let url = "{{literal}}{{server.url(\"{{/literal}}{{options('backend.host')}}{{literal}}\")}}{{/literal}}User/Current/";
+        alert(url);
         header('Authorization', 'Bearer ' + user.token());
         request(url, null, (url, response) => {
+            alert(JSON.stringify(response));
             if(!is.empty(response.node)){
                 user.data(response.node);
             } else {
