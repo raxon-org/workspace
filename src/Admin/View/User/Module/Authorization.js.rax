@@ -3,10 +3,9 @@ import user from "/Module/User.js";
 ready(() => {
     if(user.token()){
         let url = "{{literal}}{{server.url(\"{{/literal}}{{options('backend.host')}}{{literal}}\")}}{{/literal}}User/Current/";
-        alert(url);
         header('Authorization', 'Bearer ' + user.token());
         request(url, null, (url, response) => {
-            console.log(response);
+            console.log(response.data);
             alert('user current')';
             if(!is.empty(response.node)){
                 user.data(response.node);
