@@ -2,16 +2,11 @@
 <?php
 namespace Domain\{{php.namespace.host($options.backend.host)}}\Controller;
 
-use Domain\{{php.namespace.host($options.backend.host)}}\Service\Entity;
-use Domain\{{php.namespace.host($options.backend.host)}}\Service\Permission;
-
+use Exception;
+use Package\Raxon\Account\Module\Permission;
 use Raxon\App;
 use Raxon\Module\Core;
 use Raxon\Module\Controller;
-
-use Exception;
-
-use Raxon\Exception\AuthorizationException;
 use Raxon\Exception\LocateException;
 use Raxon\Exception\UrlEmptyException;
 use Raxon\Exception\UrlNotExistException;
@@ -22,13 +17,6 @@ class Index extends Controller {
     const DIR = __DIR__ . DIRECTORY_SEPARATOR;
     const NAME = 'Index';
 
-    /**
-     * @throws ObjectException
-     * @throws \Doctrine\ORM\Exception\ORMException
-     * @throws AuthorizationException
-     * @throws FileWriteException
-     * @throws \Doctrine\DBAL\Exception
-     */
     public static function overview(App $object){
         try {
             $role = Permission::controller($object,Index::NAME, __FUNCTION__, $user);
