@@ -2,15 +2,9 @@
 <?php
 namespace Domain\{{php.namespace.host($options.backend.host)}}\Controller;
 
-use Doctrine\ORM\Exception\ORMException;
-
-use Doctrine\ORM\OptimisticLockException;
 use Exception;
-
 use Package\Raxon\Account\Module\User as Module;
-
 use Raxon\App;
-
 use Raxon\Exception\AuthorizationException;
 use Raxon\Exception\ErrorException;
 use Raxon\Exception\FileWriteException;
@@ -18,7 +12,6 @@ use Raxon\Exception\ObjectException;
 use Raxon\Exception\LocateException;
 use Raxon\Exception\UrlEmptyException;
 use Raxon\Exception\UrlNotExistException;
-
 use Raxon\Module\Cli;
 use Raxon\Module\Core;
 use Raxon\Module\Handler;
@@ -107,13 +100,13 @@ class User extends Controller {
     /**
      * @throws OptimisticLockException
      * @throws ErrorException
-     * @throws ORMException
-     * @throws \Doctrine\DBAL\Exception
      * @throws Exception
      */
     public static function login(App $object): null|Response
     {
         if (Handler::method() === 'POST') {
+            $data =
+
             $data = Module::login($object, $object->request());
             return new Response(
                 $data,
