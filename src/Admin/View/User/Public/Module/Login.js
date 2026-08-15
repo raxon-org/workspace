@@ -117,8 +117,8 @@ login.post = (event) => {
                 error.html('');
             }
             const route = login.get('route.frontend.start');
-            console.log(response);
-            alert(route);
+            console.log(JSON.stringify(response));
+            alert('login.post')
             localStorage.setItem('token', response.node?.token);
             // localStorage.setItem('refreshToken', response.node?.refreshToken);
             const node = response.node;
