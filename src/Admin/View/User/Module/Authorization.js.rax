@@ -14,6 +14,7 @@ ready(() => {
                 },
                 "priya": {
                     "version": version()
+                }
             },
             (
                 url,
