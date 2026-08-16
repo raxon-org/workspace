@@ -5,8 +5,10 @@ ready(() => {
         let url = "{{literal}}{{server.url(\"{{/literal}}{{options('backend.host')}}{{literal}}\")}}{{/literal}}User/Current/";
         header('Authorization', 'Bearer ' + user.token());
         request(url, null, (url, response) => {
-            console.log(response.data);
-            alert(is.empty(response.node));
+            console.log(response);
+
+
+            /*
             if(!is.empty(response.node)){
                 user.data(response.node);
             } else {
@@ -39,6 +41,7 @@ ready(() => {
                     }
                 }
             }
+            */
         });
     } else {
         if(user.refreshToken()){
