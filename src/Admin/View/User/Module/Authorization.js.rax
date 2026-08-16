@@ -1,28 +1,12 @@
 //{{RAX}}
 
 import user from "/Module/User.js";
-import { version } from "/Module/Priya.js";
 ready(() => {
     if(user.token()){
         let url = "{{literal}}{{server.url(\"{{/literal}}{{options('backend.host')}}{{literal}}\")}}{{/literal}}User/Current/";
         header('Authorization', 'Bearer ' + user.token());
-        request(
-            url,
-            {
-                "request" : {
-                    "method": "POST"
-                },
-                "priya": {
-                    "version": version()
-                }
-            },
-            (
-                url,
-                response
-            ) => {
-
-                console.log(response);
-            });
+        request(url, null, (url, response) => {
+            console.log(response);
 
 
             /*
@@ -59,6 +43,7 @@ ready(() => {
                 }
             }
             */
+        });
     } else {
         if(user.refreshToken()){
             //validate refresh token and get user with new token & refreshToken
