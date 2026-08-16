@@ -477,6 +477,7 @@ class User extends Main
         }
         $token_unencrypted = Jwt::decryptToken($object, $token);
         $claims = $token_unencrypted->claims();
+        ddd($claims->has('user'));
         if($claims->has('user')){
             $user =  $claims->get('user');
             ddd($user);
