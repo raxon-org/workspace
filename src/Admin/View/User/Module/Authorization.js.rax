@@ -1,7 +1,7 @@
 //{{RAX}}
 
 import user from "/Module/User.js";
-import { version } from "/Module/Version.js";
+import { version } from "/Module/Priya.js";
 ready(() => {
     if(user.token()){
         let url = "{{literal}}{{server.url(\"{{/literal}}{{options('backend.host')}}{{literal}}\")}}{{/literal}}User/Current/";
