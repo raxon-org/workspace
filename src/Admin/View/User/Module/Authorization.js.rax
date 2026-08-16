@@ -5,8 +5,19 @@ ready(() => {
     if(user.token()){
         let url = "{{literal}}{{server.url(\"{{/literal}}{{options('backend.host')}}{{literal}}\")}}{{/literal}}User/Current/";
         header('Authorization', 'Bearer ' + user.token());
-        request(url, null, (url, response) => {
-            console.log(response);
+        request(
+            url,
+            {
+                "request" : {
+                    "method": "POST"
+                    }
+            },
+            (
+                url,
+                response
+            ) => {
+                console.log(response);
+            }
 
 
             /*
