@@ -10,14 +10,15 @@ ready(() => {
             {
                 "request" : {
                     "method": "POST"
-                    }
+                }
             },
             (
                 url,
                 response
             ) => {
+
                 console.log(response);
-            }
+            });
 
 
             /*
@@ -54,7 +55,6 @@ ready(() => {
                 }
             }
             */
-        });
     } else {
         if(user.refreshToken()){
             //validate refresh token and get user with new token & refreshToken
