@@ -13,7 +13,7 @@ use Raxon\Module\Data;
 use Raxon\Module\Handler;
 
 use Raxon\Doctrine\Module\Database;
-
+use ReflectionMethod;
 use Package\Raxon\Account\Module\Jwt; //not found error
 
 use DateTime;
@@ -85,6 +85,7 @@ class User extends Main
      */
     public static function getById(App $object, $id=null){
         if($id !== null){
+        dd($id);
             $entityManager = Database::entityManager($object, [
                 'name' => Main::API
             ]);
@@ -109,6 +110,7 @@ class User extends Main
         if(!$key){
             return null;
         }
+        dd($id);
         $config = Database::config($object);
         $connection = $object->config('doctrine.environment.system.' . $object->config('framework.environment'));
         if(!$connection){
@@ -179,10 +181,6 @@ class User extends Main
      * @throws Exception
      */
     public static function getByAuthorization(App $object){
-        if($object->config('framework.environment') === Config::MODE_DEVELOPMENT){
-            $object->logger()->info('getByAuthorization need session from backend.');
-        }
-
         $node = $object->get('user');
         if(!empty($node)){
             return $node;
@@ -201,6 +199,7 @@ class User extends Main
             $token = $_SERVER['REDIRECT_HTTP_AUTHORIZATION'];
         }
         $token = substr($token , 7);
+        dd($token;
         if(!$token){
 //            not allowed..
 //            $status = 401;
@@ -210,6 +209,7 @@ class User extends Main
         $token_unencrypted = Jwt::decryptToken($object, $token);
         $claims = $token_unencrypted->claims();
         if($claims->has('user')) {
+        /*
             $user = $claims->get('user');
             $config = Database::config($object);
             $connection = $object->config('doctrine.environment.system.*');
