@@ -28,7 +28,7 @@
                 "controller": "Domain:{{app.controller.host(options('backend.host'))}}:Controller:User:current",
                 "priority": 2014,
                 "method": [
-                    "POST"
+                    "GET"
                 ]
             },
             {
