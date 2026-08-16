@@ -1,4 +1,5 @@
 //{{RAX}}
+
 import user from "/Module/User.js";
 ready(() => {
     if(user.token()){
