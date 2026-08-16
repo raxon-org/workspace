@@ -69,6 +69,6 @@ class User extends Controller {
     }
 
     public static function refresh_token(App $object){
-        dd($$object->request();
+        dd($$object->request());
     }
 }
