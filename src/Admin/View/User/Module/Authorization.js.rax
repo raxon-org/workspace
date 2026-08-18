@@ -6,9 +6,7 @@ ready(() => {
         let url = "{{literal}}{{server.url(\"{{/literal}}{{options('backend.host')}}{{literal}}\")}}{{/literal}}User/Current/";
         header('Authorization', 'Bearer ' + user.token());
         request(url, null, (url, response) => {
-            console.log(response);
-
-
+            priya.debug(response);
             /*
             if(!is.empty(response.node)){
                 user.data(response.node);
@@ -70,7 +68,6 @@ ready(() => {
                 }
             });
         } else {
-            alert('here2');
             let redirect_url = "{{route.get('user-login')}}";
             if(redirect_url){
                 //redirect user login
