@@ -71,7 +71,7 @@ ready(() => {
             let redirect_url = "{{route.get('user-login')}}";
             if(redirect_url){
                 //redirect user login
-                redirect(redirect_url);
+                //redirect(redirect_url);
             }
         }
     }
