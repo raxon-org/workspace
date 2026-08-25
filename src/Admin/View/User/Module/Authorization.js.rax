@@ -6,6 +6,9 @@ ready(() => {
         let url = "{{literal}}{{server.url(\"{{/literal}}{{options('backend.host')}}{{literal}}\")}}{{/literal}}User/Current/";
         header('Authorization', 'Bearer ' + user.token());
         request(url, null, (url, response) => {
+            //empty with no certificate
+            //authorization exception without user.token()
+            //need user current check out of the index, it should go through navigation for now.
             priya.debug(response);
             /*
             if(!is.empty(response.node)){
