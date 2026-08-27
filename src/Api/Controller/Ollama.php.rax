@@ -154,7 +154,6 @@ class Ollama extends Controller {
      * @throws Exception
      */
     public static function sse(App $object){
-
         $key = $object->request('user_key');
         $uuid = $object->request('uuid');
         $options = (object) [
