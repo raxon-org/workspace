@@ -63,6 +63,16 @@
             ]
           },
           {
+            "name": "node-list-where",
+            "path": "/Node/List/{{literal}}{{$class}}{{/literal}}/",
+            "host": "{{options('backend.host')}}",
+            "controller": "Package:Raxon:Node:Controller:Node:list",
+            "priority": 2021,
+            "method": [
+                "POST"
+            ]
+          },
+          {
             "name": "node-create",
             "path": "/Node/{{literal}}{{$class}}{{/literal}}/",
             "host": "{{options('backend.host')}}",
