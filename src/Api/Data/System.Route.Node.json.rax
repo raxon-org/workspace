@@ -66,7 +66,7 @@
             "name": "node-list-where",
             "path": "/Node/List/{{literal}}{{$class}}{{/literal}}/",
             "host": "{{options('backend.host')}}",
-            "controller": "Package:Raxon:Node:Controller:Node:list",
+            "controller": "Package:Raxon:Node:Controller:Node:list.where",
             "priority": 2021,
             "method": [
                 "POST"
