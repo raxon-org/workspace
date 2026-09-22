@@ -16,7 +16,7 @@ let debug = {
             }
         }
         priya.collection('debug.exception', exception_list);
-        console.log(data);
+        console.log(exception_list);
     },
     exception : (list) => {
         let exception_list = priya.collection('debug.exception') ?? [];
