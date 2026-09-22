@@ -4,10 +4,21 @@ let version = (value) => {
 
 let debug = {
     init: (data) => {
+        let exception_list = priya.collection('debug.exception') ?? [];
+        if(
+            data?.Exception &&
+            is.array(data.Exception)
+        ){
+            for(let i = 0; i < data.Exception.length; i++){
+                if(!in_array(data.Exception[i], exception_list, true)){
+                    exception_list.push(data.Exception[i]);
+                }
+            }
+        }
+        priya.collection('debug.exception', exception_list);
         console.log(data);
     },
     exception : (list) => {
-        console.log(list);
         let exception_list = priya.collection('debug.exception') ?? [];
         for(let i = 0; i < list?.length; i++){
             if(!in_array(include[i], exception_list)){
