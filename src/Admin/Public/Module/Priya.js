@@ -3,9 +3,13 @@ let version = (value) => {
 }
 
 let debug = {
+    init: (data) => {
+        console.log(data);
+    },
     exception : (list) => {
+        console.log(list);
         let exception_list = priya.collection('debug.exception') ?? [];
-        for(let i = 0; i < list.length; i++){
+        for(let i = 0; i < list?.length; i++){
             if(!in_array(include[i], exception_list)){
                 exception_list.push(list[i]);
             }
