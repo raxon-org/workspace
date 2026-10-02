@@ -5,7 +5,7 @@ namespace Domain\{{php.namespace.host($options.backend.host)}}\Controller;
 use Exception;
 use Package\Raxon\Account\Module\User as Module;
 use Raxon\App;
-use Raxon\Exception\AuthorizationException;
+use Package\Raxon\Account\Exception\AuthorizationException;
 use Raxon\Exception\ErrorException;
 use Raxon\Exception\FileWriteException;
 use Raxon\Exception\ObjectException;
@@ -98,7 +98,6 @@ class User extends Controller {
     }
 
     /**
-     * @throws OptimisticLockException
      * @throws ErrorException
      * @throws Exception
      */
@@ -147,24 +146,4 @@ class User extends Controller {
         }
         return null;
     }
-
-    public static function role_for_node(App $object, $role): object
-    {
-        $role_permissions = $role->permissions;
-        $permissions = [];
-        foreach($role_permissions as $permission){
-            $permissions[] = (object) [
-                'name' => $permission->name,
-                'class' => 'Account.Permission'
-            ];
-        }
-        $node_role = (object) [
-            'name' => $role->name,
-            'rank' => $role->rank,
-            'uuid' => Core::uuid(),
-            'permission' => $permissions,
-        ];
-        return $node_role;
-    }
-
 }

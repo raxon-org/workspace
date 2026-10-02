@@ -21,7 +21,7 @@ use Exception;
 
 use Raxon\Exception\FileWriteException;
 use Raxon\Exception\ObjectException;
-use Raxon\Exception\AuthorizationException;
+use Package\Raxon\Account\Exception\AuthorizationException;
 use Raxon\Exception\ErrorException;
 
 use Doctrine\ORM\Exception\NotSupported;
