@@ -49,10 +49,12 @@ user.token = (token) => {
 user.authorization = (closure) => {
     console.log('user.authorization');
     const url = user.refreshUrl();
+    console.log(url);
     if(is.empty(url)){
         return;
     }
     const refreshToken = user.refreshToken();
+    console.log(refreshToken);
     if(is.empty(refreshToken)){
         return;
     }
