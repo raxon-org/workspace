@@ -47,6 +47,7 @@ user.token = (token) => {
 }
 
 user.authorization = (closure) => {
+    console.log('user.authorization');
     const url = user.refreshUrl();
     if(is.empty(url)){
         return;
@@ -67,7 +68,7 @@ user.authorization = (closure) => {
             if(closure){
                 closure(url, response);
             }
-        }         
+        }
     });
 }
 
