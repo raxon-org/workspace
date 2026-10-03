@@ -57,8 +57,6 @@ user.authorization = (closure) => {
     }
     header("Authorization", 'Bearer ' + refreshToken);
     request(url, null, (url, response) => {
-        console.log(response);
-        /*
         const login_url = user.loginUrl();
         if(
             response?.class &&
@@ -69,8 +67,7 @@ user.authorization = (closure) => {
             if(closure){
                 closure(url, response);
             }
-        }
-         */
+        }         
     });
 }
 
