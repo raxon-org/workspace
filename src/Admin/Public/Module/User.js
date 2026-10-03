@@ -58,7 +58,7 @@ user.authorization = (closure) => {
     header("Authorization", 'Bearer ' + refreshToken);
     request(url, null, (url, response) => {
         console.log(response);
-        alert('get user_active cookie');
+        /*
         const login_url = user.loginUrl();
         if(
             response?.class &&
@@ -70,6 +70,7 @@ user.authorization = (closure) => {
                 closure(url, response);
             }
         }
+         */
     });
 }
 
