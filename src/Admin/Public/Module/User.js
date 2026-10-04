@@ -65,6 +65,14 @@ user.token = (token) => {
     }
 }
 
+user.getActive = () => {
+    let data = this.data();
+    if(data?.uuid){
+        return data;
+    }
+    return null;
+}
+
 user.authorization = (closure) => {
     console.log('user.authorization');
     const url = user.url.refresh();

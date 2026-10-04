@@ -120,10 +120,12 @@ login.post = (event) => {
             //console.log(JSON.stringify(response));
             user.token(response.node?.token);
             user.refreshToken(response.node?.refresh_token);
+            const original = user.data();
             const node = response.node;
             delete node.token;
             delete node.refresh_token;
-            user.data(node);
+            const merged = { ...original, ...node };
+            user.data(merged);
             if(route){
                 window.history.pushState(route, route, route);
                 request(route, response);
