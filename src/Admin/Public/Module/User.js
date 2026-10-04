@@ -2,16 +2,7 @@ let user = {};
 
 user.init = (init) => {
     console.log('user init');
-    console.log(init);
-    /*
-    for(let attribute in init){
-        if(typeof init[attribute] === 'object'){
-            for(let property in init[attribute]){
-                user.set(attribute + '.' + property, init[attribute][property]);
-            }
-        }
-    }
-     */
+    user.data(init);
 }
 
 user.get = (attribute) => {
