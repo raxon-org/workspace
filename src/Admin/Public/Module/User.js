@@ -9,10 +9,8 @@ user.init = (init) => {
                 user.set(attribute + '.' + property, init[attribute][property]);
             }
         }
-        console.log(attribute);
-        console.log(init[attribute]);
-        //user.url?.[attribute](init[attribute]);
     }
+    console.log(user);
 }
 
 user.get = (attribute) => {
