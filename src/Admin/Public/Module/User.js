@@ -10,7 +10,7 @@ user.init = (init) => {
             }
         }
     }
-    console.log(user);
+    console.log(user.data());
 }
 
 user.get = (attribute) => {
