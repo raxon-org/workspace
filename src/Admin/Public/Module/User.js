@@ -10,7 +10,6 @@ user.init = (init) => {
             }
         }
     }
-    console.log(user.data());
 }
 
 user.get = (attribute) => {
@@ -68,7 +67,7 @@ user.token = (token) => {
 
 user.authorization = (closure) => {
     console.log('user.authorization');
-    const url = user.refreshUrl();
+    const url = user.url.refresh();
     console.log(url);
     if(is.empty(url)){
         return;
@@ -80,7 +79,7 @@ user.authorization = (closure) => {
     }
     header("Authorization", 'Bearer ' + refreshToken);
     request(url, null, (url, response) => {
-        const login_url = user.loginUrl();
+        const login_url = user.url.login();
         if(
             response?.class &&
             login_url
