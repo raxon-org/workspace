@@ -4,7 +4,8 @@ user.init = (init) => {
     console.log('user init');
     console.log(init);
     for(let attribute in init){
-        user.url[attribute](init[attribute]);
+        console.log(attribute);
+        user.url?.[attribute](init[attribute]);
     }
 }
 
