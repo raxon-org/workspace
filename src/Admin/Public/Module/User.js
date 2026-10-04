@@ -4,8 +4,14 @@ user.init = (init) => {
     console.log('user init');
     console.log(init);
     for(let attribute in init){
+        if(typeof init[attribute] === 'object'){
+            for(let property in init[attribute]){
+                user.set(attribute + '.' + property, init[attribute][property]);
+            }
+        }
         console.log(attribute);
-        user.url?.[attribute](init[attribute]);
+        console.log(init[attribute]);
+        //user.url?.[attribute](init[attribute]);
     }
 }
 
