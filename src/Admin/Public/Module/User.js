@@ -66,7 +66,7 @@ user.token = (token) => {
 }
 
 user.getActive = () => {
-    let data = this.data();
+    let data = user.data();
     if(data?.uuid){
         return data;
     }
