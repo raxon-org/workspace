@@ -1,5 +1,10 @@
 let user = {};
 
+user.init = (init) => {
+    console.log('user init');
+    console.log(init);
+}
+
 user.get = (attribute) => {
     return _('user').collection(attribute);
 }
@@ -16,18 +21,25 @@ user.data = (data) => {
     }
 }
 
-user.loginUrl = (url) => {
-    if(url){
-        user.set('login.url', url);
+user.url = {
+    login : (url) => {
+        if(url){
+            user.set('frontend.url.login', url);
+        }
+        return user.get('frontend.url.login');
+    },
+    refresh : (url) => {
+        if(url){
+            user.set('backend.url.refresh', url);
+        }
+        return user.get('backend.url.refresh');
+    },
+    current : (url) => {
+        if(url){
+            user.set('backend.url.current', url);
+        }
+        return user.get('backend.url.current');
     }
-    return user.get('login.url');
-}
-
-user.refreshUrl = (url) => {
-    if(url){
-        user.set('refresh.url', url);
-    }
-    return user.get('refresh.url');
 }
 
 user.refreshToken = (refreshToken) => {
