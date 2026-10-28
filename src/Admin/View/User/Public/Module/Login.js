@@ -86,7 +86,6 @@ login.post = (event) => {
     login.loader('start');
     form.request(data, null, (url, response) => {
         //end loading
-        console.log(response);
         // return;
         login.loader('end');
         if(
@@ -117,6 +116,7 @@ login.post = (event) => {
                 error.html('');
             }
             const route = login.get('route.frontend.start');
+            console.log(route);
             //console.log(JSON.stringify(response));
             user.token(response.node?.token);
             user.refreshToken(response.node?.refresh_token);
