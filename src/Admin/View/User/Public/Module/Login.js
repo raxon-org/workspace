@@ -88,7 +88,9 @@ login.post = (event) => {
         //end loading
         // return;
         login.loader('end');
-        console.log(!is.empty(response.node));
+        console.log(response);
+        console.log(response?.node);
+        console.log(is.empty(response.node));
         if(
             !is.empty(response.class) &&
             response.class === 'Raxon\\Exception\\ErrorException'
